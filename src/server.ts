@@ -27,8 +27,10 @@ app.use(express.urlencoded({ extended: false }));
 // Routes
 import login from './routes/login';
 import index from './routes/index';
+import register from './routes/register';
 
 app.use('/', index);
 app.use('/login', login);
+app.use('/register', register);
 
 app.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`));
