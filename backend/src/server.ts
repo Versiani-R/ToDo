@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
     app.set('view engine', 'ejs');
 */
 
-// Routes
+/* Routes */
 import login from './routes/login';
 import index from './routes/index';
 import register from './routes/register';

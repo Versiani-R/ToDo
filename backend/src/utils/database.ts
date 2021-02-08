@@ -1,4 +1,4 @@
-import { MongoClient, Collection, Db } from 'mongodb';
+import { MongoClient, Db } from 'mongodb';
 
 import IDatabaseCollections from '../interfaces/DatabaseCollections';
 
