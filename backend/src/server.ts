@@ -33,4 +33,4 @@ app.use('/', index);
 app.use('/login', login);
 app.use('/register', register);
 
-app.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log('\x1b[35m%s\x1b[0m', `Server listening on http://localhost:${PORT}`));

@@ -35,7 +35,7 @@ class Database {
                 * If a user is registered on the website it will be inside this collection.
                 * If a user registers on the website it will be added on this collection.
             **/
-            registeredUsers: this.database.collection('registered-users'),
+            registeredUsers: this.database.collection(process.env.REGISTERED_USERS_NAME),
 
             /**
                 * ToDos will be the collection containing all tasks of the website.
@@ -49,6 +49,8 @@ class Database {
     connect = async () => this.isConnected() ? console.log('Already Connected!') : await this.client.connect();
     
     isConnected = () => this.client.isConnected();
+
+    isEmailAlreadyRegistered = async (email: string) => await this.collections.registeredUsers.findOne({ email });
 }
 
 export default Database;
