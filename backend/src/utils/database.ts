@@ -1,5 +1,6 @@
 import { MongoClient, Db } from 'mongodb';
 
+/* Interfaces */
 import IDatabaseCollections from '../interfaces/DatabaseCollections';
 import IRegisterUser from '../interfaces/RegisterUser';
 
@@ -10,17 +11,17 @@ class Database {
     collections: IDatabaseCollections;
 
     constructor() {
-        this.client = new MongoClient(process.env.DATABASE_URI, { useUnifiedTopology: true });
+        this.client = new MongoClient(process.env.DATABASE_URI, { useUnifiedTopology: true, useNewUrlParser: true });
         this.controller();
     }
 
-    async controller() {
+    private async controller() {
         /**
             * The .catch will only be called if there's an exception.
             * Note that the "Connected to the database." message has a color to it.
                 * It doesn't affect the code, only displays the message in green.
         **/
-        await this.connect().catch(() => console.log('Error while trying to connect to the database.'));
+        await this.connect().catch((e) => console.log('\x1b[31m%s\x1b[0m', 'Error while trying to connect to the database.\n' + e));
         console.log('\x1b[32m%s\x1b[0m', 'Connected to the database.');
 
         /**
@@ -47,10 +48,8 @@ class Database {
         }
     }
 
-    connect = async () => this.isConnected() ? console.log('Already Connected!') : await this.client.connect();
+    private connect = async () => this.client.isConnected() ? console.log('Already Connected!') : await this.client.connect();
     
-    isConnected = () => this.client.isConnected();
-
     isEmailAlreadyRegistered = async (email: string) => await this.collections.registeredUsers.findOne({ email });
 
     insertUser = async ({ email, password }: IRegisterUser) => await this.collections.registeredUsers.insertOne({ email, password });
