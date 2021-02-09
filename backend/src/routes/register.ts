@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import Database from '../utils/database';
+import { hash } from 'bcrypt';
 
 /**
     * Configuration.
@@ -31,9 +32,16 @@ router.post('/', async (req, res) => {
     **/
     const quickPasswordMatch = (match: RegExp, length: number) => password.match(match) && password.match(match).length >= length;
 
-    if (password.length >= 10 && quickPasswordMatch(/[0-9]/g, 2) && quickPasswordMatch(/[A-Z]/g, 2)) console.log(`\n\n\n yayy \n\n\n`);
+    if (!(password.length >= 10) && !quickPasswordMatch(/[0-9]/g, 2) && !quickPasswordMatch(/[A-Z]/g, 2))
+        return res.send({ success: false, errorCode: 2, message: 'Password does not follow the requirements!' });
 
-    console.log(email, password);
+    /**
+        * All checks were successful.
+        * Create the user on the database with email and password.
+        * The password will be hashed using the bcrypt module.
+    **/
+    await database.insertUser({ email, password: await hash(password, 10) });
+    
     return res.send({ success: true });
 });
 

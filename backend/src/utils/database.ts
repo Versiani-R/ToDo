@@ -1,6 +1,7 @@
 import { MongoClient, Db } from 'mongodb';
 
 import IDatabaseCollections from '../interfaces/DatabaseCollections';
+import IRegisterUser from '../interfaces/RegisterUser';
 
 
 class Database {
@@ -51,6 +52,8 @@ class Database {
     isConnected = () => this.client.isConnected();
 
     isEmailAlreadyRegistered = async (email: string) => await this.collections.registeredUsers.findOne({ email });
+
+    insertUser = async ({ email, password }: IRegisterUser) => await this.collections.registeredUsers.insertOne({ email, password });
 }
 
 export default Database;
