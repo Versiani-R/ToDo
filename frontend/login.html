@@ -32,12 +32,14 @@
             body: JSON.stringify({ email, password })
         });
 
-        console.log(rawResponse);
-        /*
-            const content = await rawResponse.json();
-            console.log(content)
-        */
+        const content = await rawResponse.json();
+
+        content.success ? saveSession(content.sessionId) : failedLogin();
+        console.log(content);
     }
+
+    function saveSession(sessionId = '') { localStorage.setItem('sessionId', sessionId); }
+    function failedLogin() { alert('Failed to login'); }
 
     document.getElementById('login').addEventListener('click', async () => await sendPost());
 </script>
