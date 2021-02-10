@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+
+    <label for="email">Email</label>
+    <input type="email" id="email">
+
+    <label for="password">Password</label>
+    <input type="password" id="password">
+
+    <button id="login">Login</button>
+</body>
+
+<script>
+    async function sendPost() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        const rawResponse = await fetch('http://localhost:8000/login/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        console.log(rawResponse);
+        /*
+            const content = await rawResponse.json();
+            console.log(content)
+        */
+    }
+
+    document.getElementById('login').addEventListener('click', async () => await sendPost());
+</script>
+</html>
