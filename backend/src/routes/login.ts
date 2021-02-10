@@ -3,6 +3,9 @@ import { compare } from 'bcrypt';
 import createSession from '../utils/session';
 import Database from '../utils/database';
 
+/* Interfaces */
+import IUser from '../interfaces/User';
+
 /**
     * Configuration.
     * It will initialize the router of the file.
@@ -10,6 +13,7 @@ import Database from '../utils/database';
 **/
 const router = Router();
 const database = new Database();
+
 
 router.post('/', async (req, res) => {
     const { email, password }: { email: string, password: string } = req.body;
@@ -35,7 +39,7 @@ router.post('/', async (req, res) => {
         * Compare hashed passwords.
         * If the hashed passwords match it will return a session id.
     **/
-    const user = await database.isEmailAlreadyRegistered(email);
+    const user: IUser = await database.isEmailAlreadyRegistered(email);
     if (!await compare(password, user.password)) return res.send({ success: false });
 
     /**

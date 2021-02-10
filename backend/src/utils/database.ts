@@ -44,17 +44,26 @@ class Database {
                 * It will identify it's owner by the id of the user.
                 * It will contain only the title of the todo and it's deadline.
             **/
-            toDos: this.database.collection('toDos')
+            toDos: this.database.collection('dues')
         }
     }
 
     private connect = async () => this.client.isConnected() ? console.log('Already Connected!') : await this.client.connect();
     
+    /* Returns the user being guided by the email, returns null if not found. */
     isEmailAlreadyRegistered = async (email: string) => await this.collections.registeredUsers.findOne({ email });
 
+    /* Will insert the user already passing the sessionId, and for so, already logging the user in. */
     insertUser = async ({ email, password, sessionId }: IRegisterUser) => await this.collections.registeredUsers.insertOne({ email, password, sessionId });
 
+    /* Used on the login.ts file being responsible for updating and adding the sessionId being guided by the email. */
     addSession = async (email: string, sessionId: string) => await this.collections.registeredUsers.updateOne({ email }, { $set: { sessionId } });
+
+    /* It will return the entire user object ( email, password and sessionId ) being guided by the sessionId. ( or null if not found ) */
+    getUserBySessionId = async (sessionId: string) => await this.collections.registeredUsers.findOne({ sessionId });
+
+    /* Returns all the toDos of the user. The toDos are organized with the email being the "owner" of the toDo. */
+    getDuesByEmail = (email: string) => this.collections.toDos.find({ 'owner': email });
 }
 
 export default Database;

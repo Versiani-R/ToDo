@@ -8,5 +8,43 @@
 </head>
 <body>
     <h1>Dues</h1>
+
+    <div id="content">
+        <ul id="due-titles"></ul>
+    </div>
 </body>
+
+<script>
+    async function sendPost() {
+        const rawResponse = await fetch('http://localhost:8000/dues/get/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ sessionId: localStorage.getItem('sessionId') })
+        });
+        const content = await rawResponse.json();
+
+        if (content.success) {
+            content.dues.map(element => {
+                const li = document.createElement('li');
+                
+                const h3 = document.createElement('h3');
+                h3.classList.add('due-title');
+                h3.innerText = `${element.title} - ${element.deadline}`;
+                h3.id = element.title;
+
+                li.appendChild(h3);
+                document.getElementById('due-titles').appendChild(li);
+            });
+        }
+        console.log(content);
+    }
+
+    function redirect(url = '') { window.location = url; }
+
+    document.addEventListener('DOMContentLoaded', () => localStorage.getItem('sessionId') ? '' : redirect('login.html'));
+    document.addEventListener('DOMContentLoaded', async () => await sendPost());
+</script>
 </html>
