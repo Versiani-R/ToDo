@@ -52,7 +52,9 @@ class Database {
     
     isEmailAlreadyRegistered = async (email: string) => await this.collections.registeredUsers.findOne({ email });
 
-    insertUser = async ({ email, password }: IRegisterUser) => await this.collections.registeredUsers.insertOne({ email, password });
+    insertUser = async ({ email, password }: IRegisterUser) => await this.collections.registeredUsers.insertOne({ email, password, sessionId: '' });
+
+    addSession = async (email: string, sessionId: string) => await this.collections.registeredUsers.updateOne({ email }, { $set: { sessionId } });
 }
 
 export default Database;

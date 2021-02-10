@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import Database from '../utils/database';
 import { hash } from 'bcrypt';
+import Database from '../utils/database';
 
 /**
     * Configuration.

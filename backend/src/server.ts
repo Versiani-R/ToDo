@@ -1,12 +1,6 @@
 import express from 'express';
 import { config } from 'dotenv';
-import session from 'express-session';
-import passport from 'passport';
-import methodOverride from 'method-override';
-import initialize from './utils/passportConfig';
-
 /* import path from 'path'; */
-
 
 /**
     * Configurations
@@ -14,7 +8,6 @@ import initialize from './utils/passportConfig';
     * Call the config function for the dotenv file ( .env )
     * Create the port variable
 **/
-initialize();
 config();
 const app = express();
 const PORT = process.env.PORT;
@@ -30,15 +23,6 @@ app.use(express.urlencoded({ extended: false }));
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'ejs');
 */
-app.use(session({
-    secret: process.env.SESSION_KEY,
-    resave: false,
-    saveUninitialized: false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(methodOverride('_method'));
-
 
 /* Routes */
 import index from './routes/index';
