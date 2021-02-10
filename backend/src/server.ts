@@ -1,5 +1,6 @@
 import express from 'express';
 import { config } from 'dotenv';
+/* import cors from 'cors'; */
 /* import path from 'path'; */
 
 /**
@@ -18,6 +19,7 @@ const PORT = process.env.PORT;
         * For now it will remain commented. 
 **/
 app.use(express.json());
+/* app.use(cors()); */
 app.use(express.urlencoded({ extended: false }));
 /*
     app.set('views', path.join(__dirname, 'views'));
