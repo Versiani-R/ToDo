@@ -31,12 +31,18 @@
             },
             body: JSON.stringify({ email, password })
         });
-
         const content = await rawResponse.json();
 
-        console.log(content)
+        content.success ? saveSession(content.sessionId) & redirect('dues.html') : failedLogin();
+        console.log(content);
     }
 
+    function saveSession(sessionId = '') { localStorage.setItem('sessionId', sessionId); }
+    function redirect(url = '') { window.location = url; }
+    function failedLogin() { alert('Failed to login'); }
+
     document.getElementById('register').addEventListener('click', async () => await sendPost());
+
+    document.addEventListener('DOMContentLoaded', () => localStorage.getItem('sessionId') ? redirect('dues.html') : '');
 </script>
 </html>
