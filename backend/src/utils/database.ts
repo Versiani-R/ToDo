@@ -2,7 +2,8 @@ import { MongoClient, Db } from 'mongodb';
 
 /* Interfaces */
 import IDatabaseCollections from '../interfaces/DatabaseCollections';
-import IRegisterUser from '../interfaces/RegisterUser';
+import IUser from '../interfaces/User';
+import ITodo from '../interfaces/ToDo';
 
 
 class Database {
@@ -44,7 +45,7 @@ class Database {
                 * It will identify it's owner by the id of the user.
                 * It will contain only the title of the todo and it's deadline.
             **/
-            toDos: this.database.collection('dues')
+            toDos: this.database.collection('toDos')
         }
     }
 
@@ -54,7 +55,7 @@ class Database {
     isEmailAlreadyRegistered = async (email: string) => await this.collections.registeredUsers.findOne({ email });
 
     /* Will insert the user already passing the sessionId, and for so, already logging the user in. */
-    insertUser = async ({ email, password, sessionId }: IRegisterUser) => await this.collections.registeredUsers.insertOne({ email, password, sessionId });
+    insertUser = async ({ email, password, sessionId }: IUser) => await this.collections.registeredUsers.insertOne({ email, password, sessionId });
 
     /* Used on the login.ts file being responsible for updating and adding the sessionId being guided by the email. */
     addSession = async (email: string, sessionId: string) => await this.collections.registeredUsers.updateOne({ email }, { $set: { sessionId } });
@@ -63,7 +64,10 @@ class Database {
     getUserBySessionId = async (sessionId: string) => await this.collections.registeredUsers.findOne({ sessionId });
 
     /* Returns all the toDos of the user. The toDos are organized with the email being the "owner" of the toDo. */
-    getDuesByEmail = (email: string) => this.collections.toDos.find({ 'owner': email });
+    getDuesByEmail = (email: string) => this.collections.toDos.find({ email });
+
+    /* Insert a to do adding the user's email as a future guidance. */
+    insertToDo = async ({ email, title, deadline }: ITodo) => await this.collections.toDos.insertOne({ email, title, deadline });
 }
 
 export default Database;

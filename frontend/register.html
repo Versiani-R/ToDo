@@ -33,7 +33,7 @@
         });
         const content = await rawResponse.json();
 
-        content.success ? saveSession(content.sessionId) & redirect('dues.html') : failedLogin();
+        content.success ? saveSession(content.sessionId) & redirect('toDos.html') : failedLogin();
         console.log(content);
     }
 
@@ -43,6 +43,6 @@
 
     document.getElementById('register').addEventListener('click', async () => await sendPost());
 
-    document.addEventListener('DOMContentLoaded', () => localStorage.getItem('sessionId') ? redirect('dues.html') : '');
+    document.addEventListener('DOMContentLoaded', () => localStorage.getItem('sessionId') ? redirect('toDos.html') : '');
 </script>
 </html>

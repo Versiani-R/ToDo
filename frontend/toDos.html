@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do</title>
+</head>
+<body>
+    <h1>Dues</h1>
+
+    <div id="content">
+        <ul id="toDos-titles"></ul>
+
+        <button id="add-toDos">Add To Do</button>
+    </div>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => localStorage.getItem('sessionId') ? '' : redirect('login.html'));
+    function redirect(url = '') { window.location = url; }
+
+    async function getToDosFetch() {
+        const rawResponse = await fetch('http://localhost:8000/toDos/' + localStorage.getItem('sessionId'), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        });
+        return (await rawResponse.json());
+
+    }
+
+    function clearTitlesAndListToDos(titles = []) {
+        document.getElementById('toDos-titles').innerHTML = '';
+
+        titles.map(element => {
+            const li = document.createElement('li');
+            
+            const h3 = document.createElement('h3');
+            h3.classList.add('toDos-title');
+            h3.innerText = `${element.title} - ${element.deadline}`;
+            h3.id = element.title;
+
+            li.appendChild(h3);
+            document.getElementById('toDos-titles').appendChild(li);
+        });
+    }
+
+    /* Get ( retrieve all to do's ) */
+    document.addEventListener('DOMContentLoaded', async () => {
+        const content = await getToDosFetch();
+
+        /*
+            * If the session id is invalid / old.
+            * In this case, clear all the local storage and redirect the user to the login page.
+            * Note: This if has to be checked before the content.success since it's quite a security threat.
+        */
+        if (!content.success && content.sessionId) localStorage.clear() & redirect('login.html');
+
+        if (content.success) clearTitlesAndListToDos(content.dues);
+    });
+
+    /* Post ( create new to do's ) */
+    document.getElementById('add-toDos').addEventListener('click', async () => {
+        const rawResponse = await fetch('http://localhost:8000/toDos/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ sessionId: localStorage.getItem('sessionId'), title: 'title of todo 3', deadline: 'Tomorrow' })
+        });
+        const content = await rawResponse.json();
+        console.log(content);
+
+        /*
+            * If the session id is invalid / old.
+            * In this case, clear all the local storage and redirect the user to the login page.
+            * Note: This if has to be checked before the content.success since it's quite a security threat.
+        */
+        if (!content.success && content.sessionId) localStorage.clear() & redirect('login.html');
+
+        if (content.success) clearTitlesAndListToDos((await getToDosFetch()).dues);
+    });
+</script>
+</html>
