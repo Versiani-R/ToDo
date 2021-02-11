@@ -4,7 +4,8 @@ import { MongoClient, Db } from 'mongodb';
 import IDatabaseCollections from '../interfaces/DatabaseCollections';
 import IUser from '../interfaces/User';
 import ITodo from '../interfaces/ToDo';
-import IUpdateToDo from '../interfaces/UpdateTodo';
+import IUpdateToDo from '../interfaces/UpdateToDo';
+import IDeleteToDo from '../interfaces/DeleteToDo';
 
 
 class Database {
@@ -71,7 +72,10 @@ class Database {
     insertToDo = async ({ email, title, deadline }: ITodo) => await this.collections.toDos.insertOne({ email, title, deadline });
 
     /* Insert a to do adding the user's email as a future guidance. */
-    updateToDo = async ({ email, title, newTitle, newDeadline }: IUpdateToDo) => await this.collections.toDos.updateOne({ email, title }, { $set: { title: newTitle, deadline: newDeadline }});
+    updateToDoByTitle = async ({ email, title, newTitle, newDeadline }: IUpdateToDo) => await this.collections.toDos.updateOne({ email, title }, { $set: { title: newTitle, deadline: newDeadline }});
+
+    /* Remove a to do being guided by it's title. Only possible because of business rule. */
+    removeToDoByTitle = async ({ email, title }: IDeleteToDo) => await this.collections.toDos.deleteOne({ email, title });
 
     /* A business rule is that the same title cannot be used twice. */
     isToDoTitleAlreadyBeingUsed = async (title: string) => await this.collections.toDos.findOne({ title });

@@ -47,7 +47,8 @@
             document.getElementById('toDos-titles').appendChild(li);
         });
 
-        /* Just add an event listener for the update / put */
+        /* Just add an event listener for the (update/put) and (remove/delete) */
+        
         /* Put ( update to do's title or/and deadline ) */
         for (const element of document.getElementsByClassName('toDos-title')) {
             element.addEventListener('dblclick', async () => {
@@ -58,6 +59,29 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ sessionId: localStorage.getItem('sessionId'), title: element.innerText.split(' - ')[0], newTitle: 'My test todo 1 - Updated', newDeadline: 'Yesterday' })
+                });
+                const content = await rawResponse.json();
+                console.log(content);
+        
+                /*
+                    * If the session id is invalid / old.
+                    * In this case, clear all the local storage and redirect the user to the login page.
+                    * Note: This if has to be checked before the content.success since it's quite a security threat.
+                */
+                if (!content.success && content.sessionId) localStorage.clear() & redirect('login.html');
+        
+                if (content.success) await clearTitlesAndListToDos((await getToDosFetch()).dues);
+            });
+
+            /* Delete ( remove todo ) */
+            element.addEventListener('auxclick', async () => {
+                const rawResponse = await fetch('http://localhost:8000/toDos/', {
+                    method: 'DELETE',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ sessionId: localStorage.getItem('sessionId'), title: element.innerText.split(' - ')[0] })
                 });
                 const content = await rawResponse.json();
                 console.log(content);

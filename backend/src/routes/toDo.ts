@@ -3,8 +3,9 @@ import Database from '../utils/database';
 
 /* Interfaces */
 import IUser from '../interfaces/User';
-import ICreateTodo from '../interfaces/CreateToDo';
-import IUpdateTodo from '../interfaces/UpdateTodo';
+import ICreateToDo from '../interfaces/CreateToDo';
+import IUpdateToDo from '../interfaces/UpdateToDo';
+import IDeleteToDo from '../interfaces/DeleteToDo';
 
 /**
     * Configuration
@@ -39,7 +40,7 @@ router.get('/:sessionId', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const { sessionId, title, deadline }: ICreateTodo = req.body;
+    const { sessionId, title, deadline }: ICreateToDo = req.body;
 
     /**
         * This check is very important for two reasons:
@@ -70,7 +71,7 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/', async (req, res) => {
-    const { sessionId, title, newTitle, newDeadline }: IUpdateTodo = req.body;
+    const { sessionId, title, newTitle, newDeadline }: IUpdateToDo = req.body;
 
     /**
         * This check is very important for two reasons:
@@ -96,13 +97,34 @@ router.put('/', async (req, res) => {
         * The toDos will then be iterated on the frontend.
     **/
     const user: IUser = await database.getUserBySessionId(sessionId);
-    await database.updateToDo({ email: user.email, title, newTitle, newDeadline });
+    await database.updateToDoByTitle({ email: user.email, title, newTitle, newDeadline });
     
     res.send({ success: true });
 });
 
-router.delete('/', (req, res) => {
+router.delete('/', async (req, res) => {
+    const { sessionId, title }: IDeleteToDo = req.body;
 
+    /**
+        * This check is very important for two reasons:
+            1. If there is no sessionId, the user cannot be logged in.
+            2. If there is no user with such sessionId, the user has an old sessionId.
+        * In both scenarios the user must be logged out. 
+    **/
+   if (!sessionId || !await database.getUserBySessionId(sessionId)) return res.send({ success: false, sessionId });
+
+   if (!title) return res.send({ success: false });
+
+    /**
+        * It will use the to do title to remove it.
+        * The business rule "A to do cannot have the same title as another" comes
+            * in hand in both update and delete methods, since otherwise, the only way
+            * to identify to do's would be by it's id.
+    **/
+    const user: IUser = await database.getUserBySessionId(sessionId);
+    await database.removeToDoByTitle({ email: user.email, title });
+
+    return res.send({ success: true });
 });
 
 export default router;
