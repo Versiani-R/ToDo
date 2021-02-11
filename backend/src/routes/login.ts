@@ -23,15 +23,12 @@ router.post('/', async (req, res) => {
             * Check if the email is correct.
             * Check if the email is on the database.
             * Check if the hashed password matches.
-        
         * Note: If it fails to login, it won't show custom messages.
             * This is not an error, it's just not a good idea to display
             * which part of the login failed. Since it could facilitate
             * attacks.
     **/
-    if (!email.includes('@')) return res.send({ success: false });
-
-    if (!await database.isEmailAlreadyRegistered(email)) return res.send({ success: false });
+    if (!email.includes('@') || !await database.isEmailAlreadyRegistered(email)) return res.send({ success: false });
 
     /**
         * All checks were successful.

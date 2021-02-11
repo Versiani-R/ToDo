@@ -3,6 +3,7 @@ import Database from '../utils/database';
 
 /* Interfaces */
 import IUser from '../interfaces/User';
+import IToDoResponse from '../interfaces/ToDoResponse';
 import ICreateToDo from '../interfaces/CreateToDo';
 import IUpdateToDo from '../interfaces/UpdateToDo';
 import IDeleteToDo from '../interfaces/DeleteToDo';
@@ -16,6 +17,7 @@ const router = Router();
 const database = new Database();
 
 
+/* List all to do's being guided by the sessionId, passed on the parameter. */
 router.get('/:sessionId', async (req, res) => {
     const { sessionId } = req.params;
 
@@ -39,6 +41,7 @@ router.get('/:sessionId', async (req, res) => {
     res.send({ success: true, dues: await database.getToDosByEmail(user.email).toArray() });
 });
 
+/* Creates a new to do. */
 router.post('/', async (req, res) => {
     const { sessionId, title, deadline }: ICreateToDo = req.body;
 
@@ -49,7 +52,7 @@ router.post('/', async (req, res) => {
         * In both scenarios the user must be logged out. 
     **/
     if (!sessionId || !await database.getUserBySessionId(sessionId)) return res.send({ success: false, sessionId });
-    if (!title || !deadline) return res.send({ success: 'false' });
+    if (!title || !deadline) return res.send({ success: false });
 
     /**
         * A business rule is that the same user cannot add two to do's  with the same title.
@@ -70,6 +73,7 @@ router.post('/', async (req, res) => {
     res.send({ success: true });
 });
 
+/* Updates an existing to do. */
 router.put('/', async (req, res) => {
     const { sessionId, title, newTitle, newDeadline }: IUpdateToDo = req.body;
 
@@ -102,6 +106,7 @@ router.put('/', async (req, res) => {
     res.send({ success: true });
 });
 
+/* Removes an existing to do. */
 router.delete('/', async (req, res) => {
     const { sessionId, title }: IDeleteToDo = req.body;
 
