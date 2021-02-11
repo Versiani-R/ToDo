@@ -4,6 +4,7 @@ import { MongoClient, Db } from 'mongodb';
 import IDatabaseCollections from '../interfaces/DatabaseCollections';
 import IUser from '../interfaces/User';
 import ITodo from '../interfaces/ToDo';
+import IUpdateToDo from '../interfaces/UpdateTodo';
 
 
 class Database {
@@ -64,10 +65,16 @@ class Database {
     getUserBySessionId = async (sessionId: string) => await this.collections.registeredUsers.findOne({ sessionId });
 
     /* Returns all the toDos of the user. The toDos are organized with the email being the "owner" of the toDo. */
-    getDuesByEmail = (email: string) => this.collections.toDos.find({ email });
+    getToDosByEmail = (email: string) => this.collections.toDos.find({ email });
 
     /* Insert a to do adding the user's email as a future guidance. */
     insertToDo = async ({ email, title, deadline }: ITodo) => await this.collections.toDos.insertOne({ email, title, deadline });
+
+    /* Insert a to do adding the user's email as a future guidance. */
+    updateToDo = async ({ email, title, newTitle, newDeadline }: IUpdateToDo) => await this.collections.toDos.updateOne({ email, title }, { $set: { title: newTitle, deadline: newDeadline }});
+
+    /* A business rule is that the same title cannot be used twice. */
+    isToDoTitleAlreadyBeingUsed = async (title: string) => await this.collections.toDos.findOne({ title });
 }
 
 export default Database;

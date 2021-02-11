@@ -32,7 +32,7 @@
 
     }
 
-    function clearTitlesAndListToDos(titles = []) {
+    async function clearTitlesAndListToDos(titles = []) {
         document.getElementById('toDos-titles').innerHTML = '';
 
         titles.map(element => {
@@ -46,6 +46,32 @@
             li.appendChild(h3);
             document.getElementById('toDos-titles').appendChild(li);
         });
+
+        /* Just add an event listener for the update / put */
+        /* Put ( update to do's title or/and deadline ) */
+        for (const element of document.getElementsByClassName('toDos-title')) {
+            element.addEventListener('dblclick', async () => {
+                const rawResponse = await fetch('http://localhost:8000/toDos/', {
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ sessionId: localStorage.getItem('sessionId'), title: element.innerText.split(' - ')[0], newTitle: 'My test todo 1 - Updated', newDeadline: 'Yesterday' })
+                });
+                const content = await rawResponse.json();
+                console.log(content);
+        
+                /*
+                    * If the session id is invalid / old.
+                    * In this case, clear all the local storage and redirect the user to the login page.
+                    * Note: This if has to be checked before the content.success since it's quite a security threat.
+                */
+                if (!content.success && content.sessionId) localStorage.clear() & redirect('login.html');
+        
+                if (content.success) await clearTitlesAndListToDos((await getToDosFetch()).dues);
+            });
+        }
     }
 
     /* Get ( retrieve all to do's ) */
@@ -59,7 +85,7 @@
         */
         if (!content.success && content.sessionId) localStorage.clear() & redirect('login.html');
 
-        if (content.success) clearTitlesAndListToDos(content.dues);
+        if (content.success) await clearTitlesAndListToDos(content.dues);
     });
 
     /* Post ( create new to do's ) */
@@ -82,7 +108,7 @@
         */
         if (!content.success && content.sessionId) localStorage.clear() & redirect('login.html');
 
-        if (content.success) clearTitlesAndListToDos((await getToDosFetch()).dues);
+        if (content.success) await clearTitlesAndListToDos((await getToDosFetch()).dues);
     });
 </script>
 </html>
