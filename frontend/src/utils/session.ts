@@ -6,7 +6,12 @@ const clearSession = () => localStorage.clear();
 
 const handleRightSession = (sessionId: string) => {
     addSession(sessionId);
-    redirect('/toDos/');
+    redirect('/toDo/');
 }
 
-export { addSession, hasSession, clearSession, handleRightSession };
+const handleWrongSession = () => {
+    clearSession();
+    redirect('/login/');
+}
+
+export { addSession, hasSession, clearSession, handleRightSession, handleWrongSession };
