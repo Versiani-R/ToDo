@@ -10,7 +10,7 @@ ReactDOM.render(
         <BrowserRouter>
             <Switch>
                 <Route path='/register/'>
-
+                    <Register />
                 </Route>
             </Switch>
         </BrowserRouter>
