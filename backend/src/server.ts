@@ -38,3 +38,6 @@ app.use('/login', login);
 app.use('/toDos', toDos);
 
 app.listen(PORT, () => console.log('\x1b[35m%s\x1b[0m', `Server listening on http://localhost:${PORT}`));
+
+
+/* TODO: Verify the sessionId on every single file. */

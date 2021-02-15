@@ -1,5 +1,12 @@
+import redirect from './redirect';
+
 const addSession = (sessionId: string) => localStorage.setItem('sessionId', sessionId);
 const hasSession = () => localStorage.getItem('sessionId');
 const clearSession = () => localStorage.clear();
 
-export { addSession, hasSession, clearSession };
+const handleRightSession = (sessionId: string) => {
+    addSession(sessionId);
+    redirect('/toDos/');
+}
+
+export { addSession, hasSession, clearSession, handleRightSession };
