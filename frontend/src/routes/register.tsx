@@ -2,7 +2,7 @@ import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 
 import { addSession, hasSession } from '../utils/session';
 import { doFetch } from '../utils/fetch';
-import redirect from '../utils/redirect';
+import { redirect } from '../utils/url';
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState('');

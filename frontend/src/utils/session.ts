@@ -1,4 +1,4 @@
-import redirect from './redirect';
+import { redirect } from './url';
 
 const addSession = (sessionId: string) => localStorage.setItem('sessionId', sessionId);
 const hasSession = () => localStorage.getItem('sessionId');
