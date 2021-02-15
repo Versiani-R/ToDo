@@ -3,7 +3,6 @@ import Database from '../utils/database';
 
 /* Interfaces */
 import IUser from '../interfaces/User';
-import IToDoResponse from '../interfaces/ToDoResponse';
 import ICreateToDo from '../interfaces/CreateToDo';
 import IUpdateToDo from '../interfaces/UpdateToDo';
 import IDeleteToDo from '../interfaces/DeleteToDo';

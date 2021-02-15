@@ -28,13 +28,13 @@ app.use(express.urlencoded({ extended: false }));
 
 /* Routes */
 import index from './routes/index';
-import login from './routes/login';
 import register from './routes/register';
+import login from './routes/login';
 import toDos from './routes/toDo';
 
 app.use('/', index);
-app.use('/login', login);
 app.use('/register', register);
+app.use('/login', login);
 app.use('/toDos', toDos);
 
 app.listen(PORT, () => console.log('\x1b[35m%s\x1b[0m', `Server listening on http://localhost:${PORT}`));
