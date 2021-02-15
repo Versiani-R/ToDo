@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import _ from 'lodash';
 
 import { doFetch } from '../utils/fetch';
 import { handleWrongSession, hasSession } from '../utils/session';
@@ -8,55 +9,60 @@ const ToDos: React.FC = () => {
 
     const sessionId = hasSession();
 
-    /**
-        * Retrieve and load all To Do's ( get )
-
-        * Note:
-            * Note how there is a react hook "useCallback" wrapping the function.
-            * This is necessary to avoid three warnings.
-                * The first one being "missing dependency when using useEffect".
-                * The second one being the "react-hooks/exhaustive-deps" warning.
-                * The third one being when already using "useCallback", but not passing
-                the "[sessionId, toDos]"
-
-            * Explanation:
-                * Only using the "useEffect" without the last "[]" parameter, means the useEffect
-                will be called pretty much infinitely. Although passing the "[]" parameter at the
-                end of the hook, like this:
-                    * useEffect(async () => { await loadAndAppendToDos() }, []);
-                Will prevent the useEffect to be called infinitely, it will raise a warning.
-                    * "missing dependency when using useEffect 'loadAndAppendToDos'"
-                * To solve this, you can pass the "loadAndAppendToDos" to the "[]", like this:
-                    * useEffect(async () => { await loadAndAppendToDos() }, [loadAndAppendToDos]);
-                * But then, it will raise another warning ( react is not fucking around ).
-                    * The 'loadAndAppendToDos' function makes the dependencies of useEffect Hook change on every render. 
-                    To fix this, wrap the definition of 'loadAndAppendToDos' in its own useCallback() Hook
-                * Basically suggesting that we wrap the 'loadAndAppendToDos' function on the "useCallback" hook.
-                    * const loadAndAppendToDos = useCallback(async () => { ... });
-                * After that, it then raises an error ... ( jesus christ ).
-                    * Expected 2 arguments, but got 1.ts(2554). index.d.ts(1106, 74): An argument for 'deps' was not provided.
-                * Suggesting that we pass the "[]" to the callback.
-                * It then of fucking course raises another warning ( why not at this point ).
-                    * React Hook useCallback has missing dependencies: 'sessionId' and 'toDos'. 
-                    Either include them or remove the dependency array
-                * Suggesting that we add "sessionId and toDos" to the dependency array.
-                    * const loadAndAppendToDos = useCallback(async () => { ... }, [sessionId, toDos]);
-                * It then causes an error to the program because the toDos dependency is updated by the setToDos function.
-                * To solve it, we add a custom object check, to see if the objects are equal.
-                    * JSON.stringify(content.dues) !== JSON.stringify(toDos)
-                * The perfect execution will be:
-                    * ToDos will be empty on the first execution, so the code will hit the setToDos function and reset the
-                    loop, starting the infinite loop journey. After that, on the second iteration, it will hit the object
-                    comparison, this time it will stop, since the content.dues and toDos are the same.
-                    * The great thing about this is that if content.dues is different ( another to do was added ), it will
-                    update it.
-    **/
+    /* Retrieve and load all To Do's ( get ) */
     const loadAndAppendToDos = useCallback(async () => {
+        /**
+            Note: There is a react hook "useCallback" wrapping the function.
+                * Necessary to avoid three warnings.
+                    1. "missing dependency when using useEffect".
+                    2. "react-hooks/exhaustive-deps".
+                    3. Using "useCallback", without "[sessionId, toDos]"
+
+            Explanation:
+                * "useEffect" without the "[]" parameter means it will be called infinitely. Passing "[]" at the end of the hook,
+                    * useEffect(async () => { await loadAndAppendToDos() }, []);
+                    Will prevent the useEffect to be called infinitely.
+
+                    Problem: Passing an empty array "[]" raises another warning.
+                        * "missing dependency when using useEffect 'loadAndAppendToDos'"
+                    Solution: Pass the "loadAndAppendToDos" to the "[]":
+                        * useEffect(async () => { await loadAndAppendToDos() }, [loadAndAppendToDos]);
+                    Problem: It will raise another warning ( react is not fucking around ).
+                        * The 'loadAndAppendToDos' function makes the dependencies of useEffect Hook change on every render. 
+                        To fix this, wrap the definition of 'loadAndAppendToDos' in its own useCallback() Hook
+                    Solution: Basically suggesting that we wrap the 'loadAndAppendToDos' function on the "useCallback" hook.
+                        * const loadAndAppendToDos = useCallback(async () => { ... });
+                    Problem: It then raises an error ... ( jesus christ ).
+                        * Expected 2 arguments, but got 1.ts(2554). index.d.ts(1106, 74): An argument for 'deps' was not provided.
+                    Solution: Suggesting that we pass the "[]" to the callback.
+                        * const loadAndAppendToDos = useCallback(async () => { ... }, []);
+                    Problem: It then of fucking course raises another warning ( why not at this point ).
+                        * React Hook useCallback has missing dependencies: 'sessionId' and 'toDos'. 
+                        Either include them or remove the dependency array
+                    Solution: Suggesting that we add "sessionId and toDos" to the dependency array.
+                        * const loadAndAppendToDos = useCallback(async () => { ... }, [sessionId, toDos]);
+                    Problem: It then causes an error to the program because the toDos dependency is updated by the setToDos function.
+                        Explanation:
+                            * The arguments passed inside the "[]" are not only dependencies, but also triggers.
+                            * If those values change, the useEffect ( or in this case the useCallback ) will be called again.
+                            Problem: The obvious problem is that we change the "toDos" value by calling the setToDos.
+                            Solution: To solve it, we use lodash to see if the objects are different.
+                                * !(_.isEqual(content.dues, toDos))
+
+                            * The perfect execution will be:
+                                *: "toDos" will be empty on the first execution, so the code will hit the setToDos function and reset the
+                                loop, starting the infinite loop journey.
+                                *: After that, on the second iteration, it will hit the object comparison, this time it will stop,
+                                since the content.dues and toDos are the same.
+                                
+                            * The great thing about this is that if content.dues is different ( another to do was added/updated/deleted ),
+                            it will hit the setToDos and update it. Only stopping on the next iteration.
+        **/
         const content = await doFetch({ url: `toDos/${sessionId}`, method: 'get' });
         console.log(content);
 
         if (!content.success && content.sessionId) handleWrongSession();
-        if (content.dues && JSON.stringify(content.dues) !== JSON.stringify(toDos)) setToDos(content.dues);
+        if (content.dues && !(_.isEqual(content.dues, toDos))) setToDos(content.dues);
 
         const ul = document.getElementById('toDos-titles');
         if (!ul) return;
