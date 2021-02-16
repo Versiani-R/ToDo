@@ -6,7 +6,6 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Register from './routes/register';
 import Login from './routes/login';
 import ToDo from './routes/toDo';
-
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
