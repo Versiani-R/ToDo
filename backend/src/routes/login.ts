@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { compare } from 'bcrypt';
+
 import createSession from '../utils/session';
 import Database from '../utils/database';
 
