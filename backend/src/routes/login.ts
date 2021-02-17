@@ -6,8 +6,8 @@ import Database from '../utils/database';
 import createSession from '../utils/session';
 
 /* Interfaces */
-import IUser from '../interfaces/User';
-import ICredentials from '../interfaces/Credentials';
+import IUser from '../interfaces/user/User';
+import ICredentials from '../interfaces/user/Credentials';
 
 /**
     * Configuration.

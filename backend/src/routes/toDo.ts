@@ -1,10 +1,9 @@
 import { Router } from 'express';
 
 /* Interfaces */
-import IUser from '../interfaces/User';
-import ICreateToDo from '../interfaces/CreateToDo';
-import IUpdateToDo from '../interfaces/UpdateToDo';
-import IDeleteToDo from '../interfaces/DeleteToDo';
+import IUser from '../interfaces/user/User';
+import ICreateToDo from '../interfaces/toDo/Create';
+import IUpdateToDo from '../interfaces/toDo/Update';
 
 /* Utils */
 import Database from '../utils/database';
@@ -126,7 +125,7 @@ router.put('/', async (req, res) => {
 
 /* Removes an existing to do. */
 router.delete('/', async (req, res) => {
-    const { sessionId, title }: IDeleteToDo = req.body;
+    const { sessionId, title }: { sessionId: string, title: string } = req.body;
 
     if (!title || !sessionId ) return res.send({ success: false });
 

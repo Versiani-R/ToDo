@@ -6,7 +6,7 @@ import Database from '../utils/database';
 import createSession from '../utils/session';
 
 /* Interfaces */
-import ICredentials from '../interfaces/Credentials';
+import ICredentials from '../interfaces/user/Credentials';
 
 /**
     * Configuration.

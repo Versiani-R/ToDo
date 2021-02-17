@@ -1,6 +1,6 @@
 import { Collection } from 'mongodb';
 
-export default interface IDatabaseCollections {
+export default interface ICollections {
     registeredUsers: Collection;
     toDos: Collection;
 }
