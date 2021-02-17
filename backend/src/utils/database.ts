@@ -1,4 +1,4 @@
-import { MongoClient, Db } from 'mongodb';
+import { MongoClient, Db, ClientSession } from 'mongodb';
 
 /* Interfaces */
 import IDatabaseCollections from '../interfaces/DatabaseCollections';
@@ -52,7 +52,7 @@ class Database {
     }
 
     private connect = async () => this.client.isConnected() ? console.log('Already Connected!') : await this.client.connect();
-    
+
     /* Returns the user being guided by the email, returns null if not found. */
     isEmailAlreadyRegistered = async (email: string) => await this.collections.registeredUsers.findOne({ email });
 
@@ -68,17 +68,17 @@ class Database {
     /* Returns all the toDos of the user. The toDos are organized with the email being the "owner" of the toDo. */
     getToDosByEmail = (email: string) => this.collections.toDos.find({ email });
 
+    /* A business rule is that the same title cannot be used twice. */
+    isToDoTitleAlreadyBeingUsed = async (title: string) => await this.collections.toDos.findOne({ title });
+
     /* Insert a to do adding the user's email as a future guidance. */
-    insertToDo = async ({ email, title, deadline }: ITodo) => await this.collections.toDos.insertOne({ email, title, deadline });
+    insertToDo = async ({ email, title, deadline }: ITodo) => this.collections.toDos.updateOne({ email, title }, { $set: { title, deadline }}, { upsert: true });
 
     /* Insert a to do adding the user's email as a future guidance. */
     updateToDoByTitle = async ({ email, title, newTitle, newDeadline }: IUpdateToDo) => await this.collections.toDos.updateOne({ email, title }, { $set: { title: newTitle, deadline: newDeadline }});
 
     /* Remove a to do being guided by it's title. Only possible because of business rule. */
     removeToDoByTitle = async ({ email, title }: IDeleteToDo) => await this.collections.toDos.deleteOne({ email, title });
-
-    /* A business rule is that the same title cannot be used twice. */
-    isToDoTitleAlreadyBeingUsed = async (title: string) => await this.collections.toDos.findOne({ title });
 }
 
 export default Database;

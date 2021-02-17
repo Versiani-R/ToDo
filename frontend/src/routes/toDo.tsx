@@ -64,7 +64,7 @@ const ToDos: React.FC = () => {
                 on the backend would be overwhelmed by the amount of requests. This is
                 called "race-conditions" and I'm switching branches right now to solve it.
             **/
-            button.setAttribute('disabled', 'true');
+            // button.setAttribute('disabled', 'true');
 
             const title = document.getElementById('toDoTitle-create')?.getAttribute('value');
             const deadline = document.getElementById('toDoDeadline-create')?.getAttribute('value');
@@ -80,7 +80,7 @@ const ToDos: React.FC = () => {
             
             await handleRetrieve();
 
-            button.removeAttribute('disabled');
+            // button.removeAttribute('disabled');
         }
     }
 
