@@ -7,6 +7,7 @@ import ICreateToDo from '../interfaces/CreateToDo';
 import IUpdateToDo from '../interfaces/UpdateToDo';
 import IDeleteToDo from '../interfaces/DeleteToDo';
 
+/* Utils */
 import { sanitize } from '../utils/sanitizer';
 import { typeComparison } from '../utils/typeComparison';
 
@@ -17,7 +18,6 @@ import { typeComparison } from '../utils/typeComparison';
 **/
 const router = Router();
 const database = new Database();
-
 
 /* List all to do's being guided by the sessionId, passed on the parameter. */
 router.get('/:sessionId', async (req, res) => {

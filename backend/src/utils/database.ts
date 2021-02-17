@@ -72,13 +72,48 @@ class Database {
     isToDoTitleAlreadyBeingUsed = async (title: string) => await this.collections.toDos.findOne({ title });
 
     /* Insert a to do adding the user's email as a future guidance. */
-    insertToDo = async ({ email, title, deadline }: ITodo) => this.collections.toDos.updateOne({ email, title }, { $set: { title, deadline }}, { upsert: true });
-
-    /* Insert a to do adding the user's email as a future guidance. */
     updateToDoByTitle = async ({ email, title, newTitle, newDeadline }: IUpdateToDo) => await this.collections.toDos.updateOne({ email, title }, { $set: { title: newTitle, deadline: newDeadline }});
-
+    
     /* Remove a to do being guided by it's title. Only possible because of business rule. */
     removeToDoByTitle = async ({ email, title }: IDeleteToDo) => await this.collections.toDos.deleteOne({ email, title });
+    
+    /* Insert a to do adding the user's email as a future guidance. */
+    insertToDo = async ({ email, title, deadline }: ITodo) => {
+        /**
+            * This function used to have instead of the "updateOne" method, the "insertOne" method.
+            * The problem with this approach is the race-conditions.
+            
+            Explanation: Imagine someone adds a To Do. The backend would receive a request from the frontend,
+            it would check if the title is already being used, and if it's not, it would add the To Do.
+
+            Problem: The check if the title is already being used only works if the To Do has already been
+            added. But if the user on the front end presses the "create To Do" button 10x, it would send
+            10 requests, creating 10 To Do's.
+                ?Solution: Disable the button after the user clicks, only allowing one request to be made.
+
+                Problems:
+                    Problem: This would not work if the user was sending requests outside the frontend.
+                    Using postmark for example.
+                    Problem: Avoiding race conditions is not the frontend job.
+                ?Solution: Using atomic operations. This one would take huge amounts of time to explain.
+                But basically it doesn't work since nodejs is single-threaded. Again, this is a very summed
+                up answer.
+                    @docs
+                        https://docs.mongodb.com/manual/core/write-operations-atomicity/
+                        https://docs.mongodb.com/manual/tutorial/model-data-for-atomic-operations/
+                        https://www.tutorialspoint.com/mongodb/mongodb_atomic_operations.htm
+
+            Solution: Using updateOne.
+            The idea is to check if there are already a todo with the title passed on the parameter.
+                updateOne({ email, title })
+                    Checks if someone with that email already added a to do with that title.
+            If so, just update the to do with the new information.
+            If no to do with that title was added by the user, create a new one.
+                { upsert: true }
+                    No data found to update, create a new one.
+        **/
+        await this.collections.toDos.updateOne({ email, title }, { $set: { title, deadline }}, { upsert: true })
+    }
 }
 
 export default Database;

@@ -1,7 +1,12 @@
 import { Router } from 'express';
 import { hash } from 'bcrypt';
+
+/* Utils */
 import createSession from '../utils/session';
 import Database from '../utils/database';
+
+/* Interfaces */
+import ICredentials from '../interfaces/Credentials';
 
 /**
     * Configuration.
@@ -11,9 +16,8 @@ import Database from '../utils/database';
 const router = Router();
 const database = new Database();
 
-
 router.post('/', async (req, res) => {
-    const { email, password }: { email: string, password: string } = req.body;
+    const { email, password }: ICredentials = req.body;
 
     /**
         * It will perform the following checks:

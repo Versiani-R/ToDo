@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import { compare } from 'bcrypt';
 
+/* Utils */
 import createSession from '../utils/session';
 import Database from '../utils/database';
 
 /* Interfaces */
 import IUser from '../interfaces/User';
+import ICredentials from '../interfaces/Credentials';
 
 /**
     * Configuration.
@@ -15,9 +17,8 @@ import IUser from '../interfaces/User';
 const router = Router();
 const database = new Database();
 
-
 router.post('/', async (req, res) => {
-    const { email, password }: { email: string, password: string } = req.body;
+    const { email, password }: ICredentials = req.body;
 
     /**
         * It will perform the following checks:
