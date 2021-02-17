@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 /* Routes */
-import Register from './routes/register';
-import Login from './routes/login';
-import ToDo from './routes/toDo';
+import Register from 'components/registration/Register';
+import Login from 'components/registration/Login';
+import ToDo from 'components/toDo/ToDo';
+
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
@@ -18,7 +19,7 @@ ReactDOM.render(
                     <Login />
                 </Route>
 
-                <Route path='/toDo/'>
+                <Route path='/toDos/'>
                     <ToDo />
                 </Route>
             </Switch>

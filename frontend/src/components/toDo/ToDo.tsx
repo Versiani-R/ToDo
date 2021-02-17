@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import _ from 'lodash';
 
 /* Modals */
-import CreateToDo from './modals/create';
+import CreateToDo from 'components/modals/Create';
 
 /* Utils */
-import { doFetch } from '../utils/fetch';
-import { handleWrongSession, hasSession } from '../utils/session';
+import { doFetch } from 'utils/fetch';
+import { handleWrongSession, hasSession } from 'utils/session';
 
 const ToDos: React.FC = () => {
     const [toDos, setToDos] = useState([{ title: '', deadline: '' }]);

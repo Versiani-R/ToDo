@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import '../../static/css/modal.css';
+
+import 'styles/modal.css';
 
 const CreateToDo: React.FC = () => {
     const [title, setTitle] = useState('');

@@ -1,10 +1,11 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 
-import { addSession, hasSession } from '../utils/session';
-import { doFetch } from '../utils/fetch';
-import { redirect } from '../utils/url';
+/* Utils */
+import { clearSession, handleRightSession, hasSession } from 'utils/session';
+import { doFetch } from 'utils/fetch';
+import { redirect } from 'utils/url';
 
-const Register: React.FC = () => {
+const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -14,17 +15,22 @@ const Register: React.FC = () => {
         /* Avoids page transition on submit. */
         event.preventDefault();
 
-        const content = await doFetch({ url: 'register/', method: 'post', body: { email, password } });
+        const content = await doFetch({ url: 'login/', method: 'post', body: { email, password } });
 
-        if (content.success && content.sessionId) {
-            addSession(content.sessionId);
-            redirect('/toDos/');
+        /* If the success is true and it returns the sessionId, adds the session and redirect to /toDos/ */
+        if (content.success && content.sessionId) handleRightSession(content.sessionId);
+
+        /* If it fails to login, clear the session and display error message. */
+        if (!content.success) {
+            clearSession();
+
+            // TODO: Display error message.
         }
     }
 
     return (
         <div>
-            <h1>Register</h1>
+            <h1>Login</h1>
 
             <label htmlFor="email">Email</label>
             <input type="email" name="email" value={email} onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}/>
@@ -37,4 +43,4 @@ const Register: React.FC = () => {
     )
 }
 
-export default Register;
+export default Login;
