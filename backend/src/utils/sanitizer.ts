@@ -1,14 +1,4 @@
-const sanitize = (object: any) => {
+const sanitizeString = (str: string) => str.trim();
+const sanitizeStrings = (strings: string[]) => strings.map(element => element.trim());
 
-    if (Array.isArray(object)) {
-        const sanitized: any[] = [];
-
-        for (const element of object) {
-            if (typeof(element) === 'string') sanitized.push(element.trim());
-        }
-
-        return sanitized;
-    } else if (typeof(object) === 'string') return object.trim();
-}
-
-export { sanitize };
+export { sanitizeString, sanitizeStrings };

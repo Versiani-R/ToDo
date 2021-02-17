@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { hash } from 'bcrypt';
 
 /* Utils */
-import createSession from '../utils/session';
 import Database from '../utils/database';
+import createSession from '../utils/session';
 
 /* Interfaces */
 import ICredentials from '../interfaces/Credentials';
