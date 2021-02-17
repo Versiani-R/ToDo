@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import _ from 'lodash';
 
+/* Modals */
 import CreateToDo from './modals/create';
 
+/* Utils */
 import { doFetch } from '../utils/fetch';
 import { handleWrongSession, hasSession } from '../utils/session';
 
@@ -50,6 +52,7 @@ const ToDos: React.FC = () => {
         
         if (!modal || !button) return;
 
+        // TODO: Create a controlModal() function, that takes the { display: boolean } parameter. False = hide, true = show.
         /* Displays the modal */
         modal.style.display = 'block';
 
@@ -60,11 +63,12 @@ const ToDos: React.FC = () => {
                 * Disables the button after it's clicked.
                 
                 Explanation: If the user clicks really fast on the "Create To Do" button
-                it would create multiple instances of the same to do, since the database
-                on the backend would be overwhelmed by the amount of requests. This is
-                called "race-conditions" and I'm switching branches right now to solve it.
+                it would send multiple requests to the database.
+
+                Problem: Frontend sending multiple unnecessary requests to the backend.
+                Solution: Disable the button, enabling it after the request was done.
             **/
-            // button.setAttribute('disabled', 'true');
+            button.setAttribute('disabled', 'true');
 
             const title = document.getElementById('toDoTitle-create')?.getAttribute('value');
             const deadline = document.getElementById('toDoDeadline-create')?.getAttribute('value');
@@ -75,40 +79,76 @@ const ToDos: React.FC = () => {
             const content = await doFetch({ url: 'toDos/', method: 'post', body: { sessionId, title, deadline } });
             if (!content.success && content.sessionId) handleWrongSession();
             
+            // TODO: Create a controlModal() function, that takes the { display: boolean } parameter. False = hide, true = show.
             /* Hide the modal */
             modal.style.display = 'none';
             
             await handleRetrieve();
 
-            // button.removeAttribute('disabled');
+            /* Enable the button again after the request was done. */
+            button.removeAttribute('disabled');
         }
     }
 
     /* Update a To Do ( put ) */
     const handleUpdate = useCallback(async (event: any) => {
 
-        const newTitle = prompt('Title of the To Do.');
-        const newDeadline = prompt('Deadline of the To Do.');
-        const { innerText, id } = event.target;
-
-        // TODO: Display error message
-        if (!newTitle || !newDeadline || !innerText || !id) return;
-
-        const content = await doFetch({ url: 'toDos/', method: 'put', body: { sessionId, title: innerText, newTitle, newDeadline } });
+        /* Title of the element */
+        const { innerText } = event.target;
         
-        if (!content.success && content.sessionId) handleWrongSession();
-        await handleRetrieve();
+        const modal = document.getElementById('createToDoModal');
+        const button = document.getElementById('createToDoButton');
+        
+        if (!modal || !button) return;
+
+        // TODO: Create a controlModal() function, that takes the { display: boolean } parameter. False = hide, true = show.
+        /* Displays the modal */
+        modal.style.display = 'block';
+
+        /* "Create To Do" button, not the "Add ToDo" button that called this function. */
+        button.onclick = async () => {
+
+            /**
+                * Disables the button after it's clicked.
+                
+                Explanation: If the user clicks really fast on the "Create To Do" button
+                it would send multiple requests to the database.
+
+                Problem: Frontend sending multiple unnecessary requests to the backend.
+                Solution: Disable the button, enabling it after the request was done.
+            **/
+            button.setAttribute('disabled', 'true');
+
+            const newTitle = document.getElementById('toDoTitle-create')?.getAttribute('value');
+            const newDeadline = document.getElementById('toDoDeadline-create')?.getAttribute('value');
+
+            // TODO: Display error message
+            if (!newTitle || !newDeadline || !innerText) return;
+
+            const content = await doFetch({ url: 'toDos/', method: 'put', body: { sessionId, title: innerText, newTitle, newDeadline } });
+            
+            if (!content.success && content.sessionId) handleWrongSession();
+            
+            // TODO: Create a controlModal() function, that takes the { display: boolean } parameter. False = hide, true = show.
+            /* Hide the modal */
+            modal.style.display = 'none';
+
+            await handleRetrieve();
+
+            /* Enable the button again after the request was done. */
+            button.removeAttribute('disabled');
+        }
     }, [sessionId, handleRetrieve]);
 
     /* Delete a To Do ( delete ) */
     const handleDelete = useCallback(async (event: any) => {
 
-        const title = event.target.innerText;
+        const { innerText } = event.target;
         
         // TODO: Display error message
-        if (!title) return;
+        if (!innerText) return;
 
-        const content = await doFetch({ url: 'toDos/', method: 'delete', body: { sessionId, title } });
+        const content = await doFetch({ url: 'toDos/', method: 'delete', body: { sessionId, title: innerText } });
 
         if (!content.success && content.sessionId) handleWrongSession();
         await handleRetrieve();

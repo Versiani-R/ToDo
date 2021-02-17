@@ -34,7 +34,7 @@ const CreateToDo: React.FC = () => {
                     <label htmlFor="toDoDeadline-create">Deadline: </label>
                     <input id="toDoDeadline-create" value={deadline} onChange={(event: any) => setDeadline(event.target.value)} type="text"/>
 
-                    <button id="createToDoButton">Create</button>
+                    <button id="createToDoButton">Submit</button>
                 </div>
             </div>
         </div>
