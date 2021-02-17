@@ -1,16 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import _ from 'lodash';
+import { isEqual } from 'lodash';
 
 /* Modals */
 import CreateToDo from 'components/modals/Create';
 
+/* Interfaces */
+import { IFetchReturn } from 'interfaces/FetchParameters';
+
 /* Utils */
 import { doFetch } from 'utils/fetch';
 import { handleWrongSession, hasSession } from 'utils/session';
+import { getElementsById, getElementsValueById } from 'utils/getElements';
+import { displayModal } from 'utils/modals';
 
 const ToDos: React.FC = () => {
     const [toDos, setToDos] = useState([{ title: '', deadline: '' }]);
-    
+
     /**
         * The session id is publicly displayed on the top part of the file.
         * But it will also be checked on the backend.
@@ -18,26 +23,29 @@ const ToDos: React.FC = () => {
     **/
     const sessionId = hasSession();
 
+    const sessionCheck = useCallback((content: IFetchReturn) => { (!content.success && content.sessionId) ? handleWrongSession() : console.log()}, []);
+
     /* Retrieve and load all To Do's ( get ) */
     const handleRetrieve = useCallback(async () => {
-        const content = await doFetch({ url: `toDos/${sessionId}`, method: 'get' });
-        console.log(content);
-
-        if (!content.success && content.sessionId) handleWrongSession();
+        const content = await doFetch({ url: 'toDos/' + sessionId, method: 'get' });
 
         /**
             * Check if the content.dues is the same as the toDos.
 
-            Explanation: If they're the same, it means the setToDos was already called.
+            Explanation If they're the same, it means the setToDos was already called.
                 * This is important since without the object check with lodash, the setToDos
                 would be called infinitely.
 
-                Problem: The useEffect and all the other dependents would also be called forever.
-                    Solution: Adding this object comparison, when on the first iteration calls the
-                    setToDos, and then, on the second call, finishes the execution.
+                Problem  The useEffect and all the other dependents would also be called forever.
+                Solution Adding this object comparison, calling setToDos on the first iteration
+                and finishing the execution on the second call.
         **/
-        if (content.dues && !(_.isEqual(content.dues, toDos))) setToDos(content.dues);
-    }, [sessionId, toDos]);
+        if (content.dues && !isEqual(content.dues, toDos)) setToDos(content.dues);
+
+        sessionCheck(content);
+
+        console.log(content);
+    }, [sessionId, toDos, sessionCheck]);
  
     /* Create a To Do ( post ) */
     const handleCreate = async () => {
@@ -47,46 +55,21 @@ const ToDos: React.FC = () => {
             * The modal is the part that will be shown when the button is clicked.
             * The button itself is present on the modal, not being the one that called this function.
         **/
-        const modal = document.getElementById('createToDoModal');
-        const button = document.getElementById('createToDoButton');
-        
-        if (!modal || !button) return;
+        const [ modal, button ] = getElementsById(['createToDoModal', 'createToDoButton']);
 
-        // TODO: Create a controlModal() function, that takes the { display: boolean } parameter. False = hide, true = show.
-        /* Displays the modal */
-        modal.style.display = 'block';
+        displayModal({ modal, display: true });
 
-        /* "Create To Do" button, not the "Add ToDo" button that called this function. */
+        /* Button = "Create To Do" button, not the "Add ToDo" button that called this function. */
         button.onclick = async () => {
-
-            /**
-                * Disables the button after it's clicked.
-                
-                Explanation: If the user clicks really fast on the "Create To Do" button
-                it would send multiple requests to the database.
-
-                Problem: Frontend sending multiple unnecessary requests to the backend.
-                Solution: Disable the button, enabling it after the request was done.
-            **/
-            button.setAttribute('disabled', 'true');
-
-            const title = document.getElementById('toDoTitle-create')?.getAttribute('value');
-            const deadline = document.getElementById('toDoDeadline-create')?.getAttribute('value');
+            const [ title, deadline ] = getElementsValueById(['toDoTitle-create', 'toDoDeadline-create']);
 
             // TODO: Display error message
             if (!title || !deadline) return;
 
             const content = await doFetch({ url: 'toDos/', method: 'post', body: { sessionId, title, deadline } });
-            if (!content.success && content.sessionId) handleWrongSession();
-            
-            // TODO: Create a controlModal() function, that takes the { display: boolean } parameter. False = hide, true = show.
-            /* Hide the modal */
-            modal.style.display = 'none';
-            
-            await handleRetrieve();
+            sessionCheck(content);
 
-            /* Enable the button again after the request was done. */
-            button.removeAttribute('disabled');
+            await handleRetrieve();
         }
     }
 
@@ -95,50 +78,25 @@ const ToDos: React.FC = () => {
 
         /* Title of the element */
         const { innerText } = event.target;
-        
-        const modal = document.getElementById('createToDoModal');
-        const button = document.getElementById('createToDoButton');
-        
-        if (!modal || !button) return;
 
-        // TODO: Create a controlModal() function, that takes the { display: boolean } parameter. False = hide, true = show.
-        /* Displays the modal */
-        modal.style.display = 'block';
+        const [ modal, button ] = getElementsById(['createToDoModal', 'createToDoButton']);        
+
+        displayModal({ modal, display: true });
 
         /* "Create To Do" button, not the "Add ToDo" button that called this function. */
         button.onclick = async () => {
 
-            /**
-                * Disables the button after it's clicked.
-                
-                Explanation: If the user clicks really fast on the "Create To Do" button
-                it would send multiple requests to the database.
-
-                Problem: Frontend sending multiple unnecessary requests to the backend.
-                Solution: Disable the button, enabling it after the request was done.
-            **/
-            button.setAttribute('disabled', 'true');
-
-            const newTitle = document.getElementById('toDoTitle-create')?.getAttribute('value');
-            const newDeadline = document.getElementById('toDoDeadline-create')?.getAttribute('value');
+            const [ newTitle, newDeadline ] = getElementsValueById(['toDoTitle-create', 'toDoDeadline-create']);
 
             // TODO: Display error message
             if (!newTitle || !newDeadline || !innerText) return;
 
             const content = await doFetch({ url: 'toDos/', method: 'put', body: { sessionId, title: innerText, newTitle, newDeadline } });
-            
-            if (!content.success && content.sessionId) handleWrongSession();
-            
-            // TODO: Create a controlModal() function, that takes the { display: boolean } parameter. False = hide, true = show.
-            /* Hide the modal */
-            modal.style.display = 'none';
+            sessionCheck(content);            
 
             await handleRetrieve();
-
-            /* Enable the button again after the request was done. */
-            button.removeAttribute('disabled');
         }
-    }, [sessionId, handleRetrieve]);
+    }, [sessionId, handleRetrieve, sessionCheck]);
 
     /* Delete a To Do ( delete ) */
     const handleDelete = useCallback(async (event: any) => {
@@ -149,10 +107,10 @@ const ToDos: React.FC = () => {
         if (!innerText) return;
 
         const content = await doFetch({ url: 'toDos/', method: 'delete', body: { sessionId, title: innerText } });
+        sessionCheck(content);
 
-        if (!content.success && content.sessionId) handleWrongSession();
         await handleRetrieve();
-    }, [sessionId, handleRetrieve]);
+    }, [sessionId, handleRetrieve, sessionCheck]);
 
     const loadToDos = useCallback(() => {
         const ul = document.getElementById('toDos-titles');

@@ -4,9 +4,9 @@ const addSession = (sessionId: string) => localStorage.setItem('sessionId', sess
 const hasSession = () => localStorage.getItem('sessionId');
 const clearSession = () => localStorage.clear();
 
-const handleRightSession = (sessionId: string) => {
+const handleCorrectSession = (sessionId: string) => {
     addSession(sessionId);
-    redirect('/toDo/');
+    redirect('/toDos/');
 }
 
 const handleWrongSession = () => {
@@ -14,4 +14,4 @@ const handleWrongSession = () => {
     redirect('/login/');
 }
 
-export { addSession, hasSession, clearSession, handleRightSession, handleWrongSession };
+export { hasSession, clearSession, handleCorrectSession, handleWrongSession };

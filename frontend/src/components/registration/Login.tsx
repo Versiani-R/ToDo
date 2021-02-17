@@ -1,7 +1,7 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 
 /* Utils */
-import { clearSession, handleRightSession, hasSession } from 'utils/session';
+import { clearSession, handleCorrectSession, hasSession } from 'utils/session';
 import { doFetch } from 'utils/fetch';
 import { redirect } from 'utils/url';
 
@@ -9,7 +9,7 @@ const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(() => { hasSession() ? redirect('/toDos/') : console.log('Not registered!') });
+    useEffect(() => { hasSession() ? redirect('/toDos/') : console.log('Not logged!') }, []);
 
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>) => {
         /* Avoids page transition on submit. */
@@ -18,7 +18,7 @@ const Login: React.FC = () => {
         const content = await doFetch({ url: 'login/', method: 'post', body: { email, password } });
 
         /* If the success is true and it returns the sessionId, adds the session and redirect to /toDos/ */
-        if (content.success && content.sessionId) handleRightSession(content.sessionId);
+        if (content.success && content.sessionId) handleCorrectSession(content.sessionId);
 
         /* If it fails to login, clear the session and display error message. */
         if (!content.success) {

@@ -7,8 +7,7 @@ const CreateToDo: React.FC = () => {
     const [deadline, setDeadline] = useState('');
 
     const handleClose = useCallback(({ modal, isTarget }: { modal: HTMLElement | null, isTarget: boolean | null }) => {
-        if (!modal) return;
-        if (isTarget !== null && !isTarget) return;
+        if (!modal || (isTarget !== null && !isTarget)) return;
 
         modal.style.display = 'none';
     }, []);
@@ -16,10 +15,37 @@ const CreateToDo: React.FC = () => {
     useEffect(() => {
         const modal = document.getElementById('createToDoModal');
         const closeModal = document.getElementById('closeCreateToDoModal');
+        const createToDoButton = document.getElementById('createToDoButton');
         
-        closeModal?.addEventListener('click', () => { handleClose({ modal, isTarget: null }) });
+        closeModal?.addEventListener('click', () => handleClose({ modal, isTarget: null }));
 
-        window.onclick = (event: any) => (modal && event.target === modal) ? modal.style.display = "none" : '';
+        window.onclick = (event: any) => handleClose({ modal, isTarget: event.target === modal });
+
+        /* Cleaning after use. */
+        createToDoButton?.addEventListener('click', () => {
+
+            /**
+                * Disables the button after it's clicked.
+                
+                Explanation If the user clicks really fast on the "Create To Do" button
+                it would send multiple requests to the database.
+
+                Problem   Frontend sending multiple unnecessary requests to the backend.
+                Solution  Disabling the button, enabling it after the request was done.
+            **/
+            createToDoButton.setAttribute('disabled', 'true');
+
+            setTimeout(() => {
+                handleClose({ modal, isTarget: null });
+
+                /* Enable the button again after the request was done. */
+                createToDoButton.removeAttribute('disabled');
+
+                /* Cleaning */
+                setTitle('');
+                setDeadline('');
+            }, 1000);
+        })
     }, [handleClose]);
 
     return (

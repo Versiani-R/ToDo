@@ -1,7 +1,7 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 
 /* Utils */
-import { addSession, hasSession } from 'utils/session';
+import { handleCorrectSession, hasSession } from 'utils/session';
 import { doFetch } from 'utils/fetch';
 import { redirect } from 'utils/url';
 
@@ -9,7 +9,7 @@ const Register: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(() => { hasSession() ? redirect('/toDos/') : console.log('Not registered!') });
+    useEffect(() => { hasSession() ? redirect('/toDos/') : console.log('Not registered!') }, []);
 
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>) => {
         /* Avoids page transition on submit. */
@@ -17,10 +17,7 @@ const Register: React.FC = () => {
 
         const content = await doFetch({ url: 'register/', method: 'post', body: { email, password } });
 
-        if (content.success && content.sessionId) {
-            addSession(content.sessionId);
-            redirect('/toDos/');
-        }
+        if (content.success && content.sessionId) handleCorrectSession(content.sessionId);
     }
 
     return (
