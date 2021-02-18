@@ -5,16 +5,12 @@ import { isEqual } from 'lodash';
 import LoadToDo from './Load';
 
 /* Modals */
-import CreateToDo from 'components/modals/Create';
-
-/* Interfaces */
-import { IFetchReturn } from 'interfaces/FetchParameters';
+import CreateModal from 'components/modals/Create';
 
 /* Utils */
 import { doFetch } from 'utils/fetch';
-import { handleWrongSession, hasSession } from 'utils/session';
-import { getElementsById, getElementsValueById } from 'utils/getElements';
-import { displayModal } from 'utils/modals';
+import { hasSession, sessionCheck } from 'utils/session';
+import create from 'utils/to-do/create';
 
 const ToDos: React.FC = () => {
     const [toDos, setToDos] = useState([{ title: '', deadline: '' }]);
@@ -26,10 +22,9 @@ const ToDos: React.FC = () => {
     **/
     const sessionId = hasSession();
 
-    const sessionCheck = useCallback((content: IFetchReturn) => { (!content.success && content.sessionId) ? handleWrongSession() : console.log()}, []);
-
     /* Retrieve and load all To Do's ( get ) */
     const handleRetrieve = useCallback(async () => {
+        console.log('called');
         const content = await doFetch({ url: 'to-dos/' + sessionId, method: 'get' });
 
         /**
@@ -45,90 +40,23 @@ const ToDos: React.FC = () => {
         **/
         if (content.dues && !isEqual(content.dues, toDos)) setToDos(content.dues);
         sessionCheck(content);
+    }, [sessionId, toDos]);
 
-        console.log(content);
-    }, [sessionId, toDos, sessionCheck]);
- 
-    /* Create a To Do ( post ) */
-    const handleCreate = async () => {
-
-        /**
-            * This code is called by the "Add ToDo".
-            * The modal is the part that will be shown when the button is clicked.
-            * The button itself is present on the modal, not being the one that called this function.
-        **/
-        const [ modal, button ] = getElementsById(['createToDoModal', 'createToDoButton']);
-
-        displayModal({ modal, display: true });
-
-        /* Button = "Create To Do" button, not the "Add ToDo" button that called this function. */
-        button.onclick = async () => {
-            const [ title, deadline ] = getElementsValueById(['toDoTitle-create', 'toDoDeadline-create']);
-
-            // TODO: Display error message
-            if (!title || !deadline) return;
-
-            const content = await doFetch({ url: 'to-dos/', method: 'post', body: { sessionId, title, deadline } });
-            sessionCheck(content);
-
-            await handleRetrieve();
-        }
-    }
-
-    /* Update a To Do ( put ) */
-    const handleUpdate = useCallback(async (event: any) => {
-
-        /* Title of the element */
-        const { innerText } = event.target;
-
-        const [ modal, button ] = getElementsById(['createToDoModal', 'createToDoButton']);        
-
-        displayModal({ modal, display: true });
-
-        /* "Create To Do" button, not the "Add ToDo" button that called this function. */
-        button.onclick = async () => {
-
-            const [ newTitle, newDeadline ] = getElementsValueById(['toDoTitle-create', 'toDoDeadline-create']);
-
-            // TODO: Display error message
-            if (!newTitle || !newDeadline || !innerText) return;
-
-            const content = await doFetch({ url: 'to-dos/', method: 'put', body: { sessionId, title: innerText, newTitle, newDeadline } });
-            sessionCheck(content);            
-
-            await handleRetrieve();
-        }
-    }, [sessionId, handleRetrieve, sessionCheck]);
-
-    /* Delete a To Do ( delete ) */
-    const handleDelete = useCallback(async (event: any) => {
-
-        const { innerText } = event.target;
-        
-        // TODO: Display error message
-        if (!innerText) return;
-
-        const content = await doFetch({ url: 'to-dos/', method: 'delete', body: { sessionId, title: innerText } });
-        sessionCheck(content);
-
-        await handleRetrieve();
-    }, [sessionId, handleRetrieve, sessionCheck]);
-
-    /* Load the To Do's when the page loads or when the toDos change. */
-    useEffect(() => {
-        if (!sessionId) handleWrongSession();
-
-        handleRetrieve();
-    }, [sessionId, handleRetrieve]);
+    useEffect(() => { handleRetrieve() }, [handleRetrieve]);
 
     return (
         <div>
             <h1>To Do's</h1>
 
-            <CreateToDo />
-            <LoadToDo titles={toDos.map(element => element.title)} deadlines={toDos.map(element => element.deadline)} />
+            <CreateModal />
+            <LoadToDo
+                sessionId={sessionId}
+                titles={toDos.map(element => element.title)}
+                deadlines={toDos.map(element => element.deadline)}
+                refresh={handleRetrieve}
+            />
 
-            <button id="add-toDos" onClick={handleCreate}>Add To Do</button>
+            <button id="add-toDos" onClick={async () => await create({ event: null, sessionId, refresh: handleRetrieve })}>Add To Do</button>
         </div>
     )
 }

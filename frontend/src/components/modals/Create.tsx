@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import 'styles/modal.css';
 
-const CreateToDo: React.FC = () => {
+const CreateModal: React.FC = () => {
     const [title, setTitle] = useState('');
     const [deadline, setDeadline] = useState('');
 
@@ -68,4 +68,4 @@ const CreateToDo: React.FC = () => {
     )
 }
 
-export default CreateToDo;
+export default CreateModal;
