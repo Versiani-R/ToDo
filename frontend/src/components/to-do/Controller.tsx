@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
 
+/* Components */
+import LoadToDo from './Load';
+
 /* Modals */
 import CreateToDo from 'components/modals/Create';
 
@@ -111,67 +114,21 @@ const ToDos: React.FC = () => {
         await handleRetrieve();
     }, [sessionId, handleRetrieve, sessionCheck]);
 
-    const loadToDos = useCallback(() => {
-        const ul = document.getElementById('toDos-titles');
-        if (!ul) return;
-
-        /* Cleaning the list. */
-        ul.innerHTML = '';
-
-        for (const toDo of toDos) {
-
-            const li = document.createElement('li');
-
-            const h3 = document.createElement('h3');
-            h3.classList.add('toDos-title');
-            h3.innerText = `${toDo.title}`;
-            h3.id = toDo.deadline;
-            // TODO: Add the deadline
-
-            h3.ondblclick = handleUpdate;
-            h3.onauxclick = handleDelete;
-
-            h3.style.display = 'inline-block';
-
-
-            const div = document.createElement('div');
-            div.style.display = 'inline-block';
-
-            const p = document.createElement('p');
-            p.innerText = '+';
-            p.style.marginLeft = '25px';
-
-            p.onclick = () => alert('safjdk');
-            p.onmouseover = () => p.innerText = '-';
-            p.onmouseleave = () => p.innerText = '+';
-
-            div.appendChild(p);
-            
-            li.appendChild(h3);
-            li.appendChild(div);
-            ul.appendChild(li);
-        }
-    }, [toDos, handleUpdate, handleDelete]);
-
     /* Load the To Do's when the page loads or when the toDos change. */
     useEffect(() => {
         if (!sessionId) handleWrongSession();
 
         handleRetrieve();
-        loadToDos();
-    }, [sessionId, loadToDos, handleRetrieve]);
+    }, [sessionId, handleRetrieve]);
 
     return (
         <div>
-            <CreateToDo />
-
             <h1>To Do's</h1>
 
-            <div id="content">
-                <ul id="toDos-titles"></ul>
+            <CreateToDo />
+            <LoadToDo titles={toDos.map(element => element.title)} deadlines={toDos.map(element => element.deadline)} />
 
-                <button id="add-toDos" onClick={handleCreate}>Add To Do</button>
-            </div>
+            <button id="add-toDos" onClick={handleCreate}>Add To Do</button>
         </div>
     )
 }
