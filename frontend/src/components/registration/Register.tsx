@@ -9,7 +9,7 @@ const Register: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(() => { hasSession() ? redirect('/toDos/') : console.log('Not registered!') }, []);
+    useEffect(() => { hasSession() ? redirect('/to-dos/') : console.log('Not registered!') }, []);
 
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>) => {
         /* Avoids page transition on submit. */

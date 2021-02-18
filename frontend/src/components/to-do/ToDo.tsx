@@ -27,10 +27,10 @@ const ToDos: React.FC = () => {
 
     /* Retrieve and load all To Do's ( get ) */
     const handleRetrieve = useCallback(async () => {
-        const content = await doFetch({ url: 'toDos/' + sessionId, method: 'get' });
+        const content = await doFetch({ url: 'to-dos/' + sessionId, method: 'get' });
 
         /**
-            * Check if the content.dues is the same as the toDos.
+            * Check if the content.dues is the same as the to Dos.
 
             Explanation If they're the same, it means the setToDos was already called.
                 * This is important since without the object check with lodash, the setToDos
@@ -41,7 +41,6 @@ const ToDos: React.FC = () => {
                 and finishing the execution on the second call.
         **/
         if (content.dues && !isEqual(content.dues, toDos)) setToDos(content.dues);
-
         sessionCheck(content);
 
         console.log(content);
@@ -66,7 +65,7 @@ const ToDos: React.FC = () => {
             // TODO: Display error message
             if (!title || !deadline) return;
 
-            const content = await doFetch({ url: 'toDos/', method: 'post', body: { sessionId, title, deadline } });
+            const content = await doFetch({ url: 'to-dos/', method: 'post', body: { sessionId, title, deadline } });
             sessionCheck(content);
 
             await handleRetrieve();
@@ -91,7 +90,7 @@ const ToDos: React.FC = () => {
             // TODO: Display error message
             if (!newTitle || !newDeadline || !innerText) return;
 
-            const content = await doFetch({ url: 'toDos/', method: 'put', body: { sessionId, title: innerText, newTitle, newDeadline } });
+            const content = await doFetch({ url: 'to-dos/', method: 'put', body: { sessionId, title: innerText, newTitle, newDeadline } });
             sessionCheck(content);            
 
             await handleRetrieve();
@@ -106,7 +105,7 @@ const ToDos: React.FC = () => {
         // TODO: Display error message
         if (!innerText) return;
 
-        const content = await doFetch({ url: 'toDos/', method: 'delete', body: { sessionId, title: innerText } });
+        const content = await doFetch({ url: 'to-dos/', method: 'delete', body: { sessionId, title: innerText } });
         sessionCheck(content);
 
         await handleRetrieve();
@@ -128,11 +127,28 @@ const ToDos: React.FC = () => {
             h3.innerText = `${toDo.title}`;
             h3.id = toDo.deadline;
             // TODO: Add the deadline
-            
+
             h3.ondblclick = handleUpdate;
             h3.onauxclick = handleDelete;
 
+            h3.style.display = 'inline-block';
+
+
+            const div = document.createElement('div');
+            div.style.display = 'inline-block';
+
+            const p = document.createElement('p');
+            p.innerText = '+';
+            p.style.marginLeft = '25px';
+
+            p.onclick = () => alert('safjdk');
+            p.onmouseover = () => p.innerText = '-';
+            p.onmouseleave = () => p.innerText = '+';
+
+            div.appendChild(p);
+            
             li.appendChild(h3);
+            li.appendChild(div);
             ul.appendChild(li);
         }
     }, [toDos, handleUpdate, handleDelete]);

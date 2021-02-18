@@ -2,8 +2,8 @@ import { Router } from 'express';
 
 /* Interfaces */
 import IUser from '../interfaces/user/User';
-import ICreateToDo from '../interfaces/toDo/Create';
-import IUpdateToDo from '../interfaces/toDo/Update';
+import ICreateToDo from '../interfaces/to-do/Create';
+import IUpdateToDo from '../interfaces/to-do/Update';
 
 /* Utils */
 import Database from '../utils/database';
@@ -35,10 +35,10 @@ router.get('/:sessionId', async (req, res) => {
     const _sessionId = sanitizeString(sessionId);
 
     /**
-        * It will use the sessionId to identify the owner of the todo.
+        * It will use the sessionId to identify the owner of the to do.
         * The getUserBySessionId() returns the user object ( or null ).
-        * Once the user is passed through the checks, it will return all toDos.
-        * The toDos will then be iterated on the frontend.
+        * Once the user is passed through the checks, it will return all to Dos.
+        * The to Dos will then be iterated on the frontend.
     **/
     const user: IUser = await database.getUserBySessionId(_sessionId);
     if (!user) return res.send({ success: false });
@@ -74,7 +74,7 @@ router.post('/', async (req, res) => {
     if (await database.isToDoTitleAlreadyBeingUsed(_title)) return res.send({ success: false });
 
     /**
-        * It will use the sessionId to identify the owner of the todo.
+        * It will use the sessionId to identify the owner of the to do.
         * The getUserBySessionId() returns the user object ( or null ).
         * Once the user is passed through the checks, it will create the To Do.
     **/
@@ -111,7 +111,7 @@ router.put('/', async (req, res) => {
     if (await database.isToDoTitleAlreadyBeingUsed(_newTitle)) return res.send({ success: false });
 
     /**
-        * It will use the sessionId to identify the owner of the todo.
+        * It will use the sessionId to identify the owner of the to do.
         * The getUserBySessionId() returns the user object ( or null ).
         * Once the user is passed through the checks, it will update the To Do.
     **/

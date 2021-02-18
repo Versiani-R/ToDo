@@ -1,9 +1,9 @@
-import { MongoClient, Db, ClientSession } from 'mongodb';
+import { MongoClient, Db } from 'mongodb';
 
 /* Interfaces */
 import IUser from '../interfaces/user/User';
 
-import ITodo from '../interfaces/database/ToDo';
+import ITodo from '../interfaces/database/To-do';
 import ICollections from '../interfaces/database/Collections';
 import IUpdateToDo from '../interfaces/database/Update';
 import IDeleteToDo from '../interfaces/database/Delete';
@@ -44,9 +44,9 @@ class Database {
             registeredUsers: this.database.collection(process.env.REGISTERED_USERS_NAME),
 
             /**
-                * ToDos will be the collection containing all tasks of the website.
+                * To Dos will be the collection containing all tasks of the website.
                 * It will identify it's owner by the id of the user.
-                * It will contain only the title of the todo and it's deadline.
+                * It will contain only the title of the to do and it's deadline.
             **/
             toDos: this.database.collection('toDos')
         }
@@ -100,7 +100,7 @@ class Database {
     /* It will return the entire user object ( email, password and sessionId ) being guided by the sessionId. ( or null if not found ) */
     getUserBySessionId = async (sessionId: string) => await this.collections.registeredUsers.findOne({ sessionId });
 
-    /* Returns all the toDos of the user. The toDos are organized with the email being the "owner" of the toDo. */
+    /* Returns all the to Dos of the user. The to Dos are organized with the email being the "owner" of the to Do. */
     getToDosByEmail = (email: string) => this.collections.toDos.find({ email });
 
     /* A business rule is that the same title cannot be used twice. */

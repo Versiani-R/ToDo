@@ -9,7 +9,7 @@ const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(() => { hasSession() ? redirect('/toDos/') : console.log('Not logged!') }, []);
+    useEffect(() => { hasSession() ? redirect('/to-dos/') : console.log('Not logged!') }, []);
 
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>) => {
         /* Avoids page transition on submit. */
@@ -17,7 +17,7 @@ const Login: React.FC = () => {
 
         const content = await doFetch({ url: 'login/', method: 'post', body: { email, password } });
 
-        /* If the success is true and it returns the sessionId, adds the session and redirect to /toDos/ */
+        /* If the success is true and it returns the sessionId, adds the session and redirect to /to-dos/ */
         if (content.success && content.sessionId) handleCorrectSession(content.sessionId);
 
         /* If it fails to login, clear the session and display error message. */
