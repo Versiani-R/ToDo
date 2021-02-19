@@ -28,6 +28,10 @@ const LoadToDos: React.FC<ILoadProps> = (props: ILoadProps) => {
                                 <i onClick={handleCreate} className="fas fa-plus" id={title + '-plus'}></i>
                                 <i onClick={async () => await handleDelete(null, title) } className="fas fa-minus" id={title + '-minus'}></i>
                                 <i onClick={async () => await handleUpdate(null, title) } className="fas fa-pen" id={title + '-pen'}></i>
+                                <i className="far fa-check-circle"></i>
+                                {/* <i className="fas fa-check-circle"></i> */}
+                                <i className="fas fa-bold"></i>
+                                <i className="fas fa-italic"></i>
                             </div>
                         </li>
                     )
