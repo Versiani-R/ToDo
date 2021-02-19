@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-/* Routes */
 import Register from 'components/registration/Register';
 import Login from 'components/registration/Login';
 import ToDo from 'components/to-do/Controller';

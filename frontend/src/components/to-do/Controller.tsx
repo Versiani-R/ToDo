@@ -1,13 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
 
-/* Components */
-import LoadToDo from './Load';
+import LoadToDo from 'components/to-do/Load';
 
-/* Modals */
 import CreateModal from 'components/modals/Create';
 
-/* Utils */
 import { doFetch } from 'utils/fetch';
 import { hasSession, sessionCheck } from 'utils/session';
 import create from 'utils/to-do/create';
@@ -16,13 +13,12 @@ const ToDos: React.FC = () => {
     const [toDos, setToDos] = useState([{ title: '', deadline: '' }]);
 
     /**
-        * The session id is publicly displayed on the top part of the file.
-        * But it will also be checked on the backend.
+        * It will be checked on the backend.
         * If the sessionId is wrong / old, the user will be logged out.
     **/
     const sessionId = hasSession();
 
-    /* Retrieve and load all To Do's ( get ) */
+    /* Retrieve To Do's ( get ) */
     const handleRetrieve = useCallback(async () => {
         console.log('called');
         const content = await doFetch({ url: 'to-dos/' + sessionId, method: 'get' });
