@@ -1,13 +1,10 @@
 import { MongoClient, Db } from 'mongodb';
 
-/* Interfaces */
-import IUser from '../interfaces/user/User';
+import IUser from '../../interfaces/user/User';
+import ICollections from '../../interfaces/database/Collections';
+import IDatabaseToDoObject from '../../interfaces/database/ToDoObject';
 
-import ITodo from '../interfaces/database/To-do';
-import ICollections from '../interfaces/database/Collections';
-import IUpdateToDo from '../interfaces/database/Update';
-import IDeleteToDo from '../interfaces/database/Delete';
-
+import { organizeToDoObject } from './objects';
 
 class Database {
     client: MongoClient;
@@ -107,13 +104,23 @@ class Database {
     isToDoTitleAlreadyBeingUsed = async (title: string) => await this.collections.toDos.findOne({ title });
 
     /* Insert a to do adding the user's email as a future guidance. */
-    updateToDoByTitle = async ({ email, title, newTitle, newDeadline }: IUpdateToDo) => await this.collections.toDos.updateOne({ email, title }, { $set: { title: newTitle, deadline: newDeadline }});
-    
-    /* Remove a to do being guided by it's title. Only possible because of business rule. */
-    removeToDoByTitle = async ({ email, title }: IDeleteToDo) => await this.collections.toDos.deleteOne({ email, title });
+    insertToDo = async (object: IDatabaseToDoObject) => {
+        const databaseObject = organizeToDoObject(object);
+        const { sessionId, title } = databaseObject;
+
+        await this.collections.toDos.updateOne({ email: await this.getUserBySessionId(sessionId), title }, { $set: databaseObject }, { upsert: true })
+    }
     
     /* Insert a to do adding the user's email as a future guidance. */
-    insertToDo = async ({ email, title, deadline }: ITodo) => await this.collections.toDos.updateOne({ email, title }, { $set: { title, deadline }}, { upsert: true });
+    updateToDoByTitle = async (object: IDatabaseToDoObject) => {
+        const databaseObject = organizeToDoObject(object);
+        const { sessionId, title } = databaseObject;
+
+        await this.collections.toDos.updateOne({ email: await this.getUserBySessionId(sessionId), title }, { $set: databaseObject});
+    }
+    
+    /* Remove a to do being guided by it's title. Only possible because of business rule. */
+    removeToDoByTitle = async ({ email, title }: { email: string, title: string}) => await this.collections.toDos.deleteOne({ email, title });
 }
 
 export default Database;

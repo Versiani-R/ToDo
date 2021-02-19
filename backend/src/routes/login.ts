@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { compare } from 'bcrypt';
 
 /* Utils */
-import Database from '../utils/database';
+import Database from '../utils/database/database';
 import createSession from '../utils/session';
 
 /* Interfaces */
