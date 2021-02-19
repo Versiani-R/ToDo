@@ -32,7 +32,7 @@ const update = async ({ event, sessionId, refresh }: IOperations, title?: string
         if (event.key === 'Enter') {
             /* New input value ( updated ) */
             const newTitle = input.value;
-    
+
             /* The to-do now has the updated value ( backend did not updated the value yet ) */
             toDo.innerText = input.value;
             toDo.style.display = 'inline-block';
