@@ -7,6 +7,17 @@ import { organizeToDoObject } from "./objects";
 const database = new Database();
 
 const toDoObjectCheck = async (object: IDatabaseToDoObject) => {
+    /**
+        * Checks all possibly-wrong scenarios with the object. Such as:
+            * Elements not being present.
+            * Elements with wrong types.
+            * Elements not following business rules.
+        @param object
+            object, holds to do's info.
+        
+        @returns The organized version of the object passed on the parameter.
+    **/
+
     const { title, deadline, parent, isCompleted, styles }: IDatabaseToDoObject = object;
 
     if (!title || typeof(title) !== 'string' || await database.isToDoTitleAlreadyBeingUsed(title)) return false;
@@ -32,9 +43,10 @@ const sessionCheck = async (sessionId: any) => {
             * Not present.
             * Wrong type.
             * Old / wrong.
-        @params SessionId, a string unique to each user.
+        @param sessionId
+            string, unique to each user.
 
-        @return The user with such sessionId.
+        @returns The user with such sessionId.
     **/
     if (!sessionId || typeof(sessionId) !== 'string') return false;
 

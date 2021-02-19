@@ -45,7 +45,7 @@ class Database {
                 * It will identify it's owner by the id of the user.
                 * It will contain only the title of the to do and it's deadline.
             **/
-            toDos: this.database.collection('toDos')
+            toDos: this.database.collection(process.env.TO_DOS_NAME)
         }
     }
 

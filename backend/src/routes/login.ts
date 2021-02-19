@@ -1,21 +1,15 @@
 import { Router } from 'express';
 import { compare } from 'bcrypt';
 
-/* Utils */
-import Database from '../utils/database/database';
-import createSession from '../utils/session';
-
-/* Interfaces */
 import IUser from '../interfaces/user/User';
 import ICredentials from '../interfaces/user/Credentials';
 
-/**
-    * Configuration.
-    * It will initialize the router of the file.
-    * It will initialize the database and all it's methods.
-**/
+import Database from '../utils/database/database';
+import createSession from '../utils/session';
+
 const router = Router();
 const database = new Database();
+
 
 router.post('/', async (req, res) => {
     const { email, password }: ICredentials = req.body;

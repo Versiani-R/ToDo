@@ -3,10 +3,8 @@ import { Router } from 'express';
 import IUser from '../interfaces/user/User';
 import IDatabaseToDoObject from '../interfaces/database/ToDoObject';
 
-import Database from '../utils/database/database';
 import { sessionCheck, toDoObjectCheck } from '../utils/database/checks';
-
-import { sanitizeStrings } from '../utils/sanitizer';
+import Database from '../utils/database/database';
 
 const router = Router();
 const database = new Database();
