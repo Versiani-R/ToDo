@@ -5,10 +5,11 @@ import IOperations from 'interfaces/to-do/Operations';
 import { doFetch } from "utils/fetch";
 import { sessionCheck } from "utils/session";
 
-const _delete = async ({ event, sessionId, refresh }: IOperations) => {
+const _delete = async ({ event, sessionId, refresh }: IOperations, title?: string) => {
 
     /* Title of the element */
-    const { innerText } = event.target;
+    let innerText = title;
+    if (event) innerText = event.target.innerText;
 
     if (!innerText) return;
 

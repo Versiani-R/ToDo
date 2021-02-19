@@ -1,0 +1,45 @@
+.toDos-holder {
+    list-style: square;
+}
+
+.toDo-title {
+    display: inline-block;
+    font-size: 25px;
+    margin: 10px 0px 10px 0px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.toDo-options {
+    margin-left: 35px;
+    display: inline-block;
+}
+
+.fa-plus {
+    color: rgb(26, 158, 26);
+    margin: 0px 10px 0px 10px;    
+}
+
+.fa-minus {
+    color: rgb(225, 31, 31);
+    margin: 0px 10px 0px 10px;    
+}
+
+.fa-pen {
+    color: blue;
+    margin: 0px 10px 0px 10px;    
+}
+
+i:hover {
+    font-size: 20px;
+}
+
+
+.toDo-Update {
+    background: transparent;
+    border: none;
+    outline: none;
+
+    font-size: 25px;
+    margin: 10px 0px 10px 0px;
+    font-family: 'Courier New', Courier, monospace;
+}

@@ -23,7 +23,7 @@ const CreateModal: React.FC = () => {
 
         /* Cleaning after use. */
         createToDoButton?.addEventListener('click', () => {
-
+            
             /**
                 * Disables the button after it's clicked.
                 
@@ -61,7 +61,7 @@ const CreateModal: React.FC = () => {
                     <label htmlFor="toDoDeadline-create">Deadline: </label>
                     <input id="toDoDeadline-create" value={deadline} onChange={(event: any) => setDeadline(event.target.value)} type="text"/>
 
-                    <button id="createToDoButton">Submit</button>
+                    <button id="createToDoButton">Create</button>
                 </div>
             </div>
         </div>

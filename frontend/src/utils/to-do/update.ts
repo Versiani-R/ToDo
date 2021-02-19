@@ -3,29 +3,49 @@ import IOperations from 'interfaces/to-do/Operations';
 
 /* Utils */
 import { doFetch } from "utils/fetch";
-import { getElementsById, getElementsValueById } from "utils/getElements";
-import { displayModal } from "utils/modals";
 import { sessionCheck } from "utils/session";
 
-const update = async ({ event, sessionId, refresh }: IOperations) => {
+const update = async ({ event, sessionId, refresh }: IOperations, title?: string) => {
 
     /* Title of the element */
-    const { innerText } = event.target;
+    let innerText = title;
+    if (event) innerText = event.target.innerText;
+    if (!innerText) return;
 
-    const [ modal, button ] = getElementsById(['createToDoModal', 'createToDoButton']);        
+    const toDo = document.getElementById(innerText);
+    if (!toDo) return;
 
-    displayModal({ modal, display: true });
+    toDo.style.display = 'none';
 
-    button.onclick = async () => {
+    const parent = toDo.parentElement;
 
-        const [ newTitle, newDeadline ] = getElementsValueById(['toDoTitle-create', 'toDoDeadline-create']);
+    const input = document.createElement('input');
+    input.id = innerText + '-update';
+    input.classList.add('toDo-Update');
+    input.setAttribute('value', innerText);
+    input.style.width = input.value.length + 'ch'
 
-        if (!newTitle || !newDeadline || !innerText) return;
+    const change = async () => {
+        const newTitle = input.value;
+        if (!newTitle) return;
 
-        const content = await doFetch({ url: 'to-dos/', method: 'put', body: { sessionId, title: innerText, newTitle, newDeadline } });
-        sessionCheck(content);            
+        toDo.innerText = input.value;
+        toDo.style.display = 'inline-block';
+
+        input.remove();
+
+        const content = await doFetch({ url: 'to-dos/', method: 'put', body: { sessionId, title: innerText, newTitle, newDeadline: 'tomorrow' } });
+        sessionCheck(content);
+
+        if (!content.success) toDo.innerText = innerText ? innerText : '';
 
         await refresh();
     }
+
+    input.onkeydown = async (event: any) => event.key === 'Enter' ? await change() : input.style.width = input.value.length + 1 + 'ch';
+    
+    parent?.insertBefore(input, toDo.nextElementSibling);
+
+    document.getElementById(innerText + '-update')?.focus();
 }
 export default update;
