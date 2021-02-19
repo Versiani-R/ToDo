@@ -15,6 +15,12 @@ const update = async ({ event, sessionId, refresh }: IOperations, title?: string
     const toDo = document.getElementById(innerText);
     if (!toDo) return;
 
+    /* Disable the edit button so the user cannot press it while editing the to-do */
+    const editButton = document.getElementById(title + '-pen');
+    if (editButton?.classList.contains('icon-disabled')) return;
+
+    editButton?.classList.add('icon-disabled');
+
     /* Hiding the original h3 to-do */
     toDo.style.display = 'none';
 
@@ -39,11 +45,14 @@ const update = async ({ event, sessionId, refresh }: IOperations, title?: string
 
             input.remove();
 
+            /* Enabling the button again once the user is not editing it anymore */
+            editButton?.classList.remove('icon-disabled');
+
             /* Update the value on the backend. @alert After the innerText update for better UI experience. */
             const content = await doFetch({ url: 'to-dos/', method: 'put', body: { sessionId, title: innerText, newTitle, newDeadline: 'tomorrow' } });
             sessionCheck(content);
 
-            /* In case the user typed an already used title. @alert Just redo the changes on the UI, no changes on the backend */
+            /* In case the user typed an already existing title. @alert Just redo the changes on the UI, no changes on the backend */
             if (!content.success) toDo.innerText = innerText ? innerText : '';
     
             await refresh();

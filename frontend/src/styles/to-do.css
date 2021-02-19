@@ -33,6 +33,11 @@ i:hover {
     font-size: 20px;
 }
 
+.icon-disabled {
+    color: #669;
+    cursor: not-allowed;
+}
+
 
 .toDo-Update {
     background: transparent;

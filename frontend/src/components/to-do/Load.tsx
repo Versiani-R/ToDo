@@ -25,9 +25,9 @@ const LoadToDos: React.FC<ILoadProps> = (props: ILoadProps) => {
                             <h3 id={title} className='toDo-title'>{title}</h3>
 
                             <div className='toDo-options'>
-                                <i onClick={handleCreate} className="fas fa-plus"></i>
-                                <i onClick={async () => await handleDelete(null, title) } className="fas fa-minus"></i>
-                                <i onClick={async () => await handleUpdate(null, title) } className="fas fa-pen"></i>
+                                <i onClick={handleCreate} className="fas fa-plus" id={title + '-plus'}></i>
+                                <i onClick={async () => await handleDelete(null, title) } className="fas fa-minus" id={title + '-minus'}></i>
+                                <i onClick={async () => await handleUpdate(null, title) } className="fas fa-pen" id={title + '-pen'}></i>
                             </div>
                         </li>
                     )
