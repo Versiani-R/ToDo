@@ -35,7 +35,7 @@ const update = async ({ event, sessionId, refresh }: IOperations, title?: string
     input.style.width = input.value.length + 'ch'
 
     input.onkeydown = async (event: any) => {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' || event.key === 'Escape') {
             /* New input value ( updated ) */
             const newTitle = input.value;
 

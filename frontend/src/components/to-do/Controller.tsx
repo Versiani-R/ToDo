@@ -46,8 +46,6 @@ const ToDos: React.FC = () => {
 
     return (
         <div>
-            <h1>To Do's</h1>
-
             <CreateModal />
             <LoadToDo
                 sessionId={sessionId}
