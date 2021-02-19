@@ -27,16 +27,52 @@ Database objects are stored like so:
 
 ## Errors
 Response errors are returned like so:  
-`Backend to frontend:`
-```json
-```
+### Backend to Frontend
 
-`Database to routes:`
+`Register Unsuccessful`
 ```json
 {
     "success": false,
-    "error": {
-        "message": "Object check failed."
-    }
+    "errorCode": 1,
+    "message": "Email Already Registered"
+}
+```
+
+`Register Successful`
+```json
+{
+    "success": true,
+    "sessionId": "4k31k2j39dsl123jj"
+}
+```
+
+Read more on the login file. **src/routes/login.ts**  
+`Login Unsuccessful`
+```json
+{
+    "success": false
+}
+```
+
+`Login Successful`
+```json
+{
+    "success": false,
+    "sessionId": "4k31k2j39dsl123jj"
+}
+```
+
+`Not Successful`
+```json
+{
+    "success": false,
+    "sessionId": "4k31k2j39dsl123jj"
+}
+```
+
+`Successful`
+```json
+{
+    "success": true
 }
 ```
