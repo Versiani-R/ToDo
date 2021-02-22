@@ -120,7 +120,10 @@ class Database {
     }
     
     /* Remove a to do being guided by it's title. Only possible because of business rule. */
-    removeToDoByTitle = async ({ email, title }: { email: string, title: string}) => await this.collections.toDos.deleteOne({ email, title });
+    removeToDoByTitle = async ({ email, title }: { email: string, title: string}) => {
+        await this.collections.toDos.deleteOne({ email, title });
+        await this.collections.toDos.deleteMany({ email, parent: title });
+    }
 }
 
 export default Database;

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import ILoadProps from 'interfaces/to-do/LoadProps';
 
@@ -18,37 +18,6 @@ const LoadToDos: React.FC<ILoadProps> = (props: ILoadProps) => {
     const deadlines: string[] = [];
     toDos.map(({ deadline }) => !deadlines.includes(deadline) ? deadlines.push(deadline) : '' );
 
-    useEffect(() => {
-        toDos.map((object) => {
-            if (object.parent !== '') {
-
-                const element = document.getElementById(object.parent);
-                const parentElement = element?.parentElement;
-
-                if (!element || !parentElement) return '';
-
-                // const ulElements = parentElement.getElementsByTagName('ul');
-                // for (let i = 0; i < ulElements.length; i++) {
-                //     ulElements[i].remove();
-                // }
-
-                const ul = document.createElement('ul');
-                const li = document.createElement('li');
-                li.classList.add(object.deadline);
-
-                const h3 = document.createElement('h3');
-                h3.id = object.title;
-                h3.classList.add('toDo-title');
-                h3.innerText = object.title;
-
-                li.appendChild(h3);
-                ul.appendChild(li);
-                parentElement.appendChild(ul);
-            }
-            return '';
-        })        
-    }, [toDos]);
-
     return (
         <div>
             <ul>
@@ -57,24 +26,45 @@ const LoadToDos: React.FC<ILoadProps> = (props: ILoadProps) => {
                         <div key={deadline}>
                             {toDos.some((object) => object.parent === '' && object.deadline === deadline) ? <h2>{deadline}</h2> : ''}
 
-                            {toDos.map((object) => {                                
-                                const { title } = object;
-
+                            {toDos.map((object) => {
                                 if (object.deadline === deadline && object.parent === '') {
                                     return (
-                                        <li className={[object.deadline, 'toDos-holder'].join(' ')} key={title}>
-                                            <h3 id={title} className='toDo-title'>{title}</h3>
+                                        <div key={object.title + deadline}>
+                                            <li className={[object.deadline, 'toDos-holder'].join(' ')} key={object.title}>
+                                                <h3 id={object.title} className='toDo-title'>{object.title}</h3>
 
-                                            <div className='toDo-options'>
-                                                <i onClick={async () => await handleCreate(title) } className="fas fa-plus" id={title + '-plus'}></i>
-                                                <i onClick={async () => await handleUpdate(title) } className="fas fa-pen" id={title + '-pen'}></i>
-                                                <i onClick={async () => await handleDelete(title) } className="fas fa-minus" id={title + '-minus'}></i>
-                                                <i className="far fa-check-circle"></i>
-                                                {/* <i className="fas fa-check-circle"></i> */}
-                                                <i className="fas fa-bold"></i>
-                                                <i className="fas fa-italic"></i>
-                                            </div>
-                                        </li>
+                                                <div className='toDo-options'>
+                                                    <i onClick={async () => await handleCreate(object.title) } className="fas fa-plus" id={object.title + '-plus'}></i>
+                                                    <i onClick={async () => await handleUpdate(object.title) } className="fas fa-pen" id={object.title + '-pen'}></i>
+                                                    <i onClick={async () => await handleDelete(object.title) } className="fas fa-minus" id={object.title + '-minus'}></i>
+                                                    <i className="far fa-check-circle"></i>
+                                                    {/* <i className="fas fa-check-circle"></i> */}
+                                                    <i className="fas fa-bold"></i>
+                                                    <i className="fas fa-italic"></i>
+                                                </div>
+                                            </li>
+
+                                            <ul>
+                                                {toDos.map((childObject) => {
+                                                    if (childObject.parent === '' || childObject.parent !== object.title) return '';
+
+                                                    return (<div key={childObject.title + deadline}>
+                                                        <li className={[object.deadline, 'toDos-holder'].join(' ')} key={childObject.title}>
+                                                            <h3 id={childObject.title} className='toDo-title'>{childObject.title}</h3>
+
+                                                            <div className='toDo-options'>
+                                                                <i onClick={async () => await handleUpdate(childObject.title) } className="fas fa-pen" id={childObject.title + '-pen'}></i>
+                                                                <i onClick={async () => await handleDelete(childObject.title) } className="fas fa-minus" id={childObject.title + '-minus'}></i>
+                                                                <i className="far fa-check-circle"></i>
+                                                                {/* <i className="fas fa-check-circle"></i> */}
+                                                                <i className="fas fa-bold"></i>
+                                                                <i className="fas fa-italic"></i>
+                                                            </div>
+                                                        </li>
+                                                    </div>)
+                                                })}
+                                            </ul>
+                                        </div>
                                     );
                                 }
                                 return null;

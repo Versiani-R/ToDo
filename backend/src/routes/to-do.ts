@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
     if (!check) return res.send({ success: false, sessionId });
 
     const objectCheck = await toDoObjectCheck({ sessionId, title, deadline, parent, isCompleted, styles });
-    if (!objectCheck) return res.send({ success: false, sessionId });
+    if (!objectCheck) return res.send({ success: false });
 
     await database.insertToDo(objectCheck);
 
