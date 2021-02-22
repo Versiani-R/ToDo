@@ -1,0 +1,12 @@
+
+Frontend:
+  ☐ Refactor the frontend @today 
+  ☐ Fix the api requests @critical 
+  ☐ Organize by deadlines @low
+  ☐ Done @low 
+  ☐ Bold @low 
+  ☐ Italic @low
+
+Backend: 
+  ☐ Try not calling the database 4 times. @low 
+  ☐ Should the sessionId be returned on the object check ? @low

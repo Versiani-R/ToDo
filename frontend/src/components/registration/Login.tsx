@@ -25,6 +25,7 @@ const Login: React.FC = () => {
             clearSession();
 
             // TODO: Display error message.
+            alert('Could not login! Try again!')
         }
     }
 

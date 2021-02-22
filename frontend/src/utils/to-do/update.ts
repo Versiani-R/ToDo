@@ -5,14 +5,12 @@ import IOperations from 'interfaces/to-do/Operations';
 import { doFetch } from "utils/fetch";
 import { sessionCheck } from "utils/session";
 
-const update = async ({ event, sessionId, refresh }: IOperations, title?: string) => {
+const update = async ({ sessionId, title, refresh }: IOperations) => {
 
     /* Title of the element */
-    let innerText = title;
-    if (event) innerText = event.target.innerText;
-    if (!innerText) return;
+    if (!title) return;
 
-    const toDo = document.getElementById(innerText);
+    const toDo = document.getElementById(title);
     if (!toDo) return;
 
     /* Disable the edit button so the user cannot press it while editing the to-do */
@@ -29,9 +27,9 @@ const update = async ({ event, sessionId, refresh }: IOperations, title?: string
 
     /* The input element that will replicate the to-do */
     const input = document.createElement('input');
-    input.id = innerText + '-update';
+    input.id = title + '-update';
     input.classList.add('toDo-Update');
-    input.setAttribute('value', innerText);
+    input.setAttribute('value', title);
     input.style.width = input.value.length + 'ch'
 
     input.onkeydown = async (event: any) => {
@@ -49,11 +47,11 @@ const update = async ({ event, sessionId, refresh }: IOperations, title?: string
             editButton?.classList.remove('icon-disabled');
 
             /* Update the value on the backend. @alert After the innerText update for better UI experience. */
-            const content = await doFetch({ url: 'to-dos/', method: 'put', body: { sessionId, title: innerText, newTitle, newDeadline: 'tomorrow' } });
+            const content = await doFetch({ url: 'to-dos/', method: 'put', body: { sessionId, title, newTitle, newDeadline: 'tomorrow' } });
             sessionCheck(content);
 
             /* In case the user typed an already existing title. @alert Just redo the changes on the UI, no changes on the backend */
-            if (!content.success) toDo.innerText = innerText ? innerText : '';
+            if (!content.success) toDo.innerText = title;
     
             await refresh();
         } else { input.style.width = input.value.length + 1 + 'ch'; }
@@ -62,6 +60,6 @@ const update = async ({ event, sessionId, refresh }: IOperations, title?: string
     parent?.insertBefore(input, toDo.nextElementSibling);
 
     /* Select the input when the user clicks on the update icon */
-    document.getElementById(innerText + '-update')?.focus();
+    document.getElementById(title + '-update')?.focus();
 }
 export default update;

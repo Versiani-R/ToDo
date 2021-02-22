@@ -6,20 +6,19 @@ const CreateModal: React.FC = () => {
     const [title, setTitle] = useState('');
     const [deadline, setDeadline] = useState('');
 
-    const handleClose = useCallback(({ modal, isTarget }: { modal: HTMLElement | null, isTarget: boolean | null }) => {
-        if (!modal || (isTarget !== null && !isTarget)) return;
+    const displayModal = useCallback((display: boolean) => {
+        const modal = document.getElementById('createToDoModal');
+        if (!modal) return;
 
-        modal.style.display = 'none';
+        if (display) modal.style.display = 'inline-block';
+        else modal.style.display = 'none';
     }, []);
 
     useEffect(() => {
         const modal = document.getElementById('createToDoModal');
-        const closeModal = document.getElementById('closeCreateToDoModal');
         const createToDoButton = document.getElementById('createToDoButton');
-        
-        closeModal?.addEventListener('click', () => handleClose({ modal, isTarget: null }));
 
-        window.onclick = (event: any) => handleClose({ modal, isTarget: event.target === modal });
+        window.onclick = (event: any) => event.target === modal ? displayModal(false) : console.log();
 
         /* Cleaning after use. */
         createToDoButton?.addEventListener('click', () => {
@@ -36,7 +35,7 @@ const CreateModal: React.FC = () => {
             createToDoButton.setAttribute('disabled', 'true');
 
             setTimeout(() => {
-                handleClose({ modal, isTarget: null });
+                displayModal(false);
 
                 /* Enable the button again after the request was done. */
                 createToDoButton.removeAttribute('disabled');
@@ -46,14 +45,14 @@ const CreateModal: React.FC = () => {
                 setDeadline('');
             }, 1000);
         })
-    }, [handleClose]);
+    }, [displayModal]);
 
     return (
         <div>
             <div id="createToDoModal" className="modal">
 
                 <div className="modal-content">
-                    <span id="closeCreateToDoModal" className="close">&times;</span>
+                    <span id="closeCreateToDoModal" className="close" onClick={() => displayModal(false)}>&times;</span>
                     
                     <label htmlFor="toDoTitle-create">Title: </label>
                     <input id="toDoTitle-create" value={title} onChange={(event: any) => setTitle(event.target.value)} type="text"/>

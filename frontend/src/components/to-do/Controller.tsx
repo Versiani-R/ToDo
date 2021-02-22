@@ -6,11 +6,21 @@ import LoadToDo from 'components/to-do/Load';
 import CreateModal from 'components/modals/Create';
 
 import { doFetch } from 'utils/fetch';
-import { hasSession, sessionCheck } from 'utils/session';
+import { handleWrongSession, hasSession, sessionCheck } from 'utils/session';
 import create from 'utils/to-do/create';
 
 const ToDos: React.FC = () => {
-    const [toDos, setToDos] = useState([{ title: '', deadline: '' }]);
+    const [toDos, setToDos] = useState([{
+        email: '',
+        title: '',
+        deadline: '',
+        parent: '',
+        isCompleted: false,
+        styles: {
+            isBold: false,
+            isItalic: false,
+        }
+    }]);
 
     /**
         * It will be checked on the backend.
@@ -20,8 +30,8 @@ const ToDos: React.FC = () => {
 
     /* Retrieve To Do's ( get ) */
     const handleRetrieve = useCallback(async () => {
-        console.log('called');
         const content = await doFetch({ url: 'to-dos/' + sessionId, method: 'get' });
+        sessionCheck(content);
 
         /**
             * Check if the content.dues is the same as the to Dos.
@@ -35,22 +45,25 @@ const ToDos: React.FC = () => {
                 and finishing the execution on the second call.
         **/
         if (content.dues && !isEqual(content.dues, toDos)) setToDos(content.dues);
-        sessionCheck(content);
+        console.log(toDos);
+        
     }, [sessionId, toDos]);
 
-    useEffect(() => { handleRetrieve() }, [handleRetrieve]);
+    useEffect(() => {
+        if (!sessionId) handleWrongSession();
+        handleRetrieve();
+    }, [sessionId, handleRetrieve]);
 
     return (
         <div>
             <CreateModal />
             <LoadToDo
                 sessionId={sessionId}
-                titles={toDos.map(element => element.title)}
-                deadlines={toDos.map(element => element.deadline)}
+                toDos={toDos}
                 refresh={handleRetrieve}
             />
 
-            <button id="add-toDos" onClick={async () => await create({ event: null, sessionId, refresh: handleRetrieve })}>Add To Do</button>
+            <button id="add-toDos" onClick={async () => await create({ sessionId, refresh: handleRetrieve, parent: '' })}>Add To Do</button>
         </div>
     )
 }

@@ -105,18 +105,18 @@ class Database {
 
     /* Insert a to do adding the user's email as a future guidance. */
     insertToDo = async (object: IDatabaseToDoObject) => {
-        const databaseObject = organizeToDoObject(object);
-        const { sessionId, title } = databaseObject;
+        const { sessionId, ...organizedObject } = organizeToDoObject(object);
+        const { email } = await this.getUserBySessionId(sessionId);
 
-        await this.collections.toDos.updateOne({ email: await this.getUserBySessionId(sessionId), title }, { $set: databaseObject }, { upsert: true })
+        await this.collections.toDos.updateOne({ email, title: organizedObject.title }, { $set: organizedObject }, { upsert: true })
     }
     
     /* Insert a to do adding the user's email as a future guidance. */
     updateToDoByTitle = async (object: IDatabaseToDoObject) => {
-        const databaseObject = organizeToDoObject(object);
-        const { sessionId, title } = databaseObject;
+        const { sessionId, ...organizedObject } = organizeToDoObject(object);
+        const { email } = await this.getUserBySessionId(sessionId);
 
-        await this.collections.toDos.updateOne({ email: await this.getUserBySessionId(sessionId), title }, { $set: databaseObject});
+        await this.collections.toDos.updateOne({ email, title: organizedObject.title }, { $set: organizedObject});
     }
     
     /* Remove a to do being guided by it's title. Only possible because of business rule. */

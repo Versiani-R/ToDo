@@ -1,7 +1,6 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 
-/* Utils */
-import { handleCorrectSession, hasSession } from 'utils/session';
+import { clearSession, handleCorrectSession, hasSession } from 'utils/session';
 import { doFetch } from 'utils/fetch';
 import { redirect } from 'utils/url';
 
@@ -18,6 +17,13 @@ const Register: React.FC = () => {
         const content = await doFetch({ url: 'register/', method: 'post', body: { email, password } });
 
         if (content.success && content.sessionId) handleCorrectSession(content.sessionId);
+
+        if (!content.success) {
+            clearSession();
+
+            // TODO: Display error message.
+            alert('Unable to Register');
+        }
     }
 
     return (

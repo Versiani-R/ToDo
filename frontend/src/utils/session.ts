@@ -6,10 +6,16 @@ import { redirect } from './url';
 
 const addSession = (sessionId: string) => localStorage.setItem('sessionId', sessionId);
 const clearSession = () => localStorage.clear();
-const sessionCheck = (content: IFetchReturn) => { (!content.success && content.sessionId) ? handleWrongSession() : console.log()};
+
+const sessionCheck = (content: IFetchReturn) => {
+    if (!hasSession()) handleWrongSession();
+
+    if (!content.success && content.sessionId) handleWrongSession();
+}
+
 const hasSession = () => {
     const session = localStorage.getItem('sessionId');
-    if (!session) handleWrongSession();
+    if (!session) return false;
     
     return session;
 }

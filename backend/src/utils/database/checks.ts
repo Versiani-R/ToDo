@@ -25,7 +25,8 @@ const toDoObjectCheck = async (object: IDatabaseToDoObject) => {
     if (!deadline || typeof(deadline) !== 'string') return false;
 
     // TODO:
-    if (!parent || typeof(parent) !== 'string') return false;
+    /* The parent can be empty */
+    if (typeof(parent) !== 'string') return false;
 
     if (isCompleted === null || typeof(isCompleted) !== 'boolean') return false;
 
