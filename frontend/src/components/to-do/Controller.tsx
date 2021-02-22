@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
 
-import LoadToDo from 'components/to-do/Load';
-
 import CreateModal from 'components/modals/Create';
+
+import Title from './Title';
 
 import { doFetch } from 'utils/fetch';
 import { handleWrongSession, hasSession, sessionCheck } from 'utils/session';
@@ -27,6 +27,9 @@ const ToDos: React.FC = () => {
         * If the sessionId is wrong / old, the user will be logged out.
     **/
     const sessionId = hasSession();
+
+    const deadlines: string[] = [];
+    toDos.map(({ deadline }) => !deadlines.includes(deadline) ? deadlines.push(deadline) : '' );
 
     /* Retrieve To Do's ( get ) */
     const handleRetrieve = useCallback(async () => {
@@ -57,12 +60,25 @@ const ToDos: React.FC = () => {
     return (
         <div>
             <CreateModal />
-            <LoadToDo
-                sessionId={sessionId}
-                toDos={toDos}
-                refresh={handleRetrieve}
-            />
 
+            {deadlines.map(deadline => {
+                return (
+                    <div key={deadline}>
+                        <h2>{deadline}</h2>
+                        
+                        {toDos.map((object) => {
+                            if (object.deadline === deadline && object.parent === '') return (
+                                <ul key={deadline + object.title}>
+                                    <Title sessionId={sessionId} refresh={handleRetrieve} parent={object.parent} title={object.title}
+                                        children={toDos.filter(childObject => childObject.parent !== '' && childObject.parent === object.title)}
+                                    />
+                                </ul>
+                            )
+                            else return null;
+                        })}
+                    </div>
+                )
+            })}
             <button id="add-toDos" onClick={async () => await create({ sessionId, refresh: handleRetrieve, parent: '' })}>Add To Do</button>
         </div>
     )
