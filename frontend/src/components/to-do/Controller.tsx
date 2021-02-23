@@ -3,7 +3,7 @@ import { isEqual } from 'lodash';
 
 import CreateModal from 'components/modals/Create';
 
-import Title from './Title';
+import Title from 'components/to-do/Title';
 
 import { doFetch } from 'utils/fetch';
 import { handleWrongSession, hasSession, sessionCheck } from 'utils/session';
@@ -68,7 +68,7 @@ const ToDos: React.FC = () => {
                     {toDos.map((object) => {
                         if (object.deadline === deadline && object.parent === '') return (
                             <ul key={deadline + object.title}>
-                                <Title sessionId={sessionId} refresh={handleRetrieve} parent={object.parent} title={object.title}
+                                <Title sessionId={sessionId} refresh={handleRetrieve} title={object.title}
                                     children={toDos.filter(childObject => childObject.parent !== '' && childObject.parent === object.title)}
                                     isCompleted={object.isCompleted} styles={object.styles}
                                 />

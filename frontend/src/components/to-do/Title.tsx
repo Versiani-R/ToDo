@@ -1,26 +1,27 @@
 import React, { useCallback, useEffect } from 'react';
 
 import ITitleProps from 'interfaces/to-do/TitleProps';
+import IStyleProps from 'interfaces/to-do/StyleProps';
 
 import create from 'utils/to-do/create';
 import update from 'utils/to-do/update';
 import _delete from 'utils/to-do/delete';
-import styles from 'utils/to-do/styles';
+import style from 'utils/to-do/style';
 
 import 'styles/to-do.css';
 
 const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
-    const { sessionId, refresh, title, parent, children } = props;
+    const { sessionId, refresh, title, children } = props;
 
-    const handleCreate = async () => await create({ sessionId, parent, refresh });
+    const handleCreate = async () => await create({ sessionId, parent: title, refresh });
     const handleUpdate = async () => await update({ sessionId, title, refresh });
     const handleDelete = async () => await _delete({ sessionId, title, refresh });
     
-    const handleStyle = useCallback(async (event: any) => {
-        await styles(event, { sessionId, refresh, title, isCompleted: props.isCompleted, styles: props.styles });
-    }, [sessionId, refresh, title, props]);
+    const handleStyle = useCallback(async (event: any, object: IStyleProps) => {
+        await style(event, { sessionId, refresh }, object);
+    }, [sessionId, refresh]);
 
-    useEffect(() => { handleStyle(null) }, [handleStyle]);
+    useEffect(() => { handleStyle(null, props) && props.children.map(object => handleStyle(null, object)) }, [handleStyle, props]);
 
     return (
         <div>
@@ -28,13 +29,13 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
                 <h3 id={title} className='toDo-title'>{title}</h3>
 
                 <div className='toDo-options'>
-                    {parent === '' ? <i onClick={handleCreate} className="fas fa-plus" id={title + '-plus'}></i> : ''}
+                    <i onClick={handleCreate} className="fas fa-plus" id={title + '-plus'}></i>
                     <i onClick={handleUpdate} className="fas fa-pen" id={title + '-pen'}></i>
                     <i onClick={handleDelete} className="fas fa-minus" id={title + '-minus'}></i>
                     
-                    <i className='far fa-check-circle' id={title + '-completed'} onClick={handleStyle}></i>
-                    <i className="fas fa-moon" id={title + '-bold'} onClick={handleStyle}></i>
-                    <i className="fas fa-italic" id={title + '-italic'} onClick={handleStyle}></i>
+                    <i onClick={(event: any) => handleStyle(event, props)} className='far fa-check-circle' id={title + '-completed'}></i>
+                    <i onClick={(event: any) => handleStyle(event, props)} className="fas fa-moon" id={title + '-bold'}></i>
+                    <i onClick={(event: any) => handleStyle(event, props)} className="fas fa-italic" id={title + '-italic'}></i>
                 </div>
 
                 {children.map(childObject => {
@@ -47,9 +48,9 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
                                 <i onClick={handleUpdate} className="fas fa-pen" id={childObject.title + '-pen'}></i>
                                 <i onClick={handleDelete} className="fas fa-minus" id={childObject.title + '-minus'}></i>
                                 
-                                <i onClick={handleStyle} className="far fa-check-circle"></i>
-                                <i onClick={handleStyle} className="fas fa-bold"></i>
-                                <i className="fas fa-italic"></i>
+                                <i onClick={(event: any) => handleStyle(event, childObject)} className="far fa-check-circle" id={title + '-completed'}></i>
+                                <i onClick={(event: any) => handleStyle(event, childObject)} className="fas fa-moon" id={title + '-bold'}></i>
+                                <i onClick={(event: any) => handleStyle(event, childObject)} className="fas fa-italic" id={title + '-italic'}></i>
                             </div>
                         </li>
                     </ul>

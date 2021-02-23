@@ -1,10 +1,11 @@
 import IOperations from 'interfaces/to-do/Operations';
+import IStyleProps from 'interfaces/to-do/StyleProps';
 
 import { doFetch } from "utils/fetch";
 import { sessionCheck } from 'utils/session';
 
-const handleStyles = async (event: any, { sessionId, refresh, title, isCompleted, styles }: IOperations) => {
-    if (!title) return;
+const handleStyle = async (event: any, { sessionId, refresh }: IOperations, object: IStyleProps) => {
+    const { title, isCompleted, styles } = object;
 
     const toDoUiElement = document.getElementById(title);
 
@@ -91,4 +92,4 @@ const handleStyles = async (event: any, { sessionId, refresh, title, isCompleted
     }
 }
 
-export default handleStyles;
+export default handleStyle;
