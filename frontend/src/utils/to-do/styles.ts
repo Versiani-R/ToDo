@@ -8,7 +8,9 @@ const handleStyles = async (event: any, { sessionId, refresh, title, isCompleted
 
     const toDoUiElement = document.getElementById(title);
 
-    const executeReverseLogic = (element: any | undefined, _class: string, replace1: string, replace2: string, value: boolean | undefined) => {
+    const executeReverseLogic = (elementId: string, _class: string, replace1: string, replace2: string, value: boolean | undefined) => {
+        const element = document.getElementById(title + elementId);
+        
         if (value) {
             toDoUiElement?.classList.add(_class);
             element?.classList.replace(replace1, replace2);
@@ -25,14 +27,11 @@ const handleStyles = async (event: any, { sessionId, refresh, title, isCompleted
     **/
     if (event === null) {
 
-        const isCompletedUIElement = document.getElementById(title + '-completed');
-        executeReverseLogic(isCompletedUIElement, 'completed', 'far', 'fas', isCompleted);
-        
-        const isBoldUIElement = document.getElementById(title + '-bold');
-        executeReverseLogic(isBoldUIElement, 'bold', 'fa-moon', 'fa-sun', styles?.isBold);
+        executeReverseLogic('-completed', 'completed', 'far', 'fas', isCompleted);
 
-        const isItalicUIElement = document.getElementById(title + '-italic');
-        executeReverseLogic(isItalicUIElement, 'italic', 'fa-italic', 'fa-italic', styles?.isItalic);
+        executeReverseLogic('-bold', 'bold', 'fa-moon', 'fa-sun', styles?.isBold);
+
+        executeReverseLogic('-italic', 'italic', 'fa-italic', 'fa-italic', styles?.isItalic);
         
         return;
     }
@@ -40,16 +39,13 @@ const handleStyles = async (event: any, { sessionId, refresh, title, isCompleted
     /* Called by the "completed" button */
     if (event.target.id.includes('-completed')) {
 
-        const isCompletedUIElement = document.getElementById(title + '-completed');
-
         /**
             * When the user clicks on the "completed" icon, if it's true, we want to change it to false,
             and so forth. Hence we need the reversed value instead of the actual one.
         **/
-        const isCompletedReversedValue = !isCompleted;
-        executeReverseLogic(isCompletedUIElement, 'completed', 'far', 'fas', isCompletedReversedValue);
+        executeReverseLogic('-completed', 'completed', 'far', 'fas', !isCompleted);
 
-        const content = await doFetch({ url: 'to-dos/styles/', method: 'put', body: { sessionId, title, isCompleted: isCompletedReversedValue, styles } });
+        const content = await doFetch({ url: 'to-dos/styles/', method: 'put', body: { sessionId, title, isCompleted: !isCompleted, styles } });
         sessionCheck(content);
     
         await refresh();
@@ -61,15 +57,11 @@ const handleStyles = async (event: any, { sessionId, refresh, title, isCompleted
         if (!styles) return;
         const { isBold, isItalic } = styles;
 
-        const isBoldUIElement = document.getElementById(title + '-bold');
-
         /**
             * When the user clicks on the "bold" icon, if it's true, we want to change it to false,
             and so forth. Hence we need the reversed value instead of the actual one.
         **/
-        const isBoldReversedValue = !isBold;
-        executeReverseLogic(isBoldUIElement, 'bold', 'fa-moon', 'fa-sun', isBoldReversedValue);
-
+        executeReverseLogic('-bold', 'bold', 'fa-moon', 'fa-sun', !isBold);
         const _styles = { isBold: !isBold , isItalic };
 
         const content = await doFetch({ url: 'to-dos/styles/', method: 'put', body: { sessionId, title, isCompleted, styles: _styles } });
@@ -84,14 +76,11 @@ const handleStyles = async (event: any, { sessionId, refresh, title, isCompleted
         if (!styles) return;
         const { isBold, isItalic } = styles;
 
-        const isItalicUIElement = document.getElementById(title + '-italic');
-
         /**
             * When the user clicks on the "italic" icon, if it's true, we want to change it to false,
             and so forth. Hence we need the reversed value instead of the actual one.
         **/
-        const isItalicReversedValue = !isItalic;
-        executeReverseLogic(isItalicUIElement, 'italic', 'fa-italic', 'fa-italic', isItalicReversedValue);
+        executeReverseLogic('-italic', 'italic', 'fa-italic', 'fa-italic', !isItalic);
 
         const _styles = { isBold, isItalic: !isItalic };
 

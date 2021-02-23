@@ -5,7 +5,7 @@ Frontend:
   ✔ Organize by deadlines @low @done(21-02-22 18:29)
   ✔ Done @low @done(21-02-23 14:49)
   ✔ Bold @low @done(21-02-23 15:30)
-  ☐ Italic @low
+  ✔ Italic @low @done(21-02-23 16:54)
 
 Backend: 
   ☐ Try not calling the database 4 times. @low 
