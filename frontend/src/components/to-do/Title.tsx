@@ -35,6 +35,7 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
                         <li className='toDos-holder' key={childObject.title}>
                             <h3 id={childObject.title} className='toDo-title'>{childObject.title}</h3>
 
+                            {/* Child objects cannot have the 'add' attribute to avoid infinite stacking. */}
                             <div className='toDo-options'>
                                 <i onClick={async () => await handleUpdate(childObject.title) } className="fas fa-pen" id={childObject.title + '-pen'}></i>
                                 <i onClick={async () => await handleDelete(childObject.title) } className="fas fa-minus" id={childObject.title + '-minus'}></i>

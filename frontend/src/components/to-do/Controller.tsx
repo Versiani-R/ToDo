@@ -62,22 +62,20 @@ const ToDos: React.FC = () => {
             <CreateModal />
 
             {deadlines.map(deadline => {
-                return (
-                    <div key={deadline}>
-                        <h2>{deadline}</h2>
-                        
-                        {toDos.map((object) => {
-                            if (object.deadline === deadline && object.parent === '') return (
-                                <ul key={deadline + object.title}>
-                                    <Title sessionId={sessionId} refresh={handleRetrieve} parent={object.parent} title={object.title}
-                                        children={toDos.filter(childObject => childObject.parent !== '' && childObject.parent === object.title)}
-                                    />
-                                </ul>
-                            )
-                            else return null;
-                        })}
-                    </div>
-                )
+                return <div key={deadline}>
+                    {toDos.some(object => object.parent === '' && object.deadline === deadline) && <h2>{deadline}</h2>}
+
+                    {toDos.map((object) => {
+                        if (object.deadline === deadline && object.parent === '') return (
+                            <ul key={deadline + object.title}>
+                                <Title sessionId={sessionId} refresh={handleRetrieve} parent={object.parent} title={object.title}
+                                    children={toDos.filter(childObject => childObject.parent !== '' && childObject.parent === object.title)}
+                                />
+                            </ul>
+                        )
+                        else return null;
+                    })}
+                </div>
             })}
             <button id="add-toDos" onClick={async () => await create({ sessionId, refresh: handleRetrieve, parent: '' })}>Add To Do</button>
         </div>
