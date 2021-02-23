@@ -42,9 +42,8 @@ i:hover {
     text-decoration: line-through;
 }
 
-.bold {
-    font-weight: 700;
-}
+.bold { font-weight: 700; }
+.italic { font-style: italic; }
 
 
 .toDo-Update {

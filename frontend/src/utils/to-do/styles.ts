@@ -30,6 +30,9 @@ const handleStyles = async (event: any, { sessionId, refresh, title, isCompleted
         
         const isBoldUIElement = document.getElementById(title + '-bold');
         executeReverseLogic(isBoldUIElement, 'bold', 'fa-moon', 'fa-sun', styles?.isBold);
+
+        const isItalicUIElement = document.getElementById(title + '-italic');
+        executeReverseLogic(isItalicUIElement, 'italic', 'fa-italic', 'fa-italic', styles?.isItalic);
         
         return;
     }
@@ -55,19 +58,44 @@ const handleStyles = async (event: any, { sessionId, refresh, title, isCompleted
     /* Called by the "bold" button */
     if (event.target.id.includes('-bold')) {
 
+        if (!styles) return;
+        const { isBold, isItalic } = styles;
+
         const isBoldUIElement = document.getElementById(title + '-bold');
 
         /**
             * When the user clicks on the "bold" icon, if it's true, we want to change it to false,
             and so forth. Hence we need the reversed value instead of the actual one.
         **/
-        const isBoldReversedValue = !styles?.isBold;
+        const isBoldReversedValue = !isBold;
         executeReverseLogic(isBoldUIElement, 'bold', 'fa-moon', 'fa-sun', isBoldReversedValue);
 
-        const content = await doFetch({ url: 'to-dos/styles/', method: 'put', body: { sessionId, title, isCompleted, styles: {
-            isBold: isBoldReversedValue,
-            isItalic: styles?.isItalic ? styles.isItalic : false
-        } } });
+        const _styles = { isBold: !isBold , isItalic };
+
+        const content = await doFetch({ url: 'to-dos/styles/', method: 'put', body: { sessionId, title, isCompleted, styles: _styles } });
+        sessionCheck(content);
+    
+        await refresh();
+    }
+
+    /* Called by the "italic" button */
+    if (event.target.id.includes('-italic')) {
+
+        if (!styles) return;
+        const { isBold, isItalic } = styles;
+
+        const isItalicUIElement = document.getElementById(title + '-italic');
+
+        /**
+            * When the user clicks on the "italic" icon, if it's true, we want to change it to false,
+            and so forth. Hence we need the reversed value instead of the actual one.
+        **/
+        const isItalicReversedValue = !isItalic;
+        executeReverseLogic(isItalicUIElement, 'italic', 'fa-italic', 'fa-italic', isItalicReversedValue);
+
+        const _styles = { isBold, isItalic: !isItalic };
+
+        const content = await doFetch({ url: 'to-dos/styles/', method: 'put', body: { sessionId, title, isCompleted, styles: _styles } });
         sessionCheck(content);
     
         await refresh();
