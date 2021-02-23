@@ -24,9 +24,15 @@ const toDoObjectCheck = async (object: IDatabaseToDoObject) => {
 
     if (!deadline || typeof(deadline) !== 'string') return false;
 
-    // TODO:
     /* The parent can be empty */
     if (typeof(parent) !== 'string') return false;
+
+    /* If the element has a parent, check this parent to see if it also has a parent, if it does, return an error. */
+    if (parent !== '') {
+        const parentElement = await database.isToDoTitleAlreadyBeingUsed(parent);
+        
+        if (parentElement.parent !== '') return false;
+    }
 
     if (isCompleted === null || typeof(isCompleted) !== 'boolean') return false;
 

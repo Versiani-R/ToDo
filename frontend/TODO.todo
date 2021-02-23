@@ -1,6 +1,6 @@
 
 Frontend:
-  ☐ Refactor the frontend @today 
+  ✔ Refactor the frontend @today @done(21-02-23 11:18)
   ✔ Fix the api requests @critical @done(21-02-23 10:27)
   ✔ Organize by deadlines @low @done(21-02-22 18:29)
   ☐ Done @low 
@@ -10,4 +10,4 @@ Frontend:
 Backend: 
   ☐ Try not calling the database 4 times. @low 
   ✔ Should the sessionId be returned on the object check ? @low @done(21-02-22 14:48)
-  ☐ Check if the object is a child before inserting it @high
+  ✔ Check if the object is a child before inserting it @high @done(21-02-23 11:24)

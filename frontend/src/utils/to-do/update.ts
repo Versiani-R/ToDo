@@ -28,7 +28,7 @@ const update = async ({ sessionId, title, refresh }: IOperations) => {
     input.id = title + '-update';
     input.classList.add('toDo-Update');
     input.setAttribute('value', title);
-    input.style.width = input.value.length + 'ch'
+    input.style.width = input.value.length + 'ch';
 
     input.onkeydown = async (event: any) => {
         if (event.key === 'Enter' || event.key === 'Escape') {

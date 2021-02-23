@@ -1,8 +1,6 @@
-/* Interfaces */
 import { IFetchReturn } from 'interfaces/FetchParameters';
 
-/* Utils */
-import { redirect } from './url';
+import { redirect } from 'utils/url';
 
 const addSession = (sessionId: string) => localStorage.setItem('sessionId', sessionId);
 const clearSession = () => localStorage.clear();
