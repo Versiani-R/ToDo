@@ -3,6 +3,7 @@ import { MongoClient, Db } from 'mongodb';
 import IUser from '../../interfaces/user/User';
 import ICollections from '../../interfaces/database/Collections';
 import IDatabaseToDoObject from '../../interfaces/database/ToDoObject';
+import IUpdateToDoStyles from '../../interfaces/database/UpdateToDoStyles';
 
 import { organizeToDoObject } from './objects';
 
@@ -112,7 +113,7 @@ class Database {
     }
     
     /* Insert a to do adding the user's email as a future guidance. */
-    updateToDoByTitle = async (sessionId: string, title: string, newTitle: string) => {
+    updateToDoByTitle = async ({ sessionId, title, newTitle }: { sessionId: string, title: string, newTitle: string }) => {
         const { email } = await this.getUserBySessionId(sessionId);
 
         /* Update children */
@@ -123,10 +124,13 @@ class Database {
     }
 
     /* Remove a to do being guided by it's title. Only possible because of business rule. */
-    removeToDoByTitle = async ({ email, title }: { email: string, title: string}) => {
+    removeToDoByTitle = async ({ email, title }: { email: string, title: string }) => {
         await this.collections.toDos.deleteOne({ email, title });
         await this.collections.toDos.deleteMany({ email, parent: title });
     }
+
+    updateStylesByTitle = async ({ email, title, isCompleted, styles }: IUpdateToDoStyles ) =>
+        await this.collections.toDos.updateOne({ email, title }, { $set: { isCompleted, styles } })
 }
 
 export default Database;

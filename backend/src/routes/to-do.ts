@@ -54,7 +54,27 @@ router.put('/', async (req, res) => {
     if (!title || typeof(title) !== 'string') return res.send({ success: false })
     if (!newTitle || typeof(newTitle) !== 'string' || await database.isToDoTitleAlreadyBeingUsed(newTitle)) return res.send({ success: false })
 
-    await database.updateToDoByTitle(sessionId, title, newTitle);
+    await database.updateToDoByTitle({ sessionId, title, newTitle });
+
+    res.send({ success: true });
+});
+
+router.put('/styles/', async (req, res) => {
+    /* Updates an existing to do, adding new styles to it. */
+
+    const { sessionId, title, isCompleted, styles }: IUpdateToDoObject = req.body;
+    
+    const check = await sessionCheck(sessionId);
+    if (!check) return res.send({ success: false, sessionId });
+
+    if (!title || typeof(title) !== 'string') return res.send({ success: false });
+    if (typeof(isCompleted) !== 'boolean') return res.send({ success: false });
+
+    if (!styles) return res.send({ success: false });
+    if (typeof(styles.isBold) !== 'boolean') return res.send({ success: false });
+    if (typeof(styles.isItalic) !== 'boolean') return res.send({ success: false });
+    
+    await database.updateStylesByTitle({ email: check.user.email, title, isCompleted, styles });
 
     res.send({ success: true });
 });

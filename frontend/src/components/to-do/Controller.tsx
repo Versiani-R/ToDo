@@ -70,6 +70,7 @@ const ToDos: React.FC = () => {
                             <ul key={deadline + object.title}>
                                 <Title sessionId={sessionId} refresh={handleRetrieve} parent={object.parent} title={object.title}
                                     children={toDos.filter(childObject => childObject.parent !== '' && childObject.parent === object.title)}
+                                    isCompleted={object.isCompleted} styles={object.styles}
                                 />
                             </ul>
                         )

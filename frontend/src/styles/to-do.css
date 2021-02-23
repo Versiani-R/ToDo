@@ -32,6 +32,11 @@ i:hover {
     cursor: not-allowed;
 }
 
+.completed {
+    color: gray;
+    text-decoration: line-through;
+}
+
 
 .toDo-Update {
     background: transparent;

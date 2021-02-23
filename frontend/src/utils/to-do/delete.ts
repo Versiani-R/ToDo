@@ -1,7 +1,5 @@
-/* Interfaces */
 import IOperations from 'interfaces/to-do/Operations';
 
-/* Utils */
 import { doFetch } from "utils/fetch";
 import { sessionCheck } from "utils/session";
 
