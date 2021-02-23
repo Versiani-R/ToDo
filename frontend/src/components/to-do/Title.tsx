@@ -20,9 +20,7 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
         await styles(event, { sessionId, refresh, title, isCompleted: props.isCompleted, styles: props.styles });
     }, [sessionId, refresh, title, props]);
 
-    useEffect(() => {
-        handleStyle(null);
-    }, [handleStyle]);
+    useEffect(() => { handleStyle(null) }, [handleStyle]);
 
     return (
         <div>
@@ -35,8 +33,8 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
                     <i onClick={handleDelete} className="fas fa-minus" id={title + '-minus'}></i>
                     
                     <i className='far fa-check-circle' id={title + '-completed'} onClick={handleStyle}></i>
-                    <i className="fas fa-bold"></i>
-                    <i className="fas fa-italic"></i>
+                    <i className="fas fa-moon" id={title + '-bold'} onClick={handleStyle}></i>
+                    <i className="fas fa-italic" id={title + '-italic'} onClick={handleStyle}></i>
                 </div>
 
                 {children.map(childObject => {
@@ -50,7 +48,7 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
                                 <i onClick={handleDelete} className="fas fa-minus" id={childObject.title + '-minus'}></i>
                                 
                                 <i onClick={handleStyle} className="far fa-check-circle"></i>
-                                <i className="fas fa-bold"></i>
+                                <i onClick={handleStyle} className="fas fa-bold"></i>
                                 <i className="fas fa-italic"></i>
                             </div>
                         </li>
