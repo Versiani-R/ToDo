@@ -16,8 +16,6 @@ const handleCreate = async ({ sessionId, refresh, parent }: IOperations) => {
 
         if (!title || !deadline) return;
 
-        console.log(parent);
-
         const content = await doFetch({ url: 'to-dos/', method: 'post', body: {
             sessionId,
             title,

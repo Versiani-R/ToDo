@@ -112,13 +112,16 @@ class Database {
     }
     
     /* Insert a to do adding the user's email as a future guidance. */
-    updateToDoByTitle = async (object: IDatabaseToDoObject) => {
-        const { sessionId, ...organizedObject } = organizeToDoObject(object);
+    updateToDoByTitle = async (sessionId: string, title: string, newTitle: string) => {
         const { email } = await this.getUserBySessionId(sessionId);
 
-        await this.collections.toDos.updateOne({ email, title: organizedObject.title }, { $set: organizedObject});
+        /* Update children */
+        await this.collections.toDos.updateMany({ email, parent: title }, { $set: { parent: newTitle.trim() }});
+
+        /* Update the actual to do */
+        await this.collections.toDos.updateOne({ email, title }, { $set: { title: newTitle.trim() }});
     }
-    
+
     /* Remove a to do being guided by it's title. Only possible because of business rule. */
     removeToDoByTitle = async ({ email, title }: { email: string, title: string}) => {
         await this.collections.toDos.deleteOne({ email, title });

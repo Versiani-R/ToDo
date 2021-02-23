@@ -1,7 +1,5 @@
 export default interface IOperations {
     sessionId: string | boolean;
-    event?: any;
-    refresh: () => Promise<any>;
 
     title?: string;
     parent?: string;
@@ -10,4 +8,6 @@ export default interface IOperations {
         isBold: boolean,
         isItalic: boolean
     }
+
+    refresh: () => Promise<any>;
 }

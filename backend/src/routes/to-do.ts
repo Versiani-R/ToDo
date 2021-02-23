@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import IUser from '../interfaces/user/User';
 import IDatabaseToDoObject from '../interfaces/database/ToDoObject';
+import IUpdateToDoObject from '../interfaces/database/UpdateToDoObject';
 
 import { sessionCheck, toDoObjectCheck } from '../utils/database/checks';
 import Database from '../utils/database/database';
@@ -45,15 +46,15 @@ router.post('/', async (req, res) => {
 router.put('/', async (req, res) => {
     /* Updates an existing to do. */
 
-    const { sessionId, title, deadline, parent, isCompleted, styles }: IDatabaseToDoObject = req.body;
+    const { sessionId, title, newTitle }: IUpdateToDoObject = req.body;
     
     const check = await sessionCheck(sessionId);
     if (!check) return res.send({ success: false, sessionId });
 
-    const objectCheck = await toDoObjectCheck({ sessionId, title, deadline, parent, isCompleted, styles });
-    if (!objectCheck) return res.send({ success: false, sessionId });
+    if (!title || typeof(title) !== 'string') return res.send({ success: false })
+    if (!newTitle || typeof(newTitle) !== 'string' || await database.isToDoTitleAlreadyBeingUsed(newTitle)) return res.send({ success: false })
 
-    await database.updateToDoByTitle(objectCheck);
+    await database.updateToDoByTitle(sessionId, title, newTitle);
 
     res.send({ success: true });
 });
