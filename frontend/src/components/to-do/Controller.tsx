@@ -6,7 +6,7 @@ import CreateModal from 'components/modals/Create';
 import Title from 'components/to-do/Title';
 
 import { doFetch } from 'utils/fetch';
-import { handleWrongSession, hasSession, sessionCheck } from 'utils/session';
+import { handleWrongSession, hasSession } from 'utils/session';
 import create from 'utils/to-do/create';
 
 const ToDos: React.FC = () => {
@@ -34,7 +34,6 @@ const ToDos: React.FC = () => {
     /* Retrieve To Do's ( get ) */
     const handleRetrieve = useCallback(async () => {
         const content = await doFetch({ url: 'to-dos/' + sessionId, method: 'get' });
-        sessionCheck(content);
 
         /**
             * Check if the content.dues is the same as the to Dos.

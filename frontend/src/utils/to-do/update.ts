@@ -1,7 +1,6 @@
 import IOperations from 'interfaces/to-do/Operations';
 
 import { doFetch } from "utils/fetch";
-import { sessionCheck } from "utils/session";
 
 const update = async ({ sessionId, title, refresh }: IOperations) => {
     if (!title) return;
@@ -44,7 +43,6 @@ const update = async ({ sessionId, title, refresh }: IOperations) => {
 
             /* Update the value on the backend. @alert After the innerText update for better UI experience. */
             const content = await doFetch({ url: 'to-dos/', method: 'put', body: { sessionId, title, newTitle } });
-            sessionCheck(content);
 
             /* In case the user typed an already existing title. @alert Just redo the changes on the UI, no changes on the backend */
             if (!content.success) toDo.innerText = title;

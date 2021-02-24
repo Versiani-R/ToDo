@@ -2,7 +2,6 @@ import IOperations from 'interfaces/to-do/Operations';
 
 import { doFetch } from "utils/fetch";
 import { getElementsById, getElementsValueById } from "utils/getElements";
-import { sessionCheck } from "utils/session";
 
 const handleCreate = async ({ sessionId, refresh, parent }: IOperations) => {
     const [ modal, button ] = getElementsById(['createToDoModal', 'createToDoButton']);
@@ -14,7 +13,7 @@ const handleCreate = async ({ sessionId, refresh, parent }: IOperations) => {
 
         if (!title || !deadline) return;
 
-        const content = await doFetch({ url: 'to-dos/', method: 'post', body: {
+        await doFetch({ url: 'to-dos/', method: 'post', body: {
             sessionId,
             title,
             deadline,
@@ -25,7 +24,6 @@ const handleCreate = async ({ sessionId, refresh, parent }: IOperations) => {
                 isItalic: false,
             }
         } });
-        sessionCheck(content);
 
         await refresh();
     }

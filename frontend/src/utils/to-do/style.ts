@@ -2,7 +2,6 @@ import IOperations from 'interfaces/to-do/Operations';
 import IStyleProps from 'interfaces/to-do/StyleProps';
 
 import { doFetch } from "utils/fetch";
-import { sessionCheck } from 'utils/session';
 
 const handleStyle = async (event: any, { sessionId, refresh }: IOperations, object: IStyleProps) => {
     const { title, isCompleted, styles } = object;
@@ -42,10 +41,7 @@ const handleStyle = async (event: any, { sessionId, refresh }: IOperations, obje
     executeReverseLogic('-bold', 'bold', 'fa-moon', 'fa-sun', stylesValue.isBold);
     executeReverseLogic('-italic', 'italic', 'fa-italic', 'fa-italic', stylesValue.isItalic);
 
-    const content = await doFetch({ url: 'to-dos/styles/', method: 'put', body: {
-        sessionId, title, isCompleted: completedValue, styles: stylesValue
-    } });
-    sessionCheck(content);
+    await doFetch({ url: 'to-dos/styles/', method: 'put', body: { sessionId, title, isCompleted: completedValue, styles: stylesValue } });
 
     await refresh();
 }

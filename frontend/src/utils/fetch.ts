@@ -1,5 +1,7 @@
 import { IFetchParameters, IFetchReturn } from 'interfaces/FetchParameters';
 
+import { sessionCheck } from 'utils/session';
+
 const doFetch = async({ url, method, body }: IFetchParameters): Promise<IFetchReturn> => {
     const rawResponse = await fetch('http://localhost:8000/' + url, {
         method,
@@ -9,7 +11,10 @@ const doFetch = async({ url, method, body }: IFetchParameters): Promise<IFetchRe
         },
         body: JSON.stringify(body)
     })
-    return (await rawResponse.json());
+    const content = await rawResponse.json();
+    sessionCheck(content);
+
+    return content;
 }
 
 export { doFetch };
