@@ -8,7 +8,9 @@ Frontend:
   ✔ Italic @low @done(21-02-23 16:54)
   ✔ Session check after each Fetch, inside the function itself @done(21-02-24 08:55)
   ✔ Implement favorite (https://fontawesome.com/icons/bookmark?style=solid) @done(21-02-24 10:02)
-  ☐ Comment the code
+  ✔ Comment the code @done(21-02-24 11:33)
+  ☐ Display error message while loggin in / registering
+  ☐ Display "Are you sure" message while deleting a to do
 
 Backend: 
   ☐ Try not calling the database 4 times. @low 
@@ -17,3 +19,4 @@ Backend:
 
 Bug:
   ✔ Child elements don't change icons @done(21-02-24 08:18)
+  ☐ Styles are not responsive

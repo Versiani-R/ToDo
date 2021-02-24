@@ -8,6 +8,7 @@ const Register: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    /* Don't allow the already registered / logged user to access the login page. */
     useEffect(() => { hasSession() ? redirect('/to-dos/') : console.log('Not registered!') }, []);
 
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>) => {
@@ -30,13 +31,15 @@ const Register: React.FC = () => {
         <div>
             <h1>Register</h1>
 
-            <label htmlFor="email">Email</label>
-            <input type="email" name="email" value={email} onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}/>
-            
-            <label htmlFor="password">Password</label>
-            <input type="password" name="password" value={password} onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}/>
+            <form>
+                <label htmlFor="email">Email</label>
+                <input type="email" name="email" value={email} onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}/>
+                
+                <label htmlFor="password">Password</label>
+                <input type="password" name="password" value={password} onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}/>
 
-            <button type="submit" onClick={submitHandler}>Submit</button>
+                <button type="submit" onClick={submitHandler}>Submit</button>
+            </form>
         </div>
     )
 }

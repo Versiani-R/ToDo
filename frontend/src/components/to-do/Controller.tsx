@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
 
-import CreateModal from 'components/modals/Create';
+import CreateModal from 'components/modals/to-do/Create';
 
 import Title from 'components/to-do/Title';
 
@@ -23,14 +23,12 @@ const ToDos: React.FC = () => {
         }
     }]);
 
-    /**
-        * It will be checked on the backend.
-        * If the sessionId is wrong / old, the user will be logged out.
-    **/
+    /* Checked on the backend. If wrong or old, the user will be logged out. */
     const sessionId = hasSession();
 
+    /* @alert Not the list with all the deadlines, but with all the valid deadlines */
     const deadlines: string[] = [];
-    toDos.map(({ deadline }) => !deadlines.includes(deadline) ? deadlines.push(deadline) : '' );
+    toDos.map(({ deadline, parent }) => !deadlines.includes(deadline) && parent === '' ? deadlines.push(deadline) : '' );
 
     /* Retrieve To Do's ( get ) */
     const handleRetrieve = useCallback(async () => {
@@ -64,7 +62,7 @@ const ToDos: React.FC = () => {
 
             {deadlines.map(deadline => {
                 return <div key={deadline}>
-                    {toDos.some(object => object.parent === '' && object.deadline === deadline) && <h2>{deadline}</h2>}
+                    <h2>{deadline}</h2>
 
                     {toDos.map((object) => {
                         if (object.deadline === deadline && object.parent === '') return (

@@ -6,11 +6,11 @@ const CreateModal: React.FC = () => {
     const [title, setTitle] = useState('');
     const [deadline, setDeadline] = useState('');
 
-    const displayModal = useCallback((display: boolean) => {
+    const displayModal = useCallback((shouldDisplay: boolean) => {
         const modal = document.getElementById('createToDoModal');
         if (!modal) return;
 
-        if (display) modal.style.display = 'inline-block';
+        if (shouldDisplay) modal.style.display = 'inline-block';
         else modal.style.display = 'none';
     }, []);
 
@@ -18,6 +18,7 @@ const CreateModal: React.FC = () => {
         const modal = document.getElementById('createToDoModal');
         const createToDoButton = document.getElementById('createToDoButton');
 
+        /* Close the modal if the user clicked outside the box. */
         window.onclick = (event: any) => event.target === modal ? displayModal(false) : console.log();
 
         /* Cleaning after use. */

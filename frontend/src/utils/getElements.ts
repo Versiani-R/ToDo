@@ -1,5 +1,3 @@
-const getElementById = (id: string) => document.getElementById(id);
-
 const getElementsById = (ids: string[]) => {
     const elements: HTMLElement[] = [];
 
@@ -28,4 +26,4 @@ const getElementsValueById = (ids: string[]) => {
     return values;
 }
 
-export { getElementById, getElementsById, getElementsValueById };
+export { getElementsById, getElementsValueById };

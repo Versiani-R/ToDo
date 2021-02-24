@@ -1,6 +1,5 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 
-/* Utils */
 import { clearSession, handleCorrectSession, hasSession } from 'utils/session';
 import { doFetch } from 'utils/fetch';
 import { redirect } from 'utils/url';
@@ -9,6 +8,7 @@ const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    /* Don't allow the already logged user to access the login page. */
     useEffect(() => { hasSession() ? redirect('/to-dos/') : console.log('Not logged!') }, []);
 
     const submitHandler = async (event: MouseEvent<HTMLButtonElement>) => {
@@ -33,13 +33,15 @@ const Login: React.FC = () => {
         <div>
             <h1>Login</h1>
 
-            <label htmlFor="email">Email</label>
-            <input type="email" name="email" value={email} onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}/>
-            
-            <label htmlFor="password">Password</label>
-            <input type="password" name="password" value={password} onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}/>
+            <form>
+                <label htmlFor="email">Email</label>
+                <input type="email" name="email" value={email} onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}/>
+                
+                <label htmlFor="password">Password</label>
+                <input type="password" name="password" value={password} onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}/>
 
-            <button type="submit" onClick={submitHandler}>Submit</button>
+                <button type="submit" onClick={submitHandler}>Submit</button>
+            </form>
         </div>
     )
 }

@@ -24,10 +24,12 @@ const handleStyle = async (event: any, { sessionId, refresh }: IOperations, obje
         return;
     }
 
+    /* Place holders with all the passed values */
     let completedValue = isCompleted;
     let heartValue = isFavorite;
     let stylesValue = { isBold: styles.isBold, isItalic: styles.isItalic };
 
+    /* Change the value if icon was clicked */
     if (event.target.id.includes('-completed')) completedValue = !isCompleted;
     if (event.target.id.includes('-heart')) heartValue = !isFavorite;
     if (event.target.id.includes('-bold')) stylesValue.isBold = !styles.isBold;
@@ -39,11 +41,13 @@ const handleStyle = async (event: any, { sessionId, refresh }: IOperations, obje
         Note: When the user clicks on the "completed" / "bold" / "italic" icon, if it's true,
         we want to change it to false, and so forth.
         Hence we need the reversed value instead of the actual one.
+
+        Note: If statements to make sure we're not changing anything unnecessary.
     **/
-    executeReverseLogic('-completed', 'completed', 'far', 'fas', completedValue);
-    executeReverseLogic('-bold', 'bold', 'fa-moon', 'fa-sun', stylesValue.isBold);
-    executeReverseLogic('-italic', 'italic', 'fa-italic', 'fa-italic', stylesValue.isItalic);
-    executeReverseLogic('-heart', 'favorite', 'far', 'fas', heartValue);
+    if (isCompleted !== completedValue) executeReverseLogic('-completed', 'completed', 'far', 'fas', completedValue);
+    if (isFavorite !== heartValue) executeReverseLogic('-bold', 'bold', 'fa-moon', 'fa-sun', stylesValue.isBold);
+    if (styles.isItalic !== stylesValue.isItalic) executeReverseLogic('-italic', 'italic', 'fa-italic', 'fa-italic', stylesValue.isItalic);
+    if (styles.isBold !== stylesValue.isBold) executeReverseLogic('-heart', 'favorite', 'far', 'fas', heartValue);
 
     await doFetch({ url: 'to-dos/styles/', method: 'put', body: { sessionId, title, isCompleted: completedValue, isFavorite: heartValue, styles: stylesValue } });
 

@@ -16,7 +16,8 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
     const handleCreate = async () => await create({ sessionId, parent: title, refresh });
     const handleUpdate = async () => await update({ sessionId, title, refresh });
     const handleDelete = async () => await _delete({ sessionId, title, refresh });
-    
+
+    /* Styles: { isComplete, isFavorite, isBold, isItalic } */
     const handleStyle = useCallback(async (event: any, object: IStyleProps) => {
         await style(event, { sessionId, refresh }, object);
     }, [sessionId, refresh]);
@@ -44,8 +45,8 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
                         <li className='toDos-holder' key={childObject.title}>
                             <h3 id={childObject.title} className='toDo-title'>{childObject.title}</h3>
 
-                            {/* Child objects cannot have the 'add' attribute to avoid infinite stacking. */}
                             <div className='toDo-options'>
+                                {/* Child objects cannot have the 'add' attribute to avoid infinite stacking. */}
                                 <i onClick={handleUpdate} className="fas fa-pen" id={childObject.title + '-pen'}></i>
                                 <i onClick={handleDelete} className="fas fa-times" id={childObject.title + '-minus'}></i>
 
