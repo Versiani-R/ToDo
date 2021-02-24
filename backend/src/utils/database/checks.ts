@@ -18,7 +18,7 @@ const toDoObjectCheck = async (object: IDatabaseToDoObject) => {
         @returns The organized version of the object passed on the parameter.
     **/
 
-    const { title, deadline, parent, isCompleted, styles }: IDatabaseToDoObject = object;
+    const { title, deadline, parent, isCompleted, isFavorite, styles }: IDatabaseToDoObject = object;
 
     if (!title || typeof(title) !== 'string' || await database.isToDoTitleAlreadyBeingUsed(title)) return false;
 
@@ -35,6 +35,7 @@ const toDoObjectCheck = async (object: IDatabaseToDoObject) => {
     }
 
     if (isCompleted === null || typeof(isCompleted) !== 'boolean') return false;
+    if (isFavorite === null || typeof(isFavorite) !== 'boolean') return false;
 
     if (!styles) return false;
     const { isBold, isItalic } = styles;

@@ -4,6 +4,7 @@ export default interface IUpdateToDoObject {
     newTitle: string;
 
     isCompleted?: boolean;
+    isFavorite?: boolean;
     styles?: {
         isBold: boolean;
         isItalic: boolean;

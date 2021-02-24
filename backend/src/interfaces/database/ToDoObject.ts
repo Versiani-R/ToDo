@@ -4,6 +4,7 @@ export default interface IDatabaseToDoObject {
     deadline: string;
     parent: string;
     isCompleted: boolean;
+    isFavorite: boolean;
     styles: {
         isBold: boolean,
         isItalic: boolean

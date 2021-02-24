@@ -129,8 +129,8 @@ class Database {
         await this.collections.toDos.deleteMany({ email, parent: title });
     }
 
-    updateStylesByTitle = async ({ email, title, isCompleted, styles }: IUpdateToDoStyles ) =>
-        await this.collections.toDos.updateOne({ email, title }, { $set: { isCompleted, styles } })
+    updateStylesByTitle = async ({ email, title, isCompleted, isFavorite, styles }: IUpdateToDoStyles ) =>
+        await this.collections.toDos.updateOne({ email, title }, { $set: { isCompleted, isFavorite, styles } })
 }
 
 export default Database;

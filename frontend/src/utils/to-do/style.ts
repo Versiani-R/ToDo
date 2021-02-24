@@ -4,7 +4,7 @@ import IStyleProps from 'interfaces/to-do/StyleProps';
 import { doFetch } from "utils/fetch";
 
 const handleStyle = async (event: any, { sessionId, refresh }: IOperations, object: IStyleProps) => {
-    const { title, isCompleted, styles } = object;
+    const { title, isCompleted, isFavorite, styles } = object;
     
     const executeReverseLogic = (elementId: string, _class: string, icon1: string, icon2: string, value: boolean) => {
         const element = document.getElementById(title + elementId);
@@ -18,15 +18,18 @@ const handleStyle = async (event: any, { sessionId, refresh }: IOperations, obje
     /* Called by useEffect, will perform all three checks. */
     if (event === null) {
         executeReverseLogic('-completed', 'completed', 'far', 'fas', isCompleted);
+        executeReverseLogic('-heart', 'favorite', 'far', 'fas', isFavorite);
         executeReverseLogic('-bold', 'bold', 'fa-moon', 'fa-sun', styles?.isBold);
         executeReverseLogic('-italic', 'italic', 'fa-italic', 'fa-italic', styles?.isItalic);
         return;
     }
 
     let completedValue = isCompleted;
-    let stylesValue = { isBold: styles.isBold, isItalic: styles.isItalic }
-    
+    let heartValue = isFavorite;
+    let stylesValue = { isBold: styles.isBold, isItalic: styles.isItalic };
+
     if (event.target.id.includes('-completed')) completedValue = !isCompleted;
+    if (event.target.id.includes('-heart')) heartValue = !isFavorite;
     if (event.target.id.includes('-bold')) stylesValue.isBold = !styles.isBold;
     if (event.target.id.includes('-italic')) stylesValue.isItalic = !styles.isItalic;
 
@@ -40,8 +43,9 @@ const handleStyle = async (event: any, { sessionId, refresh }: IOperations, obje
     executeReverseLogic('-completed', 'completed', 'far', 'fas', completedValue);
     executeReverseLogic('-bold', 'bold', 'fa-moon', 'fa-sun', stylesValue.isBold);
     executeReverseLogic('-italic', 'italic', 'fa-italic', 'fa-italic', stylesValue.isItalic);
+    executeReverseLogic('-heart', 'favorite', 'far', 'fas', heartValue);
 
-    await doFetch({ url: 'to-dos/styles/', method: 'put', body: { sessionId, title, isCompleted: completedValue, styles: stylesValue } });
+    await doFetch({ url: 'to-dos/styles/', method: 'put', body: { sessionId, title, isCompleted: completedValue, isFavorite: heartValue, styles: stylesValue } });
 
     await refresh();
 }

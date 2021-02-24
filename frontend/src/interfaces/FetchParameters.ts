@@ -11,6 +11,7 @@ interface IFetchParameters {
         newDeadline?: string;
         parent?: string;
         isCompleted?: boolean;
+        isFavorite?: boolean;
         styles?: {
             isBold: boolean,
             isItalic: boolean
@@ -29,6 +30,7 @@ interface IFetchReturn {
         newDeadline?: string;
         parent: string;
         isCompleted: boolean;
+        isFavorite: boolean;
         styles: {
             isBold: boolean,
             isItalic: boolean

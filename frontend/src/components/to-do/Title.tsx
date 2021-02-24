@@ -31,11 +31,12 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
                 <div className='toDo-options'>
                     <i onClick={handleCreate} className="fas fa-plus" id={title + '-plus'}></i>
                     <i onClick={handleUpdate} className="fas fa-pen" id={title + '-pen'}></i>
-                    <i onClick={handleDelete} className="fas fa-minus" id={title + '-minus'}></i>
+                    <i onClick={handleDelete} className="fas fa-times" id={title + '-minus'}></i>
                     
                     <i onClick={(event: any) => handleStyle(event, props)} className='far fa-check-circle' id={title + '-completed'}></i>
                     <i onClick={(event: any) => handleStyle(event, props)} className="fas fa-moon" id={title + '-bold'}></i>
                     <i onClick={(event: any) => handleStyle(event, props)} className="fas fa-italic" id={title + '-italic'}></i>
+                    <i onClick={(event: any) => handleStyle(event, props)} className="far fa-heart" id={title + '-heart'}></i>
                 </div>
 
                 {children.map(childObject => {
@@ -47,10 +48,11 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
                             <div className='toDo-options'>
                                 <i onClick={handleUpdate} className="fas fa-pen" id={childObject.title + '-pen'}></i>
                                 <i onClick={handleDelete} className="fas fa-minus" id={childObject.title + '-minus'}></i>
-                                
+
                                 <i onClick={(event: any) => handleStyle(event, childObject)} className="far fa-check-circle" id={childObject.title + '-completed'}></i>
                                 <i onClick={(event: any) => handleStyle(event, childObject)} className="fas fa-moon" id={childObject.title + '-bold'}></i>
                                 <i onClick={(event: any) => handleStyle(event, childObject)} className="fas fa-italic" id={childObject.title + '-italic'}></i>
+                                <i onClick={(event: any) => handleStyle(event, childObject)} className="far fa-heart" id={childObject.title + '-heart'}></i>
                             </div>
                         </li>
                     </ul>

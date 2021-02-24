@@ -16,6 +16,7 @@ const ToDos: React.FC = () => {
         deadline: '',
         parent: '',
         isCompleted: false,
+        isFavorite: false,
         styles: {
             isBold: false,
             isItalic: false,
@@ -46,9 +47,7 @@ const ToDos: React.FC = () => {
                 Solution Adding this object comparison, calling setToDos on the first iteration
                 and finishing the execution on the second call.
         **/
-        if (content.dues && !isEqual(content.dues, toDos)) setToDos(content.dues);
-        console.log(toDos);
-        
+        if (content.dues && !isEqual(content.dues, toDos)) setToDos(content.dues.sort(({ isFavorite }) => isFavorite ? -1 : 1 ));
     }, [sessionId, toDos]);
 
     useEffect(() => {
@@ -68,8 +67,8 @@ const ToDos: React.FC = () => {
                         if (object.deadline === deadline && object.parent === '') return (
                             <ul key={deadline + object.title}>
                                 <Title sessionId={sessionId} refresh={handleRetrieve} title={object.title}
-                                    children={toDos.filter(childObject => childObject.parent !== '' && childObject.parent === object.title)}
-                                    isCompleted={object.isCompleted} styles={object.styles}
+                                    children={toDos.filter(({ parent }) => parent !== '' && parent === object.title).sort(({ isFavorite }) => isFavorite ? -1 : 1 )}
+                                    isCompleted={object.isCompleted} styles={object.styles} isFavorite={object.isFavorite}
                                 />
                             </ul>
                         )

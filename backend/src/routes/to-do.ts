@@ -30,12 +30,12 @@ router.get('/:sessionId', async (req, res) => {
 router.post('/', async (req, res) => {
     /* Creates a new to do. */
     
-    const { sessionId, title, deadline, parent, isCompleted, styles }: IDatabaseToDoObject = req.body;
+    const { sessionId, title, deadline, parent, isCompleted, isFavorite, styles }: IDatabaseToDoObject = req.body;
 
     const check = await sessionCheck(sessionId);
     if (!check) return res.send({ success: false, sessionId });
 
-    const objectCheck = await toDoObjectCheck({ sessionId, title, deadline, parent, isCompleted, styles });
+    const objectCheck = await toDoObjectCheck({ sessionId, title, deadline, parent, isCompleted, isFavorite, styles });
     if (!objectCheck) return res.send({ success: false });
 
     await database.insertToDo(objectCheck);
@@ -62,19 +62,20 @@ router.put('/', async (req, res) => {
 router.put('/styles/', async (req, res) => {
     /* Updates an existing to do, adding new styles to it. */
 
-    const { sessionId, title, isCompleted, styles }: IUpdateToDoObject = req.body;
+    const { sessionId, title, isCompleted, isFavorite, styles }: IUpdateToDoObject = req.body;
     
     const check = await sessionCheck(sessionId);
     if (!check) return res.send({ success: false, sessionId });
 
     if (!title || typeof(title) !== 'string') return res.send({ success: false });
     if (typeof(isCompleted) !== 'boolean') return res.send({ success: false });
+    if (typeof(isFavorite) !== 'boolean') return res.send({ success: false });
 
     if (!styles) return res.send({ success: false });
     if (typeof(styles.isBold) !== 'boolean') return res.send({ success: false });
     if (typeof(styles.isItalic) !== 'boolean') return res.send({ success: false });
     
-    await database.updateStylesByTitle({ email: check.user.email, title, isCompleted, styles });
+    await database.updateStylesByTitle({ email: check.user.email, title, isCompleted, isFavorite, styles });
 
     res.send({ success: true });
 });

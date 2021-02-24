@@ -25,7 +25,7 @@
 .fas { margin: 0px 10px 0px 10px; }
 
 .fa-plus { color: rgb(26, 158, 26); }
-.fa-minus { color: rgb(225, 31, 31); }
+.fa-times { color: rgb(255, 0, 0); }
 .fa-pen { color: blue; }
 
 i:hover {
@@ -44,7 +44,7 @@ i:hover {
 
 .bold { font-weight: 700; }
 .italic { font-style: italic; }
-
+.fas.fa-heart { color: red; }
 
 .toDo-Update {
     background: transparent;

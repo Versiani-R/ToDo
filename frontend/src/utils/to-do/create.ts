@@ -19,6 +19,7 @@ const handleCreate = async ({ sessionId, refresh, parent }: IOperations) => {
             deadline,
             parent,
             isCompleted: false,
+            isFavorite: false,
             styles: {
                 isBold: false,
                 isItalic: false,
