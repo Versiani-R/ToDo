@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import 'styles/modal.css';
+import 'styles/to-dos/modal.css';
 
 const CreateModal: React.FC = () => {
     const [title, setTitle] = useState('');

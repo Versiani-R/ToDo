@@ -15,9 +15,16 @@ const handleStyle = async (event: any, { sessionId, refresh }: IOperations, obje
         else toDoUiElement?.classList.remove(_class) || element?.classList.replace(icon2, icon1);
     }
 
+    const isCompletedLogic = (condition: boolean) => {
+        executeReverseLogic('-completed', 'completed', 'far', 'fas', condition);
+        if (isCompleted) document.getElementById(title + '-completed')?.classList.add('completed');
+        else document.getElementById(title + '-completed')?.classList.remove('completed');
+    }
+
     /* Called by useEffect, will perform all three checks. */
     if (event === null) {
-        executeReverseLogic('-completed', 'completed', 'far', 'fas', isCompleted);
+        isCompletedLogic(isCompleted);
+
         executeReverseLogic('-heart', 'favorite', 'far', 'fas', isFavorite);
         executeReverseLogic('-bold', 'bold', 'fa-moon', 'fa-sun', styles?.isBold);
         executeReverseLogic('-italic', 'italic', 'fa-italic', 'fa-italic', styles?.isItalic);
@@ -44,7 +51,7 @@ const handleStyle = async (event: any, { sessionId, refresh }: IOperations, obje
 
         Note: If statements to make sure we're not changing anything unnecessary.
     **/
-    if (isCompleted !== completedValue) executeReverseLogic('-completed', 'completed', 'far', 'fas', completedValue);
+    if (isCompleted !== completedValue) isCompletedLogic(completedValue);
     if (isFavorite !== heartValue) executeReverseLogic('-bold', 'bold', 'fa-moon', 'fa-sun', stylesValue.isBold);
     if (styles.isItalic !== stylesValue.isItalic) executeReverseLogic('-italic', 'italic', 'fa-italic', 'fa-italic', stylesValue.isItalic);
     if (styles.isBold !== stylesValue.isBold) executeReverseLogic('-heart', 'favorite', 'far', 'fas', heartValue);

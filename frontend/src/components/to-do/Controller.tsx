@@ -9,6 +9,8 @@ import { doFetch } from 'utils/fetch';
 import { handleWrongSession, hasSession } from 'utils/session';
 import create from 'utils/to-do/create';
 
+import 'styles/to-dos/global.css';
+
 const ToDos: React.FC = () => {
     const [toDos, setToDos] = useState([{
         email: '',
