@@ -6,6 +6,8 @@ import { organizeToDoObject } from "./objects";
 /* It will initialize the database and all it's methods. */
 const database = new Database();
 
+const elementAndTypeof = (element: any, type: string) => element !== null && element !== undefined && typeof(element) === type;
+
 const toDoObjectCheck = async (object: IDatabaseToDoObject) => {
     /**
         * Checks all possibly-wrong scenarios with the object. Such as:
@@ -20,12 +22,12 @@ const toDoObjectCheck = async (object: IDatabaseToDoObject) => {
 
     const { title, deadline, parent, isCompleted, isFavorite, styles }: IDatabaseToDoObject = object;
 
-    if (!title || typeof(title) !== 'string' || await database.isToDoTitleAlreadyBeingUsed(title)) return false;
+    if (!elementAndTypeof(title, 'string') || await database.isToDoTitleAlreadyBeingUsed(title)) return false;
 
-    if (!deadline || typeof(deadline) !== 'string') return false;
+    if (!elementAndTypeof(deadline, 'string')) return false;
 
     /* The parent can be empty */
-    if (typeof(parent) !== 'string') return false;
+    if (!elementAndTypeof(parent, 'string')) return false;
 
     /* If the element has a parent, check this parent to see if it also has a parent, if it does, return an error. */
     if (parent !== '') {
@@ -34,13 +36,13 @@ const toDoObjectCheck = async (object: IDatabaseToDoObject) => {
         if (parentElement.parent !== '') return false;
     }
 
-    if (isCompleted === null || typeof(isCompleted) !== 'boolean') return false;
-    if (isFavorite === null || typeof(isFavorite) !== 'boolean') return false;
+    if (!elementAndTypeof(isCompleted, 'boolean')) return false;
+    if (!elementAndTypeof(isFavorite, 'boolean')) return false;
 
     if (!styles) return false;
     const { isBold, isItalic } = styles;
-    if (isBold === null || typeof(isBold) !== 'boolean') return false;
-    if (isItalic === null || typeof(isItalic) !== 'boolean') return false;
+    if (!elementAndTypeof(isBold, 'boolean')) return false;
+    if (!elementAndTypeof(isItalic, 'boolean')) return false;
 
     return organizeToDoObject(object);
 }
@@ -56,7 +58,7 @@ const sessionCheck = async (sessionId: any) => {
 
         @returns The user with such sessionId.
     **/
-    if (!sessionId || typeof(sessionId) !== 'string') return false;
+    if (!elementAndTypeof(sessionId, 'string')) return false;
 
     if (!await database.getUserBySessionId(sessionId)) return false;
 

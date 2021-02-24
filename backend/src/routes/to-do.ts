@@ -60,7 +60,7 @@ router.put('/', async (req, res) => {
 });
 
 router.put('/styles/', async (req, res) => {
-    /* Updates an existing to do, adding new styles to it. */
+    /* Adding new styles to an existing to do. */
 
     const { sessionId, title, isCompleted, isFavorite, styles }: IUpdateToDoObject = req.body;
     
