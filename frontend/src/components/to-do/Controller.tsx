@@ -35,6 +35,7 @@ const ToDos: React.FC = () => {
     /* Retrieve To Do's ( get ) */
     const handleRetrieve = useCallback(async () => {
         const content = await doFetch({ url: 'to-dos/' + sessionId, method: 'get' });
+        const dues = content.dues?.sort(({ isFavorite }) => isFavorite ? -1 : 1 )
 
         /**
             * Check if the content.dues is the same as the to Dos.
@@ -47,7 +48,9 @@ const ToDos: React.FC = () => {
                 Solution Adding this object comparison, calling setToDos on the first iteration
                 and finishing the execution on the second call.
         **/
-        if (content.dues && !isEqual(content.dues, toDos)) setToDos(content.dues.sort(({ isFavorite }) => isFavorite ? -1 : 1 ));
+        if (content.dues && dues && !isEqual(dues, toDos)) setToDos(dues);
+        console.log(content);
+        
     }, [sessionId, toDos]);
 
     useEffect(() => {

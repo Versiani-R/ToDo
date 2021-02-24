@@ -47,7 +47,7 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
                             {/* Child objects cannot have the 'add' attribute to avoid infinite stacking. */}
                             <div className='toDo-options'>
                                 <i onClick={handleUpdate} className="fas fa-pen" id={childObject.title + '-pen'}></i>
-                                <i onClick={handleDelete} className="fas fa-minus" id={childObject.title + '-minus'}></i>
+                                <i onClick={handleDelete} className="fas fa-times" id={childObject.title + '-minus'}></i>
 
                                 <i onClick={(event: any) => handleStyle(event, childObject)} className="far fa-check-circle" id={childObject.title + '-completed'}></i>
                                 <i onClick={(event: any) => handleStyle(event, childObject)} className="fas fa-moon" id={childObject.title + '-bold'}></i>
