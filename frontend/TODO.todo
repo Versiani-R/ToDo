@@ -15,4 +15,4 @@ Backend:
   ✔ Check if the object is a child before inserting it @high @done(21-02-23 11:24)
 
 Bug:
-  ☐ Child elements don't change icons
+  ✔ Child elements don't change icons @done(21-02-24 08:18)
