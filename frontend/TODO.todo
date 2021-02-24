@@ -11,10 +11,12 @@ Frontend:
   ✔ Comment the code @done(21-02-24 11:33)
   ☐ Display error message while loggin in / registering
   ☐ Display "Are you sure" message while deleting a to do
+  ☐ Show when the to do was created on hover
 
 Backend: 
   ☐ Try not calling the database 4 times. @low 
   ☐ Check for bugs after changing the checks.ts file
+  ☐ To Dos must have a creation date and time
   ✔ Should the sessionId be returned on the object check ? @low @done(21-02-22 14:48)
   ✔ Check if the object is a child before inserting it @high @done(21-02-23 11:24)
 
