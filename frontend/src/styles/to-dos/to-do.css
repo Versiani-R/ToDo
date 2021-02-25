@@ -22,6 +22,9 @@
     font-weight: 300;
     
     word-break: break-all;
+
+    position: relative;
+    bottom: 4px;
 }
 ul .child .toDo-title { margin: 6px 0px 6px 0px; }
 

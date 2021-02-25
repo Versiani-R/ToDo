@@ -65,7 +65,7 @@ const ToDos: React.FC = () => {
 
             {deadlines.map(deadline => {
                 return <div key={deadline}>
-                    <h2>{deadline}</h2>
+                    <h2 className='deadline'>{deadline}</h2>
 
                     {toDos.map((object) => {
                         if (object.deadline === deadline && object.parent === '') return (
