@@ -8,7 +8,10 @@ const handleStyle = async (event: any, { sessionId, refresh }: IOperations, obje
     
     const executeReverseLogic = (elementId: string, _class: string, icon1: string, icon2: string, value: boolean) => {
         const element = document.getElementById(title + elementId);
+        const border = document.getElementById(title + 'border');
         const toDoUiElement = document.getElementById(title);
+
+        if (border) border.style.borderLeftColor = styles.color;
 
         /* Add / remove the class and replace the icons */
         if (value) toDoUiElement?.classList.add(_class) || element?.classList.replace(icon1, icon2)
@@ -17,8 +20,9 @@ const handleStyle = async (event: any, { sessionId, refresh }: IOperations, obje
 
     const isCompletedLogic = (condition: boolean) => {
         executeReverseLogic('-completed', 'completed', 'far', 'fas', condition);
-        if (isCompleted) document.getElementById(title + '-completed')?.classList.add('completed');
-        else document.getElementById(title + '-completed')?.classList.remove('completed');
+
+        const a: any = document.getElementById(title + '-completed');
+        if (a && isCompleted) a.checked = true;
     }
 
     /* Called by useEffect, will perform all three checks. */
@@ -34,7 +38,7 @@ const handleStyle = async (event: any, { sessionId, refresh }: IOperations, obje
     /* Place holders with all the passed values */
     let completedValue = isCompleted;
     let heartValue = isFavorite;
-    let stylesValue = { isBold: styles.isBold, isItalic: styles.isItalic };
+    let stylesValue = { isBold: styles.isBold, isItalic: styles.isItalic, color: styles.color };
 
     /* Change the value if icon was clicked */
     if (event.target.id.includes('-completed')) completedValue = !isCompleted;
@@ -51,12 +55,12 @@ const handleStyle = async (event: any, { sessionId, refresh }: IOperations, obje
 
         Note: If statements to make sure we're not changing anything unnecessary.
     **/
-    if (isCompleted !== completedValue) isCompletedLogic(completedValue);
+    if (isCompleted !== completedValue) executeReverseLogic('-completed', 'completed', 'far', 'fas', completedValue);
     if (isFavorite !== heartValue) executeReverseLogic('-bold', 'bold', 'fa-moon', 'fa-sun', stylesValue.isBold);
     if (styles.isItalic !== stylesValue.isItalic) executeReverseLogic('-italic', 'italic', 'fa-italic', 'fa-italic', stylesValue.isItalic);
     if (styles.isBold !== stylesValue.isBold) executeReverseLogic('-heart', 'favorite', 'far', 'fas', heartValue);
 
-    await doFetch({ url: 'to-dos/styles/', method: 'put', body: { sessionId, title, isCompleted: completedValue, isFavorite: heartValue, styles: stylesValue } });
+    doFetch({ url: 'to-dos/styles/', method: 'put', body: { sessionId, title, isCompleted: completedValue, isFavorite: heartValue, styles: stylesValue } });
 
     await refresh();
 }

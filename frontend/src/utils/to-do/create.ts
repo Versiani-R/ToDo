@@ -23,6 +23,7 @@ const handleCreate = async ({ sessionId, refresh, parent }: IOperations) => {
             styles: {
                 isBold: false,
                 isItalic: false,
+                color: '#' + Math.floor(Math.random() * 16777215).toString(16)
             }
         } });
 

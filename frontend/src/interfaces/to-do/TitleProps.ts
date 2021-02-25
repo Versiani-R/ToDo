@@ -6,6 +6,7 @@ export default interface ILoadProps {
     styles: {
         isBold: boolean;
         isItalic: boolean;
+        color: string;
     }
     children: any[];
     refresh: () => Promise<void>;

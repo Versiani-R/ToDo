@@ -6,7 +6,8 @@ export default interface IDatabaseToDoObject {
     isCompleted: boolean;
     isFavorite: boolean;
     styles: {
-        isBold: boolean,
-        isItalic: boolean
+        isBold: boolean;
+        isItalic: boolean;
+        color: string;
     }
 }

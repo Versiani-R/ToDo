@@ -6,5 +6,6 @@ export default interface IUpdateToDoStyles {
     styles: {
         isBold: boolean;
         isItalic: boolean;
+        color: string;
     }
 }

@@ -13,8 +13,9 @@ interface IFetchParameters {
         isCompleted?: boolean;
         isFavorite?: boolean;
         styles?: {
-            isBold: boolean,
-            isItalic: boolean
+            isBold: boolean;
+            isItalic: boolean;
+            color: string;
         }
     }
 }
@@ -32,8 +33,9 @@ interface IFetchReturn {
         isCompleted: boolean;
         isFavorite: boolean;
         styles: {
-            isBold: boolean,
-            isItalic: boolean
+            isBold: boolean;
+            isItalic: boolean;
+            color: string;
         }
     }[];
 }

@@ -5,5 +5,6 @@ export default interface IStyleProps {
     styles: {
         isBold: boolean;
         isItalic: boolean;
+        color: string;
     }
 }

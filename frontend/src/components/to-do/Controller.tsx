@@ -22,6 +22,7 @@ const ToDos: React.FC = () => {
         styles: {
             isBold: false,
             isItalic: false,
+            color: '',
         }
     }]);
 

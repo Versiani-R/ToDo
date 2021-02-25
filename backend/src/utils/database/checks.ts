@@ -40,9 +40,10 @@ const toDoObjectCheck = async (object: IDatabaseToDoObject) => {
     if (!elementAndTypeof(isFavorite, 'boolean')) return false;
 
     if (!styles) return false;
-    const { isBold, isItalic } = styles;
+    const { isBold, isItalic, color } = styles;
     if (!elementAndTypeof(isBold, 'boolean')) return false;
     if (!elementAndTypeof(isItalic, 'boolean')) return false;
+    if (!elementAndTypeof(color, 'string')) return false;
 
     return organizeToDoObject(object);
 }

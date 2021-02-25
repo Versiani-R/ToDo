@@ -63,6 +63,9 @@ router.put('/styles/', async (req, res) => {
     /* Adding new styles to an existing to do. */
 
     const { sessionId, title, isCompleted, isFavorite, styles }: IUpdateToDoObject = req.body;
+
+    console.log(styles);
+    
     
     const check = await sessionCheck(sessionId);
     if (!check) return res.send({ success: false, sessionId });
@@ -74,6 +77,7 @@ router.put('/styles/', async (req, res) => {
     if (!styles) return res.send({ success: false });
     if (typeof(styles.isBold) !== 'boolean') return res.send({ success: false });
     if (typeof(styles.isItalic) !== 'boolean') return res.send({ success: false });
+    if (!styles.color || typeof(styles.color) !== 'string') return res.send({ success: false });
     
     await database.updateStylesByTitle({ email: check.user.email, title, isCompleted, isFavorite, styles });
 

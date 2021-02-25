@@ -1,13 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;700&display=swap');
 
-.toDos-holder {
-    list-style: none;
+.toDos-holder { list-style: none; }
+.toDos-holder h3:hover + div { opacity: 1; }
+.toDos-holder div:hover { opacity: 1; }
+.toDos-holder ul li:hover div { opacity: 1; }
+
+.toDos-holder .border {
+    margin-right: 7px;
+    padding-top: 6px;
+    /* border-left: white; */
+    border-left-width: 5px;
+    border-left-style: solid;
 }
 
 .toDo-title {
     display: inline-block;
-    font-size: 25px;
-    margin: 10px 0px 10px 0px;
+    font-size: 15px;
+    margin: 8px 0px 8px 0px;
 
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 300;
@@ -18,19 +27,18 @@
 .toDo-options {
     margin-left: 35px;
     display: inline-block;
+    opacity: 0;
 }
 
 .far { margin: 0px 10px 0px 10px; }
-
 .fas { margin: 0px 10px 0px 10px; }
 
 .fa-plus { color: rgb(26, 158, 26); }
-.fa-times { color: rgb(255, 0, 0); }
+.fa-trash { color: rgb(255, 126, 126); }
 .fa-pen { color: blue; }
 
-i:hover {
-    font-size: 20px;
-}
+i { font-size: 13px; }
+i:hover { font-size: 15px; }
 
 .icon-disabled {
     color: #669;
@@ -41,18 +49,20 @@ i:hover {
     color: gray;
     text-decoration: line-through;
 }
+.toDos-holder 
 
 .bold { font-weight: 700; }
 .italic { font-style: italic; }
 .fas.fa-heart { color: red; }
+.favorite + div { opacity: 1; }
 
 .toDo-Update {
     background: transparent;
     border: none;
     outline: none;
 
-    font-size: 25px;
-    margin: 10px 0px 10px 0px;
+    font-size: 15px;
+    margin: 8px 0px 8px 0px;
     font-family: 'Courier New', Courier, monospace;
 }
 
@@ -112,65 +122,5 @@ input:checked + .check svg path {
 }
 input:checked + .check svg polyline {
     stroke-dashoffset: 42;
-    transition: all 0.2s linear;
-    transition-delay: 0.15s;
-}
-.completed + .check svg {
-    stroke: #4285f4;
-}
-.completed + .check svg path {
-    stroke-dashoffset: 60;
-    transition: all 0.3s linear;
-}
-.completed + .check svg polyline {
-    stroke-dashoffset: 42;
-    transition: all 0.2s linear;
-    transition-delay: 0.15s;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 
-  input#check {
-    opacity: 0;
-  }
-  input#check:checked + label svg path {
-    stroke-dashoffset: 0;
-  }
-  input#check:focus + label {
-    transform: scale(1.03);
-  }
-  #check + label {
-    border: 13px solid #333;
-    border-radius: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  #check + label:active {
-    transform: scale(1.05);
-    border-radius: 30px;
-  }
-  #check + label svg {
-    pointer-events: none;
-  }
-  #check + label svg path {
-    fill: none;
-    stroke: #333;
-    stroke-width: 4px;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 100;
-    stroke-dashoffset: 101;
     transition: all 350ms cubic-bezier(1, 0, 0.37, 0.91);
-  } */
-  
+}

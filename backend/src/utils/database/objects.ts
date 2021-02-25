@@ -19,7 +19,8 @@ const organizeToDoObject = (object: IDatabaseToDoObject) => {
         isFavorite: object.isFavorite,
         styles: {
             isBold: object.styles.isBold,
-            isItalic: object.styles.isItalic
+            isItalic: object.styles.isItalic,
+            color: object.styles.color
         }
     }
 }

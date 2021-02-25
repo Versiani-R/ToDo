@@ -8,5 +8,6 @@ export default interface IUpdateToDoObject {
     styles?: {
         isBold: boolean;
         isItalic: boolean;
+        color: string;
     }
 }
