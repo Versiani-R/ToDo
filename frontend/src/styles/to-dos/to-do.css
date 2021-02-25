@@ -37,9 +37,9 @@ ul .child .toDo-title { margin: 6px 0px 6px 0px; }
 .far { margin: 0px 10px 0px 10px; }
 .fas { margin: 0px 10px 0px 10px; }
 
-.fa-plus { color: rgb(26, 158, 26); }
-.fa-trash { color: rgb(255, 126, 126); }
-.fa-pen { color: rgb(47, 47, 255); }
+.fa-plus { color: rgb(51, 255, 51); }
+.fa-trash { color: rgb(255, 90, 90); }
+.fa-pen { color: rgb(9, 127, 206); }
 
 i { font-size: 13px; }
 i:hover { font-size: 15px; }
@@ -63,6 +63,8 @@ i:hover { font-size: 15px; }
     background: transparent;
     border: none;
     outline: none;
+
+    color: white;
 
     font-size: 15px;
     margin: 8px 0px 8px 0px;

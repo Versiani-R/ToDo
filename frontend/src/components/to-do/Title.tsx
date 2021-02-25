@@ -75,7 +75,6 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
                                 <i onClick={() => handleUpdate(childObject.title)} className="fas fa-pen" id={childObject.title + '-pen'}></i>
                                 <i onClick={() => handleDelete(childObject.title)} className="fas fa-trash" id={childObject.title + '-minus'}></i>
 
-                                {/* <i onClick={(event: any) => handleStyle(event, childObject)} className="far fa-check-circle" id={childObject.title + '-completed'}></i> */}
                                 <i onClick={(event: any) => handleStyle(event, childObject)} className="fas fa-bold" id={childObject.title + '-bold'}></i>
                                 <i onClick={(event: any) => handleStyle(event, childObject)} className="fas fa-italic" id={childObject.title + '-italic'}></i>
                                 <i onClick={(event: any) => handleStyle(event, childObject)} className="far fa-heart" id={childObject.title + '-heart'}></i>
