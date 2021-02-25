@@ -30,7 +30,7 @@ const handleStyle = async (event: any, { sessionId, refresh }: IOperations, obje
         isCompletedLogic(isCompleted);
 
         executeReverseLogic('-heart', 'favorite', 'far', 'fas', isFavorite);
-        executeReverseLogic('-bold', 'bold', 'fa-moon', 'fa-sun', styles?.isBold);
+        executeReverseLogic('-bold', 'bold', 'fa-bold', 'fa-bold', styles?.isBold);
         executeReverseLogic('-italic', 'italic', 'fa-italic', 'fa-italic', styles?.isItalic);
         return;
     }
@@ -56,7 +56,7 @@ const handleStyle = async (event: any, { sessionId, refresh }: IOperations, obje
         Note: If statements to make sure we're not changing anything unnecessary.
     **/
     if (isCompleted !== completedValue) executeReverseLogic('-completed', 'completed', 'far', 'fas', completedValue);
-    if (isFavorite !== heartValue) executeReverseLogic('-bold', 'bold', 'fa-moon', 'fa-sun', stylesValue.isBold);
+    if (isFavorite !== heartValue) executeReverseLogic('-bold', 'bold', 'fa-bold', 'fa-bold', stylesValue.isBold);
     if (styles.isItalic !== stylesValue.isItalic) executeReverseLogic('-italic', 'italic', 'fa-italic', 'fa-italic', stylesValue.isItalic);
     if (styles.isBold !== stylesValue.isBold) executeReverseLogic('-heart', 'favorite', 'far', 'fas', heartValue);
 
