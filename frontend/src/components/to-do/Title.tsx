@@ -51,7 +51,7 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
 
                     <i onClick={(event: any) => handleStyle(event, props)} className="fas fa-bold" id={title + '-bold'}></i>
                     <i onClick={(event: any) => handleStyle(event, props)} className="fas fa-italic" id={title + '-italic'}></i>
-                    <i onClick={(event: any) => handleStyle(event, props)} className="far fa-heart" id={title + '-heart'}></i>
+                    <i onClick={(event: any) => handleStyle(event, props)} className="far fa-heart" id={title + '-favorite'}></i>
                 </div>
 
                 {children.map(childObject => {
@@ -77,7 +77,7 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
 
                                 <i onClick={(event: any) => handleStyle(event, childObject)} className="fas fa-bold" id={childObject.title + '-bold'}></i>
                                 <i onClick={(event: any) => handleStyle(event, childObject)} className="fas fa-italic" id={childObject.title + '-italic'}></i>
-                                <i onClick={(event: any) => handleStyle(event, childObject)} className="far fa-heart" id={childObject.title + '-heart'}></i>
+                                <i onClick={(event: any) => handleStyle(event, childObject)} className="far fa-heart" id={childObject.title + '-favorite'}></i>
                             </div>
                         </li>
                     </ul>
