@@ -80,7 +80,12 @@ const ToDos: React.FC = () => {
                     })}
                 </div>
             })}
-            <button id="add-toDos" onClick={async () => await create({ sessionId, refresh: handleRetrieve, parent: '' })}>Add To Do</button>
+
+            <div className='button-div'>
+                <button className='button' id="add-toDos" onClick={async () => await create({ sessionId, refresh: handleRetrieve, parent: '' })}>
+                    <span>New</span>
+                </button>
+            </div>
         </div>
     )
 }
