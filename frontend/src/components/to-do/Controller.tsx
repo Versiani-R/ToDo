@@ -81,11 +81,12 @@ const ToDos: React.FC = () => {
                 </div>
             })}
 
-            <div className='button-div'>
-                <button className='button' id="add-toDos" onClick={async () => await create({ sessionId, refresh: handleRetrieve, parent: '' })}>
-                    <span>New</span>
-                </button>
+            <div className='create'>
+                <span id="add-toDos" onClick={async () => await create({ sessionId, refresh: handleRetrieve, parent: '' })} className='fas fa-plus-square new-to-do'></span>
             </div>
+                {/* <button className='newTo-do' id="add-toDos" onClick={async () => await create({ sessionId, refresh: handleRetrieve, parent: '' })}>
+                    <span>New</span>
+                </button> */}
         </div>
     )
 }

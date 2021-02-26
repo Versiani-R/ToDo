@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@900&display=swap');
+
 
 
 .deadline {
@@ -16,11 +19,11 @@ body {
     /* background-image: ; */
 }
 
-.button {
-    display: table;
+.newTo-do {
+    /* display: table;
     position: relative;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto; */
     text-align: center;
     
     width: 100px;
@@ -34,18 +37,26 @@ body {
     cursor: pointer;
     transition: all 0.1s ease-in-out;
 }
-.button span {
+.newTo-do span {
     line-height: 20px;
     font-family: 'Fredoka One', cursive;
     font-size: 15px;
 }
-.button {
+.newTo-do {
     color: #79e3b6;
 }
-.button:hover {
+.newTo-do:hover {
     opacity: 0.3;
 }
-.button:active {
+.newTo-do:active {
     opacity: 1;
     color: #f3f0f1;
+}
+
+.new-to-do {
+    font-size: 30px;
+    margin: 1px 4px 0px 0px;
+}
+.new-to-do:hover {
+    color: gray;
 }
