@@ -1,9 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@900&display=swap');
-
-
 
 .deadline {
     font-family: 'Akaya Telivigala', cursive;
@@ -19,44 +14,13 @@ body {
     /* background-image: ; */
 }
 
-.newTo-do {
-    /* display: table;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto; */
-    text-align: center;
-    
-    width: 100px;
-    height: 40px;
-    margin-bottom: 25px;
-    border-radius: 32px;
-
-    /* background: #f3f0f1; */
-    background-color: #181a1b;
-
-    cursor: pointer;
-    transition: all 0.1s ease-in-out;
-}
-.newTo-do span {
-    line-height: 20px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 15px;
-}
-.newTo-do {
-    color: #79e3b6;
-}
-.newTo-do:hover {
-    opacity: 0.3;
-}
-.newTo-do:active {
-    opacity: 1;
-    color: #f3f0f1;
-}
-
 .new-to-do {
     font-size: 30px;
-    margin: 1px 4px 0px 0px;
+    margin-left: 15px;
+    color: #0bd0a2;
 }
 .new-to-do:hover {
-    color: gray;
+    color: #0B91D9;
+    transform: scale(1.1);
+    transition: ease-in-out 300ms;
 }

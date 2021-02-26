@@ -55,16 +55,26 @@ const CreateModal: React.FC = () => {
                 <div className="modal-content">
                     <span id="closeCreateToDoModal" className="close" onClick={() => displayModal(false)}>&times;</span>
                     
-                    <label htmlFor="toDoTitle-create">Title: </label>
-                    <input id="toDoTitle-create" value={title} onChange={(event: any) => setTitle(event.target.value)} type="text"/>
+                    
+                    <div className="webflow-style-input">
+                        <input autoComplete='off' id='toDoTitle-create' value={title} onChange={(event: any) => setTitle(event.target.value)} type="text" placeholder="Title"></input>
+                        <button type="submit"><i className="fas fa-arrow-right"></i></button>
+                    </div>
 
-                    <label htmlFor="toDoDeadline-create">Deadline: </label>
-                    <input id="toDoDeadline-create" value={deadline} onChange={(event: any) => setDeadline(event.target.value)} type="text"/>
+                    <div className="webflow-style-input">
+                        <input autoComplete='off' id='toDoDeadline-create' value={deadline} onChange={(event: any) => setDeadline(event.target.value)} type="text" placeholder="Deadline"></input>
+                        <button type="submit"><i className="fas fa-arrow-right"></i></button>
+                    </div>
 
-                    <button id="createToDoButton">Create</button>
+                    <div className='buttons'>
+                        <button className='create-to-do' id="createToDoButton">
+                            <i className='fas fa-check'></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
+
     )
 }
 
