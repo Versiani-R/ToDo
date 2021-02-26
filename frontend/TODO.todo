@@ -1,4 +1,3 @@
-
 Frontend:
   ✔ Refactor the frontend @today @done(21-02-23 11:18)
   ✔ Fix the api requests @critical @done(21-02-23 10:27)
@@ -13,6 +12,7 @@ Frontend:
   ☐ Display "Are you sure" message while deleting a to do
   ☐ Show when the to do was created on hover
   ☐ Change the border color on update
+  ☐ Improve the html ( and typescript )
 
 Modal: 
   ☐ While creating the to do, have an auto complete for the deadlines with the current ones
@@ -26,6 +26,9 @@ Backend:
 
 Bug:
   ✔ Child elements don't change icons @done(21-02-24 08:18)
-  ☐ Styles are not responsive
+  ✔ Styles are not responsive @done(21-02-26 10:34)
   ✔ Edit child is editing parent @done(21-02-25 12:51)
   ✔ Delete child is deleting parent @done(21-02-25 12:51)
+
+Tests:
+  ☐ Make sure you can edit the styles without problem.

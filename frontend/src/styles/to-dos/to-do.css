@@ -32,6 +32,9 @@ ul .child .toDo-title { margin: 6px 0px 6px 0px; }
     margin-left: 35px;
     display: inline-block;
     opacity: 0;
+
+    position: relative;
+    bottom: 4px;
 }
 
 .far { margin: 0px 10px 0px 10px; }

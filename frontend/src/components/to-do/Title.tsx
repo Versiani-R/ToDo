@@ -18,9 +18,9 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
     const handleDelete = async (element: string) => await _delete({ sessionId, title: element, refresh });
 
     /* Styles: { isComplete, isFavorite, isBold, isItalic } */
-    const handleStyle = useCallback(async (event: any, object: IStyleProps) => {
-        await style(event, { sessionId, refresh }, object);
-    }, [sessionId, refresh]);
+    const handleStyle = useCallback(
+        async (event: any, object: IStyleProps) => await style(event, { sessionId, refresh }, object
+    ), [sessionId, refresh]);
 
     /* Styling ( icons, sizes and colors ) */
     useEffect(() => {
@@ -34,7 +34,7 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
 
                 <span id={title + 'border'} className="border"></span>
 
-                <input onClick={(event: any) => handleStyle(event, props)} type="checkbox" id={title + '-completed'} style={{ display: 'none' }} />
+                <input onClick={async (event: any) => await handleStyle(event, props)} type="checkbox" id={title + '-completed'} style={{ display: 'none' }} />
                 <label htmlFor={title + '-completed'} className="check">
                     <svg width="18px" height="18px" viewBox="0 0 18 18">
                         <path d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
@@ -49,9 +49,9 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
                     <i onClick={() => handleUpdate(title)} className="fas fa-pen" id={title + '-pen'}></i>
                     <i onClick={() => handleDelete(title)} className="fas fa-trash" id={title + '-minus'}></i>
 
-                    <i onClick={(event: any) => handleStyle(event, props)} className="fas fa-bold" id={title + '-bold'}></i>
-                    <i onClick={(event: any) => handleStyle(event, props)} className="fas fa-italic" id={title + '-italic'}></i>
-                    <i onClick={(event: any) => handleStyle(event, props)} className="far fa-heart" id={title + '-favorite'}></i>
+                    <i onClick={async (event: any) => await handleStyle(event, props)} className="fas fa-bold" id={title + '-bold'}></i>
+                    <i onClick={async (event: any) => await handleStyle(event, props)} className="fas fa-italic" id={title + '-italic'}></i>
+                    <i onClick={async (event: any) => await handleStyle(event, props)} className="far fa-heart" id={title + '-favorite'}></i>
                 </div>
 
                 {children.map(childObject => {
@@ -75,9 +75,9 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
                                 <i onClick={() => handleUpdate(childObject.title)} className="fas fa-pen" id={childObject.title + '-pen'}></i>
                                 <i onClick={() => handleDelete(childObject.title)} className="fas fa-trash" id={childObject.title + '-minus'}></i>
 
-                                <i onClick={(event: any) => handleStyle(event, childObject)} className="fas fa-bold" id={childObject.title + '-bold'}></i>
-                                <i onClick={(event: any) => handleStyle(event, childObject)} className="fas fa-italic" id={childObject.title + '-italic'}></i>
-                                <i onClick={(event: any) => handleStyle(event, childObject)} className="far fa-heart" id={childObject.title + '-favorite'}></i>
+                                <i onClick={async (event: any) => await handleStyle(event, childObject)} className="fas fa-bold" id={childObject.title + '-bold'}></i>
+                                <i onClick={async (event: any) => await handleStyle(event, childObject)} className="fas fa-italic" id={childObject.title + '-italic'}></i>
+                                <i onClick={async (event: any) => await handleStyle(event, childObject)} className="far fa-heart" id={childObject.title + '-favorite'}></i>
                             </div>
                         </li>
                     </ul>

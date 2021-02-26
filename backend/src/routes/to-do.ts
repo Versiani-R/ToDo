@@ -64,9 +64,6 @@ router.put('/styles/', async (req, res) => {
 
     const { sessionId, title, isCompleted, isFavorite, styles }: IUpdateToDoObject = req.body;
 
-    console.log(styles);
-    
-    
     const check = await sessionCheck(sessionId);
     if (!check) return res.send({ success: false, sessionId });
 
