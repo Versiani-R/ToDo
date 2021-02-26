@@ -17,12 +17,7 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
     const handleUpdate = async (element: string) => await update({ sessionId, title: element, refresh });
     const handleDelete = async (element: string) => await _delete({ sessionId, title: element, refresh });
 
-    /* Styles: { isComplete, isFavorite, isBold, isItalic } */
-    const handleStyle = useCallback(
-        async (event: any, object: IStyleProps) => await style(event, { sessionId, refresh }, object
-    ), [sessionId, refresh]);
-
-    /* Styling ( icons, sizes and colors ) */
+    const handleStyle = useCallback(async (event: any, object: IStyleProps) => await style(event, { sessionId, refresh }, object), [sessionId, refresh]);
     useEffect(() => {
         handleStyle(null, props);
         props.children.map(object => handleStyle(null, object));
@@ -57,7 +52,7 @@ const Title: React.FC<ITitleProps> = (props: ITitleProps) => {
                 {children.map(childObject => {
                     return <ul key={childObject.title}>
                         <li className='toDos-holder child' key={childObject.title}>
-    
+
                             <span id={childObject.title + 'border'} className="border"></span>
 
                             <input onClick={(event: any) => handleStyle(event, childObject)} type="checkbox" id={childObject.title + '-completed'} style={{ display: 'none' }} />
