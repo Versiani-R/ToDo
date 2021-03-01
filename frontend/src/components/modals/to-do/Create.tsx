@@ -48,22 +48,35 @@ const CreateModal: React.FC = () => {
         })
     }, [displayModal]);
 
+    const handleKeyDownAndButton = (event: any) => {
+        const { id } = event.target;
+        const title: any = document.getElementById('toDoDeadline-create');
+        
+        if (id.includes('Title')) if (event.key === 'Enter' || event.key === 'Tab') {
+            event.preventDefault();
+            title?.select();
+        }
+        if (id.includes('Deadline')) if (event.key === 'Enter') document.getElementById('createToDoButton')?.click();
+    }
+
     return (
         <div>
             <div id="createToDoModal" className="modal">
 
                 <div className="modal-content">
                     <span id="closeCreateToDoModal" className="close" onClick={() => displayModal(false)}>&times;</span>
-                    
-                    
+
                     <div className="webflow-style-input">
-                        <input autoComplete='off' id='toDoTitle-create' value={title} onChange={(event: any) => setTitle(event.target.value)} type="text" placeholder="Title"></input>
-                        <button type="submit"><i className="fas fa-arrow-right"></i></button>
+                        <input autoComplete='off' id='toDoTitle-create' value={title} onKeyDown={handleKeyDownAndButton} onChange={(event: any) => setTitle(event.target.value)} type="text" placeholder="Title"></input>
+                        <button onClick={() => {
+                            const deadline: any = document.getElementById('toDoDeadline-create');
+                            deadline?.select();
+                        }} type="submit"><i className="fas fa-arrow-right"></i></button>
                     </div>
 
                     <div className="webflow-style-input">
-                        <input autoComplete='off' id='toDoDeadline-create' value={deadline} onChange={(event: any) => setDeadline(event.target.value)} type="text" placeholder="Deadline"></input>
-                        <button type="submit"><i className="fas fa-arrow-right"></i></button>
+                        <input autoComplete='off' id='toDoDeadline-create' value={deadline} onKeyDown={handleKeyDownAndButton} onChange={(event: any) => setDeadline(event.target.value)} type="text" placeholder="Deadline"></input>
+                        <button onClick={() => document.getElementById('createToDoButton')?.click()} type="submit"><i className="fas fa-arrow-right"></i></button>
                     </div>
 
                     <div className='buttons'>

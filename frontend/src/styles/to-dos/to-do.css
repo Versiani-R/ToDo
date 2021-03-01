@@ -35,6 +35,8 @@ ul .child .toDo-title { margin: 6px 0px 6px 0px; }
 
     position: relative;
     bottom: 4px;
+
+    transition: ease .3s;
 }
 
 .far { margin: 0px 10px 0px 10px; }
