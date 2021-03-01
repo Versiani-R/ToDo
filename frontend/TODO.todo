@@ -8,7 +8,7 @@ Frontend:
   ✔ Session check after each Fetch, inside the function itself @done(21-02-24 08:55)
   ✔ Implement favorite (https://fontawesome.com/icons/bookmark?style=solid) @done(21-02-24 10:02)
   ✔ Comment the code @done(21-02-24 11:33)
-  ☐ Display error message while loggin in / registering
+  ✘ Display error message while loggin in / registering @cancelled(21-03-01 13:59)
   ☐ Display "Are you sure" message while deleting a to do
   ☐ Show when the to do was created on hover
   ☐ Change the border color on update

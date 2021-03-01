@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+
+.main-login {
+    box-sizing: border-box;
+    background-color: #354152;
+
+    height: 100%;
+    width: 100%;
+    
+    position: fixed;
+    
+    padding: 0;
+    margin: 0;
+    
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+}
+.icon {
+    font-size: 75px;
+    color: #8ceabb;
+}
+
+.align {
+    color: #7e8ba3;
+    font: 300 1rem/1.5 Helvetica Neue, sans-serif;
+    /* min-height: 100%; */
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+.align__item--start {
+    align-self: flex-start;
+}
+.align__item--end {
+    align-self: flex-end;
+}
+.input {
+    border: 0;
+    font: inherit;
+    color: rgb(211, 211, 211);
+}
+.input::placeholder {
+    color: #7e8ba3;
+}
+.form__field {
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+}
+.form input {
+    outline: 0;
+    padding: 0.5rem 1rem;
+}
+.form input[type="email"], .form input[type="password"] {
+    width: 100%;
+}
+.grid {
+    margin: 0 auto;
+    max-width: 25rem;
+    width: 100%;
+}
+.registration-class {
+    font-size: 3rem;
+    font-weight: 100;
+    margin: 25px 0 1rem;
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+}
+a {
+    color: #7e8ba3;
+}
+.register {
+    box-shadow: 0 0 250px #000;
+    text-align: center;
+    padding: 4rem 5rem;
+    margin-top: 50%;
+}
+.register input {
+    border: 1px solid #242c37;
+    border-radius: 999px;
+    background-color: transparent;
+    text-align: center;
+}
+.register input[type="email"], .register input[type="password"] {
+    background-repeat: no-repeat;
+    background-size: 1.5rem;
+    background-position: 1rem 50%;
+}
+.register input[type="submit"] {
+    background-image: linear-gradient(160deg, #8ceabb 0%, #378f7b 100%);
+    color: #fff;
+    width: 100%;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.register input[type="submit"]:focus {
+    background-image: linear-gradient(160deg, #37e990 0%, #0ee2b1 100%);
+}
+
+
+.info-register {
+    text-align: left;
+    font-size: 12.4px;
+}
+
+.account-info-link {
+    margin-top: 6rem;
+}
