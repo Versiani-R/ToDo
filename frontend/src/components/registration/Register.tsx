@@ -45,7 +45,6 @@ const Register: React.FC = () => {
         }
     }
 
-
     return (
         <div className='main-login'>
             <div className="align">

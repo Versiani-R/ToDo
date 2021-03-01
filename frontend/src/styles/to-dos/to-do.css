@@ -74,6 +74,9 @@ i:hover { font-size: 15px; }
     font-size: 15px;
     margin: 8px 0px 8px 0px;
     font-family: 'Courier New', Courier, monospace;
+
+    position: relative;
+    bottom: 4px;
 }
 
 
