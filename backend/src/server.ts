@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { config } from 'dotenv';
 
 /**
@@ -12,6 +13,7 @@ const app = express();
 const PORT = process.env.PORT;
 
 /* Custom express configuration */
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
