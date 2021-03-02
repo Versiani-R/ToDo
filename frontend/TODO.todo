@@ -9,7 +9,7 @@ Frontend:
   ✔ Implement favorite (https://fontawesome.com/icons/bookmark?style=solid) @done(21-02-24 10:02)
   ✔ Comment the code @done(21-02-24 11:33)
   ✘ Display error message while loggin in / registering @cancelled(21-03-01 13:59)
-  ☐ Display "Are you sure" message while deleting a to do
+  ✔ Display "Are you sure" message while deleting a to do @done(21-03-01 18:17)
   ☐ Show when the to do was created on hover
   ☐ Change the border color on update
   ☐ Improve the html ( and typescript )
@@ -31,4 +31,4 @@ Bug:
   ✔ Delete child is deleting parent @done(21-02-25 12:51)
 
 Tests:
-  ☐ Make sure you can edit the styles without problem.
+  ✔ Make sure you can edit the styles without problem. @done(21-03-01 15:15)

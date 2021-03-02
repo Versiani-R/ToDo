@@ -115,7 +115,7 @@
     border-style: none;
     background: transparent;
     outline: none;
-    padding: 0;
+    padding: 0px 100px 0px 15px;
 
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }

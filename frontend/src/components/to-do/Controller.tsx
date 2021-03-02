@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { isEqual } from 'lodash';
 
 import CreateModal from 'components/modals/to-do/Create';
+import DeleteModal from 'components/modals/to-do/AreYouSure';
 
 import Title from 'components/to-do/Title';
 
@@ -62,6 +63,7 @@ const ToDos: React.FC = () => {
     return (
         <div>
             <CreateModal />
+            <DeleteModal />
 
             {deadlines.map(deadline => {
                 return <div key={deadline}>
