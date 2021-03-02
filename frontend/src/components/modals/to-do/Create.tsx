@@ -68,15 +68,10 @@ const CreateModal: React.FC = () => {
 
                     <div className="webflow-style-input">
                         <input autoComplete='off' id='toDoTitle-create' value={title} onKeyDown={handleKeyDownAndButton} onChange={(event: any) => setTitle(event.target.value)} type="text" placeholder="Title"></input>
-                        <button onClick={() => {
-                            const deadline: any = document.getElementById('toDoDeadline-create');
-                            deadline?.select();
-                        }} type="submit"><i className="fas fa-arrow-right"></i></button>
                     </div>
 
                     <div className="webflow-style-input">
                         <input autoComplete='off' id='toDoDeadline-create' value={deadline} onKeyDown={handleKeyDownAndButton} onChange={(event: any) => setDeadline(event.target.value)} type="text" placeholder="Deadline"></input>
-                        <button onClick={() => document.getElementById('createToDoButton')?.click()} type="submit"><i className="fas fa-arrow-right"></i></button>
                     </div>
 
                     <div className='buttons'>

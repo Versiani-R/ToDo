@@ -13,7 +13,7 @@ const Register: React.FC = () => {
     /* Don't allow the already registered / logged user to access the login page. */
     useEffect(() => { hasSession() ? redirect('/to-dos/') : console.log('Not registered!') }, []);
 
-    const handlePasswordChange = (event: any) => {
+    const handlePasswordChange = () => {
         const numberOfCharacters = document.getElementById('10-characters');
         const numberOfNumbers = document.getElementById('2-numbers');
         const numberOfUpperCaseLetters = document.getElementById('2-upper-case-letters');
@@ -46,7 +46,7 @@ const Register: React.FC = () => {
     }
 
     return (
-        <div className='main-login'>
+        <div className='main-registration'>
             <div className="align">
                 <div className="grid align__item">
                     <div className="register">

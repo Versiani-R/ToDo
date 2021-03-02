@@ -27,7 +27,7 @@ const Login: React.FC = () => {
     }
 
     return (
-        <div className='main-login'>
+        <div className='main-registration'>
             <div className="align">
                 <div className="grid align__item">
                     <div className="register">

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
 
-.main-login {
+.main-registration {
     box-sizing: border-box;
     background-color: #354152;
 
@@ -8,10 +8,7 @@
     width: 100%;
     
     position: fixed;
-    
-    padding: 0;
-    margin: 0;
-    
+
     left: 0;
     top: 0;
     bottom: 0;
@@ -25,10 +22,7 @@
 .align {
     color: #7e8ba3;
     font: 300 1rem/1.5 Helvetica Neue, sans-serif;
-    /* min-height: 100%; */
-    align-items: center;
-    display: flex;
-    flex-direction: row;
+    min-height: -100%;
 }
 .align__item--start {
     align-self: flex-start;
@@ -74,8 +68,9 @@ a {
     box-shadow: 0 0 250px #000;
     text-align: center;
     padding: 4rem 5rem;
-    margin-top: 50%;
+    margin-top: 7vh;
 }
+
 .register input {
     border: 1px solid #242c37;
     border-radius: 999px;
