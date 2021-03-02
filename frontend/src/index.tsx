@@ -21,6 +21,10 @@ ReactDOM.render(
                 <Route path='/to-dos/'>
                     <ToDo />
                 </Route>
+
+                <Route path='/'>
+                    <Register />
+                </Route>
             </Switch>
         </BrowserRouter>
     </React.StrictMode>,
